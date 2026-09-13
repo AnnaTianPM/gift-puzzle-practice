@@ -22,7 +22,7 @@
     });
   }
   function imgPath(q, suffix) {
-    return 'books/' + state.book.id + '/' + state.test.dir + '/q' + String(q.n).padStart(2, '0') + '_' + suffix + '.png';
+    return 'books/' + state.book.id + '/' + state.test.dir + '/q' + String(q.n).padStart(2, '0') + '_' + suffix + '.' + (state.book.ext || 'png');
   }
 
   // ---------- persistence ----------

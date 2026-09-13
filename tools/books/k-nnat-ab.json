@@ -1,0 +1,130 @@
+{
+ "rotate": 90,
+ "dpi": 200,
+ "tests": [
+  {
+   "name": "Practice Test 1",
+   "pages": [
+    9,
+    21
+   ],
+   "answers": "E D B C A B E D C E A B E D D C E A B C E D E B A D C B B E E B E D A C A C C A E C B C B D C E A D"
+  },
+  {
+   "name": "Practice Test 2",
+   "pages": [
+    22,
+    34
+   ],
+   "answers": "B C A E C D A C B E C A E A B D D A B E C B A D C B E B A C B E D B C A D E C D A B C E D D A C B E"
+  },
+  {
+   "name": "Practice Test 3",
+   "pages": [
+    35,
+    47
+   ],
+   "answers": "B A D E C D A B B E C A E D C B D A E C C D B B A C A C E A D B D C C E A B B C D A E B C A E B D C"
+  }
+ ],
+ "skip_pages": [],
+ "explanations": {
+  "1": {
+   "4": "Note the kind of shape and the shape color that appear in the pattern.",
+   "7": "Note the width, quantity, and type of the yellow lines.",
+   "9": "Note the quantity of each shape in the rows and how they get smaller.",
+   "13": "Note the quantity of the correct answer: 4 stars, not 2 stars.",
+   "14": "Note the direction of the lines and the width.",
+   "15": "Note the appearance of the overall shape. Look at the green line on the other sides of the shape. The green lines point outward. They are angled, not completely straight, nor rounded.",
+   "17": "Note the quantity and thickness of the white lines.",
+   "19": "Note the three figures are the same.",
+   "20": "Note the amount of space between the 2 lines.",
+   "22": "Note the pattern of the yellow shapes around the blue diamond: circle, hexagon, circle.",
+   "23": "Note the box color pattern.",
+   "24": "Note the pattern of the vertical lines: straight, curved, curved, straight, curved, curved.",
+   "30": "Note the horizontal pattern of the arrows: pointing up, pointing right, pointing up, pointing right.",
+   "31": "Yellow becomes green.",
+   "32": "White becomes stripes.",
+   "33": "Same.",
+   "34": "Same line type on top, and same line type on bottom.",
+   "35": "The diamond becomes a heart, and the heart becomes a diamond.",
+   "36": "The shape gets larger.",
+   "37": "Flips.",
+   "38": "Gets larger and becomes blue.",
+   "39": "One more shape is added.",
+   "40": "Blue becomes yellow, and yellow becomes blue.",
+   "41": "Flips. Or, white becomes blue, and blue becomes white.",
+   "42": "The dotted line becomes a solid line and stays in the same location within the square.",
+   "43": "The figures inside the square flip; the figures and squares reverse color.",
+   "44": "One more star is added.",
+   "45": "Every column and row must have an octagon, a star, and a trapezoid. Every row and column have a small shape, a medium shape, and a large shape.",
+   "46": "In each row, the elements in the first square and second square come together to form the elements in the third square. The same is true with each column.",
+   "47": "Look at the overall image: it is symmetrical. The answer must have the missing piece to complete the blue circle.",
+   "48": "In the rows and columns, the box colors switch between green and blue. Also, each row and column have a wand that points in three different directions: right, left, up.",
+   "49": "Across the rows and down the columns, the number of stars decreases by 1.",
+   "50": "Each column and row have a pentagon, a star, and a pentagon and star together. Down the columns, the pentagon and the star keep their colors when they come together. Across the rows, the pentagon and the star switch colors. In the third column, the color of the pentagon stays the same: yellow."
+  },
+  "2": {
+   "17": "Note the color pattern of the triangles: yellow, green, yellow.",
+   "19": "Note the color pattern of the circles: 1 blue, 3 white, 1 blue.",
+   "21": "Note the color pattern of the circles: yellow and white; both white; white and yellow. Also note the position of the blue lines.",
+   "23": "Note the pattern of the white and yellow boxes across the rows and down the columns.",
+   "26": "Note the number of green circles and the part that is missing.",
+   "29": "Note the number of blue lines needed to form the vertical and horizontal ovals and the correct spacing.",
+   "31": "Whole shape becomes half shape.",
+   "32": "Flips. Or, the order of the shapes reverses and the shapes stay the same size.",
+   "33": "The shapes increase by 1.",
+   "34": "The lower half is covered in white.",
+   "35": "Add one green side.",
+   "36": "Flips.",
+   "37": "Alternates: yellow, blue, yellow on top; white, wavy lines, white on the bottom.",
+   "38": "The picture overall is symmetrical. The answer completes the blue and yellow figure. Or, the figure flips.",
+   "39": "Small shape becomes a larger version of the same shape, with borders that would be just outside of the white box.",
+   "40": "Flips. Or, the colors of the boxes and the colors of the circles switch.",
+   "41": "Across the rows the number of shapes decreases by 1.",
+   "42": "Same.",
+   "43": "The shape turns slightly (45 degrees) to the right.",
+   "44": "The shapes have the same number of sides: 4 on top, 8 on the bottom.",
+   "45": "Across the rows, all boxes have 1 horizontal line. Also, 1 box has 1 vertical line and 2 boxes have 2 vertical lines. The same is true down the columns.",
+   "46": "Each row has the same 3 shapes with the same color box. Down the columns, the same shape appears with the same color pattern of the boxes: white, blue, yellow.",
+   "47": "Across the rows and down the columns, the shapes in the first box and the second box combine to form the final box. They are the same type of shape and in the same location as in the first two boxes.",
+   "48": "The wands all point inward from where they sit. The wand in the top right box points inward from the upper right, the one just below points inward from the right, and the missing one points inward from the bottom right.",
+   "49": "Across the rows, the shapes filled in with green in the first box and in the second box combine to form the final box.",
+   "50": "Across the rows, the figure first rotates 180 degrees, then rotates clockwise by 90 degrees."
+  },
+  "3": {
+   "4": "Note the pattern of the shapes: hearts on the bottom row and heart, diamond, heart in the last column.",
+   "10": "Note the pattern of the blue triangles and the direction they are pointing.",
+   "13": "Note the pattern of the shapes.",
+   "21": "Across the rows and down the columns, the number of blue squares increases by 1.",
+   "22": "Note the pattern of the vertical line with dots: 4 dots, solid line, 4 dots, solid line. The box covers 1 of the dots and a solid line. There is a solid line to the left.",
+   "24": "Note the number of the stars' blue lines and the large star's yellow lines.",
+   "25": "Note the number of green lines.",
+   "26": "Note the arrow pattern across the rows: up, down, up, down.",
+   "27": "Each row has an arrow pointing up, down, left, and right.",
+   "28": "Note the pattern of the shapes across the rows. The shapes are in the same order across the rows. Across the third row the pattern is: triangle, diamond, circle.",
+   "29": "Note the number of stars in each row (5) and how they increase and decrease in size.",
+   "30": "Note the number of blue and yellow lines and their direction.",
+   "31": "Flips.",
+   "32": "The shape becomes 3-D (solid).",
+   "33": "The two halves of the shape flip to face each other.",
+   "34": "The shape stays the same in the top row (smaller white circle inside a larger yellow one) and the bottom row (smaller blue hexagon inside a larger white one). The background changes color.",
+   "35": "In each of the three rows, the colors change in this way: yellow becomes white; blue becomes yellow; white becomes blue.",
+   "36": "Same.",
+   "37": "The shapes inside the boxes flip. The colors of the shape and the colors of the boxes reverse.",
+   "38": "Same.",
+   "39": "The group of smaller shapes inside the larger shape moves toward the center.",
+   "40": "Across the rows, the shape first flips and then goes back to its original position.",
+   "41": "With the 2 shapes inside each set of boxes, the larger of the 2 shapes flips, while the smaller one stays in the same place. Both shapes stay the same color. The color of the boxes must change.",
+   "42": "The color of the vertical line and the circle switch. The color of the box and the location of the vertical line stay the same in the set.",
+   "43": "The shape splits in half. The left side is higher than the right side. Neither of the two halves is the same color as the whole shape from the first box.",
+   "44": "The figure flips and reverses color.",
+   "45": "The same 3 groups of 2 shapes appear across the rows and down the columns: hexagon with a star inside, triangle with a circle inside, square with a heart inside.",
+   "46": "Across the rows and down the columns 3 kinds of arrows appear: an arrow with a yellow square, an arrow with a yellow circle, and an arrow by itself. Also, each row and column have 1 arrow that points down and 2 arrows that point up.",
+   "47": "Across the rows, 2 shapes are taken away, then 1 shape is taken away.",
+   "48": "Each row and each column have the parts of a horizontal arrow and a complete vertical arrow. The first row has a vertical arrow in the first box, the middle section of a horizontal arrow in the second box, and the end points of a horizontal arrow in the third box. The last row and column are missing a complete vertical arrow.",
+   "49": "Across the rows, the hexagon changes position in the middle box and then returns to its original position. Row 1: upper left, lower right, upper left. Row 2: lower right, upper left, lower right. Row 3: upper left, lower right, upper left. There is one green triangle, and it rotates clockwise.",
+   "50": "Each row and column has a circle, an oval pointed sideways, and an octagon. The first row has small shapes, the second row medium shapes, and the third row large shapes. Down the columns, the order of the shapes is small, medium, large."
+  }
+ }
+}
