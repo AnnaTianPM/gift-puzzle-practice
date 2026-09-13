@@ -1,0 +1,89 @@
+{
+ "answers": {
+  "main": "D C C D A B C B A C A C D B A B D B C B A B C B A D C C C D D B D A A C B A A B D",
+  "bonus_pictures": "C C A",
+  "bonus_shapes": "B C A A C B A B C"
+ },
+ "tests": [
+  {
+   "name": "Similarities and Differences",
+   "pages": [
+    3,
+    4
+   ],
+   "layout": "rows",
+   "answers": "main",
+   "prompt": "The pictures on top go together. Which picture on the bottom goes with them?",
+   "explanations": {
+    "1": "2 arrows point left.",
+    "2": "4-sided shapes.",
+    "3": "The shapes alternate their designs: light purple, dots, light purple.",
+    "4": "The shapes are divided in half: there are 2 shape halves."
+   }
+  },
+  {
+   "name": "Shape Creation",
+   "pages": [
+    5,
+    6
+   ],
+   "layout": "side",
+   "answers": "main",
+   "skip": 4,
+   "prompt": "Put the two shapes together. Which picture shows what they make?"
+  },
+  {
+   "name": "Classification",
+   "pages": [
+    7,
+    14
+   ],
+   "layout": "grid",
+   "answers": "main",
+   "skip": 11,
+   "prompt": "Which picture does not belong with the others?"
+  },
+  {
+   "name": "Analogies",
+   "pages": [
+    15,
+    18
+   ],
+   "layout": "side",
+   "answers": "main",
+   "skip": 27,
+   "prompt": "The top two pictures go together. Which picture goes with the bottom one in the same way?"
+  },
+  {
+   "name": "Patterns",
+   "pages": [
+    19,
+    21
+   ],
+   "layout": "pattern",
+   "answers": "main",
+   "skip": 36,
+   "prompt": "What comes next in the pattern?"
+  },
+  {
+   "name": "Bonus: Pictures",
+   "pages": [
+    22,
+    22
+   ],
+   "layout": "side",
+   "answers": "bonus_pictures",
+   "prompt": "Look at the picture in the box. Which picture goes best with it?"
+  },
+  {
+   "name": "Bonus: Shapes",
+   "pages": [
+    23,
+    25
+   ],
+   "layout": "side",
+   "answers": "bonus_shapes",
+   "prompt": "Look at the shape in the box. Which shape goes best with it?"
+  }
+ ]
+}

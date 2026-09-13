@@ -66,6 +66,10 @@ label.check input { width: 22px; height: 22px; }
 .matrix img { max-height: 40vh; width: auto; border-radius: 6px; }
 .options { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
 @media (max-width: 560px) { .options { grid-template-columns: repeat(3, 1fr); } }
+.options.n4 { grid-template-columns: repeat(4, 1fr); }
+.options.n3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 560px) { .options.n4 { grid-template-columns: repeat(2, 1fr); } }
+.options.n4 .opt img, .options.n3 .opt img { height: 84px; }
 .opt { background: var(--card); border: 3px solid var(--line); border-radius: 16px; padding: 10px 6px 8px; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: transform .08s, border-color .1s; box-shadow: var(--shadow); }
 .opt:hover { border-color: #9db1e3; }
 .opt:active { transform: scale(.96); }

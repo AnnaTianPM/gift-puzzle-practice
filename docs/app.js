@@ -173,7 +173,8 @@
       ? h('div', { id: 'timer', class: 'timer' + (state.timeLeft <= 60 ? ' low' : '') }, fmtTime(state.timeLeft == null ? state.seconds : state.timeLeft))
       : (state.finished ? h('button', { class: 'secondary', onclick: viewResults }, 'Results') : null);
 
-    const opts = h('div', { class: 'options' }, LETTERS.map((L, i) => {
+    const letters = LETTERS.slice(0, q.nopts || 5);
+    const opts = h('div', { class: 'options n' + letters.length }, letters.map((L, i) => {
       let cls = 'opt';
       if (showResult) { if (L === q.answer) cls += ' correct'; else if (L === chosen) cls += ' wrong'; }
       else if (L === chosen) cls += ' selected';
@@ -223,7 +224,7 @@
         h('div', { class: 'progress' }, h('div', { style: 'width:' + Math.round(100 * (state.idx + 1) / total) + '%' })),
         h('div', { class: 'qnum' }, 'Puzzle ' + q.n),
         state.test.prompt ? h('div', { class: 'prompt' }, state.test.prompt) : null,
-        h('div', { class: 'matrix' }, h('img', { src: imgPath(q, 'm'), alt: 'Puzzle ' + q.n, onload: layoutQuestion })),
+        q.stem === false ? null : h('div', { class: 'matrix' }, h('img', { src: imgPath(q, 'm'), alt: 'Puzzle ' + q.n, onload: layoutQuestion })),
         opts, nav)
     );
     layoutQuestion();
@@ -236,8 +237,9 @@
   function layoutQuestion() {
     const nav = document.querySelector('.nav'), page = document.querySelector('.page.quiz');
     const img = document.querySelector('.matrix img'), opts = document.querySelector('.options');
-    if (!nav || !page || !img || !opts) return;
+    if (!nav || !page || !opts) return;
     page.style.paddingBottom = (nav.offsetHeight + 12) + 'px';
+    if (!img) return;
     const prompt = document.querySelector('.prompt');
     const fixed = 64 /* top bar */ + 26 /* progress */ + 34 /* label */ + 14 /* gap */ + 16 /* padding */ + (prompt ? prompt.offsetHeight + 10 : 0);
     const avail = window.innerHeight - fixed - opts.offsetHeight - nav.offsetHeight - 28;
@@ -296,7 +298,7 @@
   document.addEventListener('keydown', e => {
     if (state.view !== 'q' && !document.querySelector('.options')) return;
     const k = e.key.toUpperCase();
-    if (LETTERS.includes(k)) { const q = questions()[state.idx]; choose(q, k); }
+    if (LETTERS.includes(k)) { const q = questions()[state.idx]; if (LETTERS.indexOf(k) < (q.nopts || 5)) choose(q, k); }
     else if (e.key === 'Enter' || e.key === 'ArrowRight') { const b = document.querySelector('.nav-row .primary'); if (b && !b.disabled) b.click(); }
     else if (e.key === 'ArrowLeft') go(state.idx - 1);
   });

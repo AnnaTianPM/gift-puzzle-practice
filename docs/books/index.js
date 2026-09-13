@@ -8,4 +8,5 @@ window.NNAT_BOOK_LIST = [
   { id: 'g34-nnat-d-gg', title: 'NNAT Grade 3-4 (Book 2)', subtitle: 'Level D · 3 Practice Tests', emoji: '🟩' },
   { id: 'cogat-l9-math', title: 'CogAT Math Level 9', subtitle: 'Number Puzzles · Number Analogies', emoji: '🔢' },
   { id: 'cogat-l11-math', title: 'CogAT Math Level 11', subtitle: 'Number Puzzles · Number Analogies', emoji: '🧮' },
+  { id: 'gg-bonus', title: 'Gifted Test Prep Sampler', subtitle: 'Similarities · Shapes · Classification · Analogies · Patterns', emoji: '🎁' },
 ];
