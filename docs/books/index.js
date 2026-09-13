@@ -9,4 +9,5 @@ window.NNAT_BOOK_LIST = [
   { id: 'cogat-l9-math', title: 'CogAT Math Level 9', subtitle: 'Number Puzzles · Number Analogies', emoji: '🔢' },
   { id: 'cogat-l11-math', title: 'CogAT Math Level 11', subtitle: 'Number Puzzles · Number Analogies', emoji: '🧮' },
   { id: 'gg-bonus', title: 'Gifted Test Prep Sampler', subtitle: 'Similarities · Shapes · Classification · Analogies · Patterns', emoji: '🎁' },
+  { id: 'iowa-g1', title: 'IOWA Grade 1', subtitle: 'Math · Language · read-aloud practice', emoji: '📖' },
 ];
