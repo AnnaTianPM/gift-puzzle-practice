@@ -47,6 +47,7 @@ def find_answers(doc):
         body = re.sub(r'\d+\s*NNAT® Level [A-D] Test Prep Workbook\s*Origins Publications, Inc', ' ', body)
         body = re.sub(r'Origins Publications, Inc\s*NNAT® Level [A-D] Test Prep Workbook\s*\d+', ' ', body)
         body = re.sub(r'NNAT® Level [A-D] Practice Test Answers', ' ', body)
+        body = re.sub(r'NNAT® Level [A-D]\s+Answer Explanations', ' ', body)
         items = re.findall(r'(?<!\d)(\d{1,2})\.\s?([A-E])\.\s(.*?)(?=(?<!\d)\d{1,2}\.\s?[A-E]\.\s|$)', body)
         d = result.setdefault(name, {})
         for num, letter, expl in items:
