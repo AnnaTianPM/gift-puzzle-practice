@@ -1,0 +1,888 @@
+{
+ "id": "g34-nnat-d-gg",
+ "ext": "jpg",
+ "tests": [
+  {
+   "name": "Practice Test 1",
+   "dir": "test1",
+   "questions": [
+    {
+     "n": 1,
+     "answer": "C",
+     "explanation": "",
+     "page": 11
+    },
+    {
+     "n": 2,
+     "answer": "D",
+     "explanation": "",
+     "page": 11
+    },
+    {
+     "n": 3,
+     "answer": "E",
+     "explanation": "",
+     "page": 12
+    },
+    {
+     "n": 4,
+     "answer": "B",
+     "explanation": "",
+     "page": 12
+    },
+    {
+     "n": 5,
+     "answer": "C",
+     "explanation": "",
+     "page": 12
+    },
+    {
+     "n": 6,
+     "answer": "A",
+     "explanation": "",
+     "page": 12
+    },
+    {
+     "n": 7,
+     "answer": "A",
+     "explanation": "",
+     "page": 13
+    },
+    {
+     "n": 8,
+     "answer": "D",
+     "explanation": "",
+     "page": 13
+    },
+    {
+     "n": 9,
+     "answer": "A",
+     "explanation": "The colors switch.",
+     "page": 13
+    },
+    {
+     "n": 10,
+     "answer": "E",
+     "explanation": "Down the columns a vertical line is added (this question's logic applies vertically).",
+     "page": 13
+    },
+    {
+     "n": 11,
+     "answer": "B",
+     "explanation": "Only the right half of the original shows.",
+     "page": 14
+    },
+    {
+     "n": 12,
+     "answer": "E",
+     "explanation": "It flips.",
+     "page": 14
+    },
+    {
+     "n": 13,
+     "answer": "B",
+     "explanation": "It rotates 180 degrees and switches colors.",
+     "page": 14
+    },
+    {
+     "n": 14,
+     "answer": "D",
+     "explanation": "The middle shape (yellow square on top and white trapezoid on the bottom) gets smaller and moves to the middle of the green shape.",
+     "page": 14
+    },
+    {
+     "n": 15,
+     "answer": "C",
+     "explanation": "The inner shape flips vertically (in the middle 2 you do not notice the vertical flip, so it looks the same).",
+     "page": 15
+    },
+    {
+     "n": 16,
+     "answer": "D",
+     "explanation": "Up arrow = star; down arrow = triangle pointing up; left arrow = circle; up arrow = star.",
+     "page": 15
+    },
+    {
+     "n": 17,
+     "answer": "B",
+     "explanation": "The box color must change, the larger inside shape flips, the smaller inside shape stays the same color in the same place.",
+     "page": 15
+    },
+    {
+     "n": 18,
+     "answer": "A",
+     "explanation": "This question's logic applies vertically: white circle stays the same; green circle becomes a striped circle; yellow circle becomes a green heart.",
+     "page": 15
+    },
+    {
+     "n": 19,
+     "answer": "E",
+     "explanation": "Across the row, green sections change to blue; the remaining white and blue sections change to green.",
+     "page": 16
+    },
+    {
+     "n": 20,
+     "answer": "E",
+     "explanation": "The colors of the outer, middle, and inner shapes switch; the inner shape becomes the outer shape and the outer shape becomes the inner shape.",
+     "page": 16
+    },
+    {
+     "n": 21,
+     "answer": "C",
+     "explanation": "Each row and column will have a square, an up arrow, and a star.",
+     "page": 16
+    },
+    {
+     "n": 22,
+     "answer": "B",
+     "explanation": "Across the rows and down the columns there is 1 less green circle.",
+     "page": 16
+    },
+    {
+     "n": 23,
+     "answer": "E",
+     "explanation": "Across the rows, the first box has the whole shape, followed by the left half and the right half (down the columns the last column has the right half of the shape).",
+     "page": 17
+    },
+    {
+     "n": 24,
+     "answer": "B",
+     "explanation": "Across the rows, the shape and background switch designs.",
+     "page": 17
+    },
+    {
+     "n": 25,
+     "answer": "D",
+     "explanation": "The white and blue squares and thin yellow shape from the first and second box combine in the last box.",
+     "page": 17
+    },
+    {
+     "n": 26,
+     "answer": "C",
+     "explanation": "The small blue square moves from left, to center, to right of the larger shape.",
+     "page": 17
+    },
+    {
+     "n": 27,
+     "answer": "A",
+     "explanation": "The middle and last box have the shapes from the first box.",
+     "page": 18
+    },
+    {
+     "n": 28,
+     "answer": "E",
+     "explanation": "The last box in each row is a combination of the elements in the first 2 boxes; the shapes from the first 2 boxes combine in the last box in each column.",
+     "page": 18
+    },
+    {
+     "n": 29,
+     "answer": "A",
+     "explanation": "1 oval is added.",
+     "page": 18
+    },
+    {
+     "n": 30,
+     "answer": "A",
+     "explanation": "Across the rows, the figure rotates 90 degrees clockwise.",
+     "page": 18
+    },
+    {
+     "n": 31,
+     "answer": "D",
+     "explanation": "",
+     "page": 19
+    },
+    {
+     "n": 32,
+     "answer": "E",
+     "explanation": "",
+     "page": 19
+    },
+    {
+     "n": 33,
+     "answer": "D",
+     "explanation": "",
+     "page": 19
+    },
+    {
+     "n": 34,
+     "answer": "D",
+     "explanation": "",
+     "page": 19
+    },
+    {
+     "n": 35,
+     "answer": "B",
+     "explanation": "The blue and green shapes are combined in the final box and have switched order so that the blue shape is first.",
+     "page": 20
+    },
+    {
+     "n": 36,
+     "answer": "D",
+     "explanation": "",
+     "page": 20
+    },
+    {
+     "n": 37,
+     "answer": "C",
+     "explanation": "The shapes flip in and move to the right side.",
+     "page": 20
+    },
+    {
+     "n": 38,
+     "answer": "D",
+     "explanation": "",
+     "page": 20
+    },
+    {
+     "n": 39,
+     "answer": "A",
+     "explanation": "The shapes in the left box flip in to the right box.",
+     "page": 21
+    },
+    {
+     "n": 40,
+     "answer": "E",
+     "explanation": "The last box in each row is a combination of the elements in the first 2 boxes.",
+     "page": 21
+    },
+    {
+     "n": 41,
+     "answer": "B",
+     "explanation": "The shapes on the left and right flip in and move to the top and bottom, respectively.",
+     "page": 21
+    },
+    {
+     "n": 42,
+     "answer": "C",
+     "explanation": "The last box in each row is a combination of the elements in the first 2 boxes. White is replaced with blue, and yellow is replaced with white from box 1 to box 2; then white is replaced with yellow and blue stays the same from box 2 to box 3.",
+     "page": 21
+    },
+    {
+     "n": 43,
+     "answer": "A",
+     "explanation": "The shape flips in and rotates 90 degrees (1/4) counterclockwise.",
+     "page": 22
+    },
+    {
+     "n": 44,
+     "answer": "B",
+     "explanation": "All shapes flip in and rotate 90 degrees (1/4) clockwise.",
+     "page": 22
+    },
+    {
+     "n": 45,
+     "answer": "D",
+     "explanation": "In the second column, the shapes flip in; in the third column the entire box then rotates 180 degrees.",
+     "page": 22
+    },
+    {
+     "n": 46,
+     "answer": "C",
+     "explanation": "The circles from the first 2 boxes combine in the third box.",
+     "page": 22
+    },
+    {
+     "n": 47,
+     "answer": "D",
+     "explanation": "The rectangles from the first 2 boxes combine in the third box.",
+     "page": 23
+    },
+    {
+     "n": 48,
+     "answer": "E",
+     "explanation": "The rectangles and lines from the first 2 boxes combine in the third box; note which way the lines inside the rectangles are going.",
+     "page": 23
+    }
+   ]
+  },
+  {
+   "name": "Practice Test 2",
+   "dir": "test2",
+   "questions": [
+    {
+     "n": 1,
+     "answer": "E",
+     "explanation": "",
+     "page": 23
+    },
+    {
+     "n": 2,
+     "answer": "C",
+     "explanation": "",
+     "page": 23
+    },
+    {
+     "n": 3,
+     "answer": "B",
+     "explanation": "On the second row, the bottom right side of the yellow triangle is always in front of the bottom left side of the blue triangle.",
+     "page": 24
+    },
+    {
+     "n": 4,
+     "answer": "D",
+     "explanation": "",
+     "page": 24
+    },
+    {
+     "n": 5,
+     "answer": "A",
+     "explanation": "",
+     "page": 24
+    },
+    {
+     "n": 6,
+     "answer": "E",
+     "explanation": "On this row (the third row) the arrows alternate pointing up and pointing right. The colors follow this pattern: blue, green, yellow.",
+     "page": 24
+    },
+    {
+     "n": 7,
+     "answer": "B",
+     "explanation": "",
+     "page": 25
+    },
+    {
+     "n": 8,
+     "answer": "A",
+     "explanation": "",
+     "page": 25
+    },
+    {
+     "n": 9,
+     "answer": "C",
+     "explanation": "The divided shapes flip vertically.",
+     "page": 25
+    },
+    {
+     "n": 10,
+     "answer": "D",
+     "explanation": "The divided hexagon and divided square switch colors.",
+     "page": 25
+    },
+    {
+     "n": 11,
+     "answer": "B",
+     "explanation": "The shape inside the square flips horizontally; the color of this shape switches from yellow to blue and vice versa; the square switches from blue to white and vice versa.",
+     "page": 26
+    },
+    {
+     "n": 12,
+     "answer": "D",
+     "explanation": "One more section of the shape gets added.",
+     "page": 26
+    },
+    {
+     "n": 13,
+     "answer": "D",
+     "explanation": "The arrow group flips toward the circle group; the colors of the circle group switch.",
+     "page": 26
+    },
+    {
+     "n": 14,
+     "answer": "A",
+     "explanation": "The outer shape becomes smaller, comes to the middle, and turns white.",
+     "page": 26
+    },
+    {
+     "n": 15,
+     "answer": "C",
+     "explanation": "Yellow becomes white; blue becomes yellow; white becomes blue.",
+     "page": 27
+    },
+    {
+     "n": 16,
+     "answer": "E",
+     "explanation": "The large shape and solid line flip horizontally.",
+     "page": 27
+    },
+    {
+     "n": 17,
+     "answer": "E",
+     "explanation": "The triangle points up and the trapezoid flips horizontally.",
+     "page": 27
+    },
+    {
+     "n": 18,
+     "answer": "D",
+     "explanation": "The group of arrows flips. In the bottom box, when you flip the 2 arrows on the right, choice D is the only choice with the blue arrow and white arrow flipped correctly.",
+     "page": 27
+    },
+    {
+     "n": 19,
+     "answer": "D",
+     "explanation": "The top shape rotates 180 degrees; the shape on the left moves to the right; the bottom shape flips and changes from blue to green.",
+     "page": 28
+    },
+    {
+     "n": 20,
+     "answer": "D",
+     "explanation": "The shapes reverse how they overlap; the bottom shape becomes the top shape.",
+     "page": 28
+    },
+    {
+     "n": 21,
+     "answer": "C",
+     "explanation": "Across the rows and down the columns, the figure rotates 90 degrees clockwise.",
+     "page": 28
+    },
+    {
+     "n": 22,
+     "answer": "A",
+     "explanation": "Across the rows and down the columns, the shapes from the first two boxes combine in the third box and stay in the same position.",
+     "page": 28
+    },
+    {
+     "n": 23,
+     "answer": "B",
+     "explanation": "Each row and column must have a box with 1 of each: 1, 2, 3 circles; the boxes with 1 and 2 circles must have the circles on the left.",
+     "page": 29
+    },
+    {
+     "n": 24,
+     "answer": "E",
+     "explanation": "Across the rows and down the columns, the yellow sections combine.",
+     "page": 29
+    },
+    {
+     "n": 25,
+     "answer": "D",
+     "explanation": "Each row and column has squares alternating in color green/blue/green (or blue/green/blue), a rectangle aligned vertically, 2 points aligned vertically, and a combination of 2 points with a rectangle aligned horizontally.",
+     "page": 29
+    },
+    {
+     "n": 26,
+     "answer": "E",
+     "explanation": "Across the rows and down the columns, the shapes from the first box are broken down in the second and third box.",
+     "page": 29
+    },
+    {
+     "n": 27,
+     "answer": "C",
+     "explanation": "A small green shape moves clockwise around the quarters of the square; as it moves it switches between a heart and a star.",
+     "page": 30
+    },
+    {
+     "n": 28,
+     "answer": "A",
+     "explanation": "Across the rows, inside the square sections the green diamond moves around clockwise and the yellow rectangle changes position in the second box, but in the third box it returns to its original position.",
+     "page": 30
+    },
+    {
+     "n": 29,
+     "answer": "D",
+     "explanation": "Across each row, the shapes have the same number of sides (down each column the number of shape sides increases by 1). Across the rows and down the columns, each shape is a different color and each square is a different color.",
+     "page": 30
+    },
+    {
+     "n": 30,
+     "answer": "E",
+     "explanation": "Across the rows, the 2 shapes that appear in a box with only 2 shapes (square and oval; pac-man and cross; parallelogram and arrow) must always appear together in the same order. Across the rows, the shapes must change color (this makes C incorrect). A box in each row must combine the three shapes.",
+     "page": 30
+    },
+    {
+     "n": 31,
+     "answer": "D",
+     "explanation": "The lines from the first 2 boxes combine in the third box.",
+     "page": 31
+    },
+    {
+     "n": 32,
+     "answer": "E",
+     "explanation": "The shapes combine in the third box.",
+     "page": 31
+    },
+    {
+     "n": 33,
+     "answer": "D",
+     "explanation": "The shapes flip in to the box.",
+     "page": 31
+    },
+    {
+     "n": 34,
+     "answer": "E",
+     "explanation": "The lines from the first 2 boxes combine in the third box.",
+     "page": 31
+    },
+    {
+     "n": 35,
+     "answer": "A",
+     "explanation": "The first shape is on top of the second shape (the blue shape from the first box must be on top of the blue shape from the second box).",
+     "page": 32
+    },
+    {
+     "n": 36,
+     "answer": "E",
+     "explanation": "The 3 shapes flip in to the white box; the triangle on the right side of the square goes over the triangle on the left side.",
+     "page": 32
+    },
+    {
+     "n": 37,
+     "answer": "A",
+     "explanation": "The shape halves combine.",
+     "page": 32
+    },
+    {
+     "n": 38,
+     "answer": "B",
+     "explanation": "The shapes from the first 2 boxes combine; the yellow shape is on top.",
+     "page": 32
+    },
+    {
+     "n": 39,
+     "answer": "C",
+     "explanation": "The shapes move into the square.",
+     "page": 33
+    },
+    {
+     "n": 40,
+     "answer": "A",
+     "explanation": "The shapes combine; the shape in the second box is repeated in the third box without rotating.",
+     "page": 33
+    },
+    {
+     "n": 41,
+     "answer": "E",
+     "explanation": "The shape flips into the box and rotates 90 degrees counterclockwise.",
+     "page": 33
+    },
+    {
+     "n": 42,
+     "answer": "E",
+     "explanation": "The ovals from the first 2 boxes combine.",
+     "page": 33
+    },
+    {
+     "n": 43,
+     "answer": "D",
+     "explanation": "The last box in each row is a combination of the elements in the first 2 boxes. White in this question is actually see-through, so clear sections are replaced with green and blue sections.",
+     "page": 34
+    },
+    {
+     "n": 44,
+     "answer": "A",
+     "explanation": "The shapes from the first 2 boxes combine.",
+     "page": 34
+    },
+    {
+     "n": 45,
+     "answer": "A",
+     "explanation": "The shapes flip in; then the shape group on the left and right switch colors with each other.",
+     "page": 34
+    },
+    {
+     "n": 46,
+     "answer": "B",
+     "explanation": "The triangles combine.",
+     "page": 34
+    },
+    {
+     "n": 47,
+     "answer": "B",
+     "explanation": "The shapes flip in; the shape on the left is in front.",
+     "page": 35
+    },
+    {
+     "n": 48,
+     "answer": "E",
+     "explanation": "The shapes flip in; the shapes on the left and right are in front.",
+     "page": 35
+    }
+   ]
+  },
+  {
+   "name": "Practice Test 3",
+   "dir": "test3",
+   "questions": [
+    {
+     "n": 1,
+     "answer": "E",
+     "explanation": "",
+     "page": 35
+    },
+    {
+     "n": 2,
+     "answer": "B",
+     "explanation": "",
+     "page": 35
+    },
+    {
+     "n": 3,
+     "answer": "A",
+     "explanation": "",
+     "page": 36
+    },
+    {
+     "n": 4,
+     "answer": "D",
+     "explanation": "C is not correct because the section on the right must be a flipped version of the puzzle on the left. The yellow puzzle piece in C is not a flipped version of the section on the left.",
+     "page": 36
+    },
+    {
+     "n": 5,
+     "answer": "C",
+     "explanation": "On the top and bottom rows of the puzzle there is a row with blue squares. Look beyond these to the center of the puzzle: the blue squares that align vertically in the columns increase and then decrease by 1 square.",
+     "page": 36
+    },
+    {
+     "n": 6,
+     "answer": "E",
+     "explanation": "",
+     "page": 36
+    },
+    {
+     "n": 7,
+     "answer": "D",
+     "explanation": "",
+     "page": 37
+    },
+    {
+     "n": 8,
+     "answer": "A",
+     "explanation": "Going across the 3 rows, the figure rotates clockwise.",
+     "page": 37
+    },
+    {
+     "n": 9,
+     "answer": "C",
+     "explanation": "The colors switch (blue becomes green, green becomes blue).",
+     "page": 37
+    },
+    {
+     "n": 10,
+     "answer": "B",
+     "explanation": "The middle 2 shapes keep the same colors and the square color changes.",
+     "page": 37
+    },
+    {
+     "n": 11,
+     "answer": "E",
+     "explanation": "The shape rotates 90 degrees clockwise.",
+     "page": 38
+    },
+    {
+     "n": 12,
+     "answer": "E",
+     "explanation": "The shapes have +1 side.",
+     "page": 38
+    },
+    {
+     "n": 13,
+     "answer": "B",
+     "explanation": "The shapes move to the middle, flip, and switch colors.",
+     "page": 38
+    },
+    {
+     "n": 14,
+     "answer": "A",
+     "explanation": "The largest of the 3 shapes moves behind the bottom shape; the other two shapes stay the same.",
+     "page": 38
+    },
+    {
+     "n": 15,
+     "answer": "A",
+     "explanation": "The heart moves to the center of the shape.",
+     "page": 39
+    },
+    {
+     "n": 16,
+     "answer": "D",
+     "explanation": "The yellow section moves from the right side of the box to the left side, then covers the left half of the shape in the middle.",
+     "page": 39
+    },
+    {
+     "n": 17,
+     "answer": "D",
+     "explanation": "From left to right the only sections of the square remaining are the green ones (and if there were any in the left box, they become blue in the right box). Since there were no green sections in the left box, there are no sections in the right box.",
+     "page": 39
+    },
+    {
+     "n": 18,
+     "answer": "A",
+     "explanation": "Sideways A's become stars; upside-down A's become circles; regular A's become the curved shape with the 2 points at the top. Choice B has the same shapes as A, but the curved shape is facing the wrong direction.",
+     "page": 39
+    },
+    {
+     "n": 19,
+     "answer": "B",
+     "explanation": "The shapes change to hexagons. The shapes are divided into quarters and the dark quarters change position like this: bottom left to bottom right; top left to bottom left; bottom right to top left; top right to top right.",
+     "page": 40
+    },
+    {
+     "n": 20,
+     "answer": "B",
+     "explanation": "The square is divided into quarters. Across the rows, the shapes in the upper left and lower right quarter change, but their quantity stays the same; the shapes in the upper right corner stay the same but increase in quantity by 2; the lower left box stays empty.",
+     "page": 40
+    },
+    {
+     "n": 21,
+     "answer": "C",
+     "explanation": "Across the rows and columns, there are the same three shape group types (groups of 2 shapes).",
+     "page": 40
+    },
+    {
+     "n": 22,
+     "answer": "D",
+     "explanation": "The number of circles decreases by 1.",
+     "page": 40
+    },
+    {
+     "n": 23,
+     "answer": "E",
+     "explanation": "Across the rows and down the columns are 2 boxes with 1 vertical line on the left, 1 vertical line on the right, 1 horizontal line in the middle, and 1 box with 1 vertical line on the left and 1 horizontal line in the middle.",
+     "page": 41
+    },
+    {
+     "n": 24,
+     "answer": "B",
+     "explanation": "Across the rows, the blue bar decreases each time and stays on the same side.",
+     "page": 41
+    },
+    {
+     "n": 25,
+     "answer": "E",
+     "explanation": "The color pattern of the squares is white/green/white (or green/white/green) and there is 1 each of these shapes: triangle, heart, circle.",
+     "page": 41
+    },
+    {
+     "n": 26,
+     "answer": "A",
+     "explanation": "Across the rows, the shape rotates like this: second box 180 degrees, third box 90 degrees clockwise.",
+     "page": 41
+    },
+    {
+     "n": 27,
+     "answer": "D",
+     "explanation": "Across the rows, the green rectangle moves clockwise once around the group of circles.",
+     "page": 42
+    },
+    {
+     "n": 28,
+     "answer": "E",
+     "explanation": "Across the rows there is 1 of each: color of the large square (green/blue/white), type and color of the middle shape (hexagon/trapezoid/diamond, green/blue/white), type and color of the smaller shape (hexagon/trapezoid/diamond, green/blue/white).",
+     "page": 42
+    },
+    {
+     "n": 29,
+     "answer": "B",
+     "explanation": "The yellow square moves to the right across the boxes; each row must have a small triangle, medium triangle, and large triangle. In the middle row, middle box, the square covers the triangle.",
+     "page": 42
+    },
+    {
+     "n": 30,
+     "answer": "B",
+     "explanation": "The white wand rotates 45 degrees clockwise. In 2 of the 3 boxes there is one green wand which always lies on top of the white wand; the green wand rotates 90 degrees counterclockwise from the first box to the second box in which it appears.",
+     "page": 42
+    },
+    {
+     "n": 31,
+     "answer": "B",
+     "explanation": "Across the rows, the shaded blue areas combine in the last box.",
+     "page": 43
+    },
+    {
+     "n": 32,
+     "answer": "B",
+     "explanation": "The green shapes fold in to the square.",
+     "page": 43
+    },
+    {
+     "n": 33,
+     "answer": "D",
+     "explanation": "The green sections combine in the last box.",
+     "page": 43
+    },
+    {
+     "n": 34,
+     "answer": "E",
+     "explanation": "The lines combine in the last box.",
+     "page": 43
+    },
+    {
+     "n": 35,
+     "answer": "B",
+     "explanation": "The shapes from the first two boxes are all found in the last box.",
+     "page": 44
+    },
+    {
+     "n": 36,
+     "answer": "E",
+     "explanation": "The shapes fold in to the square (note the change in square size in the incorrect answers).",
+     "page": 44
+    },
+    {
+     "n": 37,
+     "answer": "A",
+     "explanation": "The shape flips in and rotates 90 degrees (1/4) counterclockwise.",
+     "page": 44
+    },
+    {
+     "n": 38,
+     "answer": "C",
+     "explanation": "The elements from the first 2 boxes combine in the 3rd box.",
+     "page": 44
+    },
+    {
+     "n": 39,
+     "answer": "E",
+     "explanation": "The triangles and rounded shapes from the first box fold in in the second box; note which shapes are in front and which are in back.",
+     "page": 45
+    },
+    {
+     "n": 40,
+     "answer": "D",
+     "explanation": "The 1st shape is on top of the 2nd shape; the blue shape from the 1st box must be on top of the blue shape from the 2nd box.",
+     "page": 45
+    },
+    {
+     "n": 41,
+     "answer": "E",
+     "explanation": "The rectangles from the first 2 boxes combine in the last box.",
+     "page": 45
+    },
+    {
+     "n": 42,
+     "answer": "E",
+     "explanation": "The last box in each row is a combination of the elements in the first 2 boxes. White in this question is actually see-through, so clear sections are replaced with green and blue sections.",
+     "page": 45
+    },
+    {
+     "n": 43,
+     "answer": "A",
+     "explanation": "The blue and green shapes move in to the box; the bottom shape is in front of the left shape.",
+     "page": 46
+    },
+    {
+     "n": 44,
+     "answer": "B",
+     "explanation": "The hexagons from the first 2 boxes combine in the last box.",
+     "page": 46
+    },
+    {
+     "n": 45,
+     "answer": "C",
+     "explanation": "The rectangles from the first 2 boxes combine in the last box.",
+     "page": 46
+    },
+    {
+     "n": 46,
+     "answer": "E",
+     "explanation": "The shapes from the first 2 boxes combine in the last box.",
+     "page": 46
+    },
+    {
+     "n": 47,
+     "answer": "D",
+     "explanation": "The 2 smaller squares and the small shapes inside them flip into the large white square, then the entire group rotates 90 degrees clockwise.",
+     "page": 47
+    },
+    {
+     "n": 48,
+     "answer": "C",
+     "explanation": "The shapes from the first 2 boxes combine in the last box.",
+     "page": 47
+    }
+   ]
+  }
+ ]
+}

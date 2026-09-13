@@ -108,57 +108,147 @@ def complete_row(bx, half_x0, half_x1):
     return sorted(bx, key=lambda b: b[0])
 
 
-def group_questions(boxes, page_w, page_h):
-    """Group boxes into questions. Each question is a row of five option boxes plus the
-    matrix above it. The matrix may be one big frame (pattern completion) or a grid of
-    small boxes (analogy 2x2, serial reasoning 3x3), so it is taken as the union of every
-    box on the same half of the spread between the previous option row and this one."""
+def group_questions(boxes, page_w, page_h, img=None):
+    """Group boxes into questions. Each question is a run of five evenly spaced option
+    boxes plus the matrix above it (one big frame, or a grid of small boxes). Option rows
+    are found by y-clustering then splitting on large horizontal gaps, so a spread whose
+    scan is shifted sideways (two pages not centred on the image) still splits correctly."""
     def inside(a, b):
         return a[0] >= b[0] - 4 and a[1] >= b[1] - 4 and a[0] + a[2] <= b[0] + b[2] + 4 and a[1] + a[3] <= b[1] + b[3] + 4 and a != b
     boxes = [a for a in boxes if not any(inside(a, b) for b in boxes)]
-    side_of = lambda b: 0 if b[0] + b[2] / 2 < page_w / 2 else 1
     opts = [b for b in boxes if 0.5 * DPI <= b[2] <= 1.6 * DPI and 0.3 * DPI <= b[3] <= 1.4 * DPI]
-    rows = []
+    clusters = []
     for b in sorted(opts, key=lambda b: b[1]):
         cy = b[1] + b[3] / 2
-        for r in rows:
-            if r['side'] == side_of(b) and abs(r['cy'] - cy) < 0.4 * DPI:
-                r['boxes'].append(b)
+        for c in clusters:
+            if abs(c['cy'] - cy) < 0.4 * DPI:
+                c['boxes'].append(b)
                 break
         else:
-            rows.append({'cy': cy, 'side': side_of(b), 'boxes': [b]})
-    good = []
-    for r in rows:
-        bx = sorted(r['boxes'], key=lambda b: b[0])
-        if len(bx) > 5:
-            mw = np.median([b[2] for b in bx]); mh = np.median([b[3] for b in bx])
-            bx = sorted(bx, key=lambda b: abs(b[2] - mw) + abs(b[3] - mh))[:5]
-            bx.sort(key=lambda b: b[0])
-        half_x0, half_x1 = (0, page_w / 2) if r['side'] == 0 else (page_w / 2, page_w)
-        full = complete_row(bx, half_x0, half_x1)
-        if not full:
-            continue
-        span = full[-1][0] + full[-1][2] - full[0][0]
-        if span < 0.55 * (page_w / 2):
-            continue
-        good.append({'side': r['side'], 'top': min(b[1] for b in full), 'bottom': max(b[1] + b[3] for b in full),
-                     'boxes': full, 'inferred': len(bx) == 4})
-    questions = []
-    for side in (0, 1):
-        prev_bottom = 0
-        for r in sorted([g for g in good if g['side'] == side], key=lambda g: g['top']):
-            band = [b for b in boxes if side_of(b) == side and b[1] >= prev_bottom and b[1] + b[3] <= r['top'] - 2
-                    and b not in r['boxes'] and b[2] >= 0.3 * DPI and b[3] >= 0.3 * DPI]
-            if not band:
-                prev_bottom = r['bottom']
+            clusters.append({'cy': cy, 'boxes': [b]})
+    # Option frames whose outline merged with a shape poking out of the box sit a little
+    # higher or lower than their neighbours. Merge nearby clusters whose boxes interleave
+    # horizontally without overlapping (a grid's rows overlap column-wise, so they stay apart).
+    def h_overlap(a, b):
+        return min(a[0] + a[2], b[0] + b[2]) - max(a[0], b[0]) > 0.2 * min(a[2], b[2])
+    merged = True
+    while merged:
+        merged = False
+        clusters.sort(key=lambda c: c['cy'])
+        for i in range(len(clusters) - 1):
+            a, b = clusters[i], clusters[i + 1]
+            if b['cy'] - a['cy'] < 0.75 * DPI and not any(h_overlap(x, y) for x in a['boxes'] for y in b['boxes']):
+                a['boxes'] += b['boxes']
+                a['cy'] = float(np.mean([bb[1] + bb[3] / 2 for bb in a['boxes']]))
+                del clusters[i + 1]
+                merged = True
+                break
+    rows = []
+    for c in clusters:
+        bx = sorted(c['boxes'], key=lambda b: b[0])
+        # split the cluster into runs at gaps wider than ~2 box widths
+        runs, cur = [], [bx[0]]
+        for a, b in zip(bx, bx[1:]):
+            if b[0] - (a[0] + a[2]) > 1.6 * max(a[2], b[2]):
+                runs.append(cur); cur = [b]
+            else:
+                cur.append(b)
+        runs.append(cur)
+        # Rows of the left and right page can touch across the spine (the spine gap is often
+        # narrower than the gap between options). Split long runs where both parts have the
+        # most even spacing.
+        def even_split(run):
+            if len(run) <= 5:
+                return [run]
+            cs = [b[0] + b[2] / 2 for b in run]
+            def irregular(part):
+                # gaps equal to the row pitch, or twice it (one faint box missed), are regular
+                gaps = [part[k + 1] - part[k] for k in range(len(part) - 1)]
+                if len(gaps) < 2:
+                    return 0
+                pitch = float(np.median(gaps))
+                return sum(1 for g in gaps if not (abs(g - pitch) < 0.25 * pitch or abs(g - 2 * pitch) < 0.25 * pitch))
+            best = None
+            for i in range(1, len(run)):
+                score = irregular(cs[:i]) + irregular(cs[i:])
+                if not (i == 5 or len(run) - i == 5):
+                    score += 0.5          # prefer peeling off a full row of five
+                if best is None or score < best[0]:
+                    best = (score, i)
+            i = best[1]
+            return even_split(run[:i]) + even_split(run[i:])
+        runs = [r for run in runs for r in even_split(run)]
+        for run in runs:
+            x0 = run[0][0] - 0.8 * DPI; x1 = run[-1][0] + run[-1][2] + 0.8 * DPI
+            full = complete_row(run, x0, x1)
+            if not full:
                 continue
-            x0 = min(b[0] for b in band); y0 = min(b[1] for b in band)
-            x1 = max(b[0] + b[2] for b in band); y1 = max(b[1] + b[3] for b in band)
-            questions.append({'side': side, 'y': y0, 'matrix': (x0, y0, x1 - x0, y1 - y0), 'options': r['boxes'],
-                              'parts': len(band), 'inferred': r['inferred']})
-            prev_bottom = r['bottom']
-    questions.sort(key=lambda q: (q['side'], q['y']))
+            span = full[-1][0] + full[-1][2] - full[0][0]
+            if span < 0.28 * page_w:
+                continue
+            rows.append({'top': min(b[1] for b in full), 'bottom': max(b[1] + b[3] for b in full),
+                         'x0': full[0][0], 'x1': full[-1][0] + full[-1][2], 'boxes': full, 'inferred': len(run) == 4})
+    if os.environ.get('DEBUG_ROWS'):
+        for c in clusters:
+            print('   cluster cy=%.0f n=%d xs=%s' % (c['cy'], len(c['boxes']), sorted(int(b[0]) for b in c['boxes'])))
+        for r in rows:
+            print('   row top=%d x=%d..%d inferred=%s' % (r['top'], r['x0'], r['x1'], r['inferred']))
+    opt_boxes = {b for r in rows for b in r['boxes']}
+    questions = []
+    for r in sorted(rows, key=lambda r: r['top']):
+        cx0, cx1 = r['x0'] - 0.15 * (r['x1'] - r['x0']), r['x1'] + 0.15 * (r['x1'] - r['x0'])
+        overlap = lambda b: min(b[0] + b[2], cx1) - max(b[0], cx0) > 0.5 * b[2]
+        prev_bottom = 0.015 * page_h      # matrices can start right under the running header
+        for o in rows:
+            if o is not r and o['bottom'] <= r['top'] and min(o['x1'], cx1) - max(o['x0'], cx0) > 0.3 * (r['x1'] - r['x0']):
+                prev_bottom = max(prev_bottom, o['bottom'] + 4)
+        band = [b for b in boxes if b not in opt_boxes and overlap(b) and b[1] >= prev_bottom and b[1] + b[3] <= r['top'] - 2
+                and b[2] >= 0.3 * DPI and b[3] >= 0.3 * DPI]
+        if not band:
+            continue
+        x0 = min(b[0] for b in band); y0 = min(b[1] for b in band)
+        x1 = max(b[0] + b[2] for b in band); y1 = max(b[1] + b[3] for b in band)
+        limits = (int(cx0 - 0.3 * DPI), int(prev_bottom), int(cx1 + 0.3 * DPI), int(r['top'] - 3))
+        m = grow_to_ink(img, (x0, y0, x1 - x0, y1 - y0), limits) if img is not None else (x0, y0, x1 - x0, y1 - y0)
+        questions.append({'y': m[1], 'cx': (r['x0'] + r['x1']) / 2, 'matrix': m, 'options': r['boxes'],
+                          'parts': len(band), 'inferred': r['inferred']})
+    # reading order: page columns left to right (split at the widest horizontal gap), then top to bottom
+    xs = sorted(q['cx'] for q in questions)
+    split = None
+    if len(xs) > 1:
+        gaps = [(xs[i + 1] - xs[i], (xs[i + 1] + xs[i]) / 2) for i in range(len(xs) - 1)]
+        g, mid = max(gaps)
+        if g > 0.25 * page_w:
+            split = mid
+    for q in questions:
+        q['col'] = 0 if split is None or q['cx'] < split else 1
+    questions.sort(key=lambda q: (q['col'], q['y']))
     return questions
+
+
+def grow_to_ink(img, box, limits):
+    """Expand a crop rectangle while there is ink touching its edge (shapes drawn outside
+    the matrix frames, e.g. spatial-visualisation puzzles), within the given limits."""
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    ink = gray < 185
+    x0, y0, w, h = box
+    x1, y1 = x0 + w, y0 + h
+    lx, ly, ux, uy = limits
+    lx, ly = max(0, lx), max(0, ly); ux, uy = min(img.shape[1], ux), min(img.shape[0], uy)
+    step = 6
+    for _ in range(200):
+        grew = False
+        if x0 - step >= lx and ink[y0:y1, x0 - step:x0].sum() > 3:
+            x0 -= step; grew = True
+        if x1 + step <= ux and ink[y0:y1, x1:x1 + step].sum() > 3:
+            x1 += step; grew = True
+        if y0 - step >= ly and ink[y0 - step:y0, x0:x1].sum() > 3:
+            y0 -= step; grew = True
+        if y1 + step <= uy and ink[y1:y1 + step, x0:x1].sum() > 3:
+            y1 += step; grew = True
+        if not grew:
+            break
+    return (x0, y0, x1 - x0, y1 - y0)
 
 
 def crop(img, box, pad):
@@ -178,20 +268,16 @@ def save(path, im):
 
 book = {'id': book_id, 'ext': 'jpg', 'tests': []}
 count = 0
-for ti, t in enumerate(cfg['tests']):
-    answers = t.get('answers', '').split()
-    expl = cfg.get('explanations', {}).get(str(ti + 1), {})
-    tdir = os.path.join(out_root, f'test{ti + 1}')
-    os.makedirs(tdir, exist_ok=True)
-    qs = []
-    n = 0
-    first, last = t['pages']
+
+
+def process_pages(first, last):
+    """Yield (page_no, img, question) for every question found on the given pages."""
     for page_no in range(first, last + 1):
         if page_no in cfg.get('skip_pages', []):
             continue
         img = render(page_no)
         boxes = find_boxes(img)
-        found = group_questions(boxes, img.shape[1], img.shape[0])
+        found = group_questions(boxes, img.shape[1], img.shape[0], img)
         if debug_dir:
             dbg = img.copy()
             for (x, y, w, h) in boxes:
@@ -203,23 +289,65 @@ for ti, t in enumerate(cfg['tests']):
             cv2.imwrite(os.path.join(debug_dir, f'p{page_no:02d}.png'), cv2.resize(dbg, None, fx=0.4, fy=0.4))
         print(f'page {page_no}: {len(boxes)} boxes, {len(found)} questions', [(q['parts'], 'i' if q['inferred'] else '') for q in found])
         for q in found:
+            yield page_no, img, q
+
+
+def emit(tdir, n, page_no, img, q):
+    base = f'q{n:02d}'
+    save(os.path.join(tdir, base + '_m.jpg'), crop(img, q['matrix'], 6))
+    for li, b in enumerate(q['options']):
+        save(os.path.join(tdir, f'{base}_{"abcde"[li]}.jpg'), crop(img, b, 5))
+
+
+if 'stream' in cfg:
+    # Questions run continuously through the book; split them into tests by count.
+    st = cfg['stream']
+    per = st['per_test']; skip = st.get('skip_first', 0)
+    tests = cfg['tests']
+    for ti, t in enumerate(tests):
+        os.makedirs(os.path.join(out_root, f'test{ti + 1}'), exist_ok=True)
+        t['_qs'] = []
+    idx = 0
+    for page_no, img, q in process_pages(*st['pages']):
+        idx += 1
+        if idx <= skip:
+            continue
+        k = idx - skip - 1
+        ti, n = k // per, k % per + 1
+        if ti >= len(tests):
+            print(f'  extra question found on page {page_no} (beyond {len(tests)} x {per}); ignored')
+            continue
+        if not dry:
+            emit(os.path.join(out_root, f'test{ti + 1}'), n, page_no, img, q)
+        answers = tests[ti].get('answers', '').split()
+        expl = cfg.get('explanations', {}).get(str(ti + 1), {})
+        tests[ti]['_qs'].append({'n': n, 'answer': answers[n - 1] if n - 1 < len(answers) else None,
+                                 'explanation': expl.get(str(n), ''), 'page': page_no})
+        count += 1
+        if limit and count >= limit:
+            break
+    for ti, t in enumerate(tests):
+        book['tests'].append({'name': t['name'], 'dir': f'test{ti + 1}', 'questions': t['_qs']})
+else:
+    for ti, t in enumerate(cfg['tests']):
+        answers = t.get('answers', '').split()
+        expl = cfg.get('explanations', {}).get(str(ti + 1), {})
+        tdir = os.path.join(out_root, f'test{ti + 1}')
+        os.makedirs(tdir, exist_ok=True)
+        qs = []
+        n = 0
+        for page_no, img, q in process_pages(*t['pages']):
             n += 1
-            if dry:
-                continue
-            base = f'q{n:02d}'
-            save(os.path.join(tdir, base + '_m.jpg'), crop(img, q['matrix'], 6))
-            for li, b in enumerate(q['options']):
-                save(os.path.join(tdir, f'{base}_{"abcde"[li]}.jpg'), crop(img, b, 5))
-            ans = answers[n - 1] if n - 1 < len(answers) else None
-            qs.append({'n': n, 'answer': ans, 'explanation': expl.get(str(n), ''), 'page': page_no})
+            if not dry:
+                emit(tdir, n, page_no, img, q)
+            qs.append({'n': n, 'answer': answers[n - 1] if n - 1 < len(answers) else None,
+                       'explanation': expl.get(str(n), ''), 'page': page_no})
             count += 1
             if limit and count >= limit:
                 break
+        book['tests'].append({'name': t['name'], 'dir': os.path.basename(tdir), 'questions': qs})
         if limit and count >= limit:
             break
-    book['tests'].append({'name': t['name'], 'dir': os.path.basename(tdir), 'questions': qs})
-    if limit and count >= limit:
-        break
 
 with open(os.path.join(out_root, 'book.json'), 'w', encoding='utf-8') as f:
     json.dump(book, f, ensure_ascii=False, indent=1)
