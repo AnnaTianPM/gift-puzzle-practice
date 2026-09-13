@@ -44,10 +44,11 @@ def find_answers(doc):
         body = re.sub(r'\n', ' ', body)
         body = re.sub(r'\s+', ' ', body)
         # strip running headers/footers
-        body = re.sub(r'\d+\s*NNAT® Level [A-D] Test Prep Workbook\s*Origins Publications, Inc', ' ', body)
-        body = re.sub(r'Origins Publications, Inc\s*NNAT® Level [A-D] Test Prep Workbook\s*\d+', ' ', body)
-        body = re.sub(r'NNAT® Level [A-D] Practice Test Answers', ' ', body)
-        body = re.sub(r'NNAT® Level [A-D]\s+Answer Explanations', ' ', body)
+        # Running headers/footers differ slightly between books (Level C/D: 'Origins Publications',
+        # 'NNAT® Level C Test Prep Workbook'; Level B: 'Origins Tutoring', 'NNAT® B Test Prep Workbook').
+        body = re.sub(r'(\d{1,3}\s*)?NNAT® (Level )?[A-D]\s+Test Prep Workbook(\s*\d{1,3}(?=\s))?', ' ', body)
+        body = re.sub(r'(\d{1,3}\s*)?Origins (Publications|Tutoring), Inc(\s*\d{1,3}(?=\s))?', ' ', body)
+        body = re.sub(r'NNAT® (Level )?[A-D]\s+(Practice Test Answers|Answer Explanations|Answers and Explanations|Practice Test)', ' ', body)
         body = re.sub(r'\s+', ' ', body)
         items = re.findall(r'(?<!\d)(\d{1,2})\.\s?([A-E])\.\s(.*?)(?=(?<!\d)\d{1,2}\.\s?[A-E]\.\s|$)', body)
         d = result.setdefault(name, {})

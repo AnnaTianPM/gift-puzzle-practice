@@ -1,0 +1,593 @@
+{
+ "id": "g1-nnat-b",
+ "tests": [
+  {
+   "name": "Practice Test One",
+   "dir": "test1",
+   "questions": [
+    {
+     "n": 1,
+     "answer": "E",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 14
+    },
+    {
+     "n": 2,
+     "answer": "C",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 14
+    },
+    {
+     "n": 3,
+     "answer": "D",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 14
+    },
+    {
+     "n": 4,
+     "answer": "B",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 15
+    },
+    {
+     "n": 5,
+     "answer": "D",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 15
+    },
+    {
+     "n": 6,
+     "answer": "A",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 15
+    },
+    {
+     "n": 7,
+     "answer": "A",
+     "explanation": "Moving across the rows, the blue (gray) pentagon becomes a blue (gray) star.",
+     "page": 16
+    },
+    {
+     "n": 8,
+     "answer": "A",
+     "explanation": "Across the rows, the light blue (light gray) shape become dark blue (dark gray), and dark blue(dark gray) shapes become light blue (light gray).",
+     "page": 16
+    },
+    {
+     "n": 9,
+     "answer": "E",
+     "explanation": "The arrows are mirrored.",
+     "page": 16
+    },
+    {
+     "n": 10,
+     "answer": "C",
+     "explanation": "Moving across the row, the shape turns 90 degrees clockwise, and the background and foreground shape swap colors.",
+     "page": 17
+    },
+    {
+     "n": 11,
+     "answer": "A",
+     "explanation": "In the left box, the figure has one color/ shade. Moving to the middle row, the figure incorporates a smaller white inner figure of the same shape. The right box incorporates a third even smaller figure of the same shape with the original color/shade.",
+     "page": 17
+    },
+    {
+     "n": 12,
+     "answer": "B",
+     "explanation": "In the matrix, the figures (background square with interlocking figures of same shape and size) change across the row and down the columns. The background color/shade of the square behind the interlocking shapes also alternate color/shade across the rows and down the columns.",
+     "page": 17
+    },
+    {
+     "n": 13,
+     "answer": "D",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 18
+    },
+    {
+     "n": 14,
+     "answer": "B",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 18
+    },
+    {
+     "n": 15,
+     "answer": "E",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 18
+    },
+    {
+     "n": 16,
+     "answer": "E",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 19
+    },
+    {
+     "n": 17,
+     "answer": "D",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 19
+    },
+    {
+     "n": 18,
+     "answer": "A",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 19
+    },
+    {
+     "n": 19,
+     "answer": "C",
+     "explanation": "The number of sides of the shapes on the left corresponds to the number of points of the figures on the right. Moving across the rows, the color of the shape changes from dark blue (dark gray) to light blue (light gray).",
+     "page": 20
+    },
+    {
+     "n": 20,
+     "answer": "B",
+     "explanation": "The number of points of the figure on the left corresponds with the number of shapes on the right. Moving across the rows, the colors change from orange (medium gray) to white.",
+     "page": 20
+    },
+    {
+     "n": 21,
+     "answer": "A",
+     "explanation": "The shapes are mirrored from left to right.",
+     "page": 20
+    },
+    {
+     "n": 22,
+     "answer": "B",
+     "explanation": "In the matrix, from left to right, you see that the figures change across the row. The shade of each figure is different across the rows, and down the columns.",
+     "page": 21
+    },
+    {
+     "n": 23,
+     "answer": "C",
+     "explanation": "Moving from the left row to the middle row, the smaller circle stays in the same place in relationship to the larger circle. From the middle row to the right row, the small circle rotates clockwise around the edge of the larger circle. Down the columns, the smaller circle rotates clockwise around the edge of the larger circle.",
+     "page": 21
+    },
+    {
+     "n": 24,
+     "answer": "D",
+     "explanation": "Across the rows, the middle and bottom shapes move toward the opposite edge. Down the columns, the shape/line becomes distorted.",
+     "page": 21
+    },
+    {
+     "n": 25,
+     "answer": "E",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 22
+    },
+    {
+     "n": 26,
+     "answer": "B",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 22
+    },
+    {
+     "n": 27,
+     "answer": "E",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 22
+    },
+    {
+     "n": 28,
+     "answer": "B",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 23
+    },
+    {
+     "n": 29,
+     "answer": "B",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 23
+    },
+    {
+     "n": 30,
+     "answer": "C",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 23
+    },
+    {
+     "n": 31,
+     "answer": "E",
+     "explanation": "Moving from left to right box, the colors of the shapes are inverted.",
+     "page": 24
+    },
+    {
+     "n": 32,
+     "answer": "E",
+     "explanation": "The colors/shades of the two figures are inverted in the identical figures on the right.",
+     "page": 24
+    },
+    {
+     "n": 33,
+     "answer": "E",
+     "explanation": "The colors/shades are inverted from left to right.",
+     "page": 24
+    },
+    {
+     "n": 34,
+     "answer": "E",
+     "explanation": "Across the rows, the number of points on the outer star decrease by one. Down the columns, the points on the inner star increase by one.",
+     "page": 25
+    },
+    {
+     "n": 35,
+     "answer": "B",
+     "explanation": "Across the rows, the group of shapes rotate counterclockwise. Down the columns, the group of shapes rotate counterclockwise while the shapes within the group become more round.",
+     "page": 25
+    },
+    {
+     "n": 36,
+     "answer": "A",
+     "explanation": "Both across and down, the triangles alternate between groups of 1, 2 and 3 triangles and between 3 patterns.",
+     "page": 25
+    },
+    {
+     "n": 37,
+     "answer": "E",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 26
+    },
+    {
+     "n": 38,
+     "answer": "B",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 26
+    },
+    {
+     "n": 39,
+     "answer": "C",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 26
+    },
+    {
+     "n": 40,
+     "answer": "A",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 27
+    },
+    {
+     "n": 41,
+     "answer": "E",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 27
+    },
+    {
+     "n": 42,
+     "answer": "D",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 27
+    },
+    {
+     "n": 43,
+     "answer": "C",
+     "explanation": "There are no changes in the larger figures from left to right. There is a change of shade/ color in the smaller figure (it gets lighter).",
+     "page": 28
+    },
+    {
+     "n": 44,
+     "answer": "D",
+     "explanation": "The number of squares on the left correlate with the points of the star on the right.",
+     "page": 28
+    },
+    {
+     "n": 45,
+     "answer": "B",
+     "explanation": "The figures are reflected along the vertical axis and the colors/shades inverted.",
+     "page": 28
+    },
+    {
+     "n": 46,
+     "answer": "C",
+     "explanation": "The number of shapes increases by two from left to right.",
+     "page": 29
+    },
+    {
+     "n": 47,
+     "answer": "C",
+     "explanation": "Across, the outermost circle alternates between black, medium gray and light gray while the innermost circle alternates between black and medium gray. Down, the center circle (white) expands while the innermost circle alternates between black and medium gray.",
+     "page": 29
+    },
+    {
+     "n": 48,
+     "answer": "A",
+     "explanation": "Across, the small circle moves past the larger circle. Down, the smaller circle increases in size. Answer Explanations.",
+     "page": 29
+    }
+   ]
+  },
+  {
+   "name": "Practice Test Two",
+   "dir": "test2",
+   "questions": [
+    {
+     "n": 1,
+     "answer": "D",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 32
+    },
+    {
+     "n": 2,
+     "answer": "C",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 32
+    },
+    {
+     "n": 3,
+     "answer": "C",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 32
+    },
+    {
+     "n": 4,
+     "answer": "D",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 33
+    },
+    {
+     "n": 5,
+     "answer": "D",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 33
+    },
+    {
+     "n": 6,
+     "answer": "B",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 33
+    },
+    {
+     "n": 7,
+     "answer": "E",
+     "explanation": "The figure is reflected or flips 180 degrees.",
+     "page": 34
+    },
+    {
+     "n": 8,
+     "answer": "C",
+     "explanation": "The half figure becomes a full figure.",
+     "page": 34
+    },
+    {
+     "n": 9,
+     "answer": "A",
+     "explanation": "In the left box, the figure has two equal halves each with a different shade/color. The right box contains the same figure with one shade/color (from the right half of the original figure).",
+     "page": 34
+    },
+    {
+     "n": 10,
+     "answer": "B",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 35
+    },
+    {
+     "n": 11,
+     "answer": "C",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 35
+    },
+    {
+     "n": 12,
+     "answer": "E",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 35
+    },
+    {
+     "n": 13,
+     "answer": "A",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 36
+    },
+    {
+     "n": 14,
+     "answer": "B",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 36
+    },
+    {
+     "n": 15,
+     "answer": "B",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 36
+    },
+    {
+     "n": 16,
+     "answer": "C",
+     "explanation": "In the top left hand box is a square with two circles inside. Moving from the left to right box, the shapes swap colors. Orange (medium gray) becomes blue (dark gray), blue (dark gray) becomes white and white becomes orange (medium gray).",
+     "page": 37
+    },
+    {
+     "n": 17,
+     "answer": "A",
+     "explanation": "In the top left hand box there are two shapes with different colors/shades. Moving from the left to right box, the shapes are flipped horizontally, retaining the color of the shapes.",
+     "page": 37
+    },
+    {
+     "n": 18,
+     "answer": "E",
+     "explanation": "Moving from left to right box, the colors of the shapes are inverted. The other answer options are incorrect becuase the orange (medium gray) parts of the shape are incorrectly located vis a vis the inital shape in bottom left box.",
+     "page": 37
+    },
+    {
+     "n": 19,
+     "answer": "E",
+     "explanation": "One circle is added from left to right and one circle is added from top to bottom.",
+     "page": 38
+    },
+    {
+     "n": 20,
+     "answer": "B",
+     "explanation": "The shape changes across the rows while the shape and background colors/shades change down the columns.",
+     "page": 38
+    },
+    {
+     "n": 21,
+     "answer": "D",
+     "explanation": "Across the rows, the smaller circle moves from right to left while down the columns the larger shape rotates counterclockwise 90 degrees.",
+     "page": 38
+    },
+    {
+     "n": 22,
+     "answer": "E",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 39
+    },
+    {
+     "n": 23,
+     "answer": "A",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 39
+    },
+    {
+     "n": 24,
+     "answer": "A",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 39
+    },
+    {
+     "n": 25,
+     "answer": "B",
+     "explanation": "Moving from the left to right box, the shape is flipped horizontally. A shape in the middle of the figure changes its color.",
+     "page": 40
+    },
+    {
+     "n": 26,
+     "answer": "D",
+     "explanation": "In the top left hand box is a square divided into halves, each with a different color. Moving from the left to right box, the colors of the halves are inverted and two small shapes (of the same shape) are added.",
+     "page": 40
+    },
+    {
+     "n": 27,
+     "answer": "B",
+     "explanation": "Moving from the left to right box, the same colored triangles change to a new color/ shade and the colors of the other two triangles are inverted.",
+     "page": 40
+    },
+    {
+     "n": 28,
+     "answer": "D",
+     "explanation": "Across the rows, the lines around the circle disappear in a counter clockwise direction.",
+     "page": 41
+    },
+    {
+     "n": 29,
+     "answer": "C",
+     "explanation": "The outer circles become green (medium gray) in a clockwise direction across the rows while the inner circle alternates between green (medium gray) and light blue (light gray)",
+     "page": 41
+    },
+    {
+     "n": 30,
+     "answer": "C",
+     "explanation": "Across each row, the outer circles change colors/shades as the numbers increase by 1 while the numbers in the columns decrease by 1 from top to bottom.",
+     "page": 41
+    },
+    {
+     "n": 31,
+     "answer": "C",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 42
+    },
+    {
+     "n": 32,
+     "answer": "C",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 42
+    },
+    {
+     "n": 33,
+     "answer": "D",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 42
+    },
+    {
+     "n": 34,
+     "answer": "D",
+     "explanation": "In the top left hand box is a pentagon with a triangle at one of its corners. Moving from the left to right box, the pentagon is turned upside down and the pentagon and the triangles swap their colors.",
+     "page": 43
+    },
+    {
+     "n": 35,
+     "answer": "C",
+     "explanation": "Moving from the left to right box, the 4 stars are rotated 90 degree clockwise.",
+     "page": 43
+    },
+    {
+     "n": 36,
+     "answer": "A",
+     "explanation": "Moving from the left to right box, the color pattern changes. Dark blue (dark gray) becomes orange (medium gray) , orange (medium gray) becomes white, and white becomes dark blue (dark gray) .",
+     "page": 43
+    },
+    {
+     "n": 37,
+     "answer": "B",
+     "explanation": "The triangles alternate in number across each row and down each column.",
+     "page": 44
+    },
+    {
+     "n": 38,
+     "answer": "C",
+     "explanation": "The shape increases by one point across each row while the colors/shades of the shapes alternate between shades/colors both across and down.",
+     "page": 44
+    },
+    {
+     "n": 39,
+     "answer": "A",
+     "explanation": "Across the rows the shapes alternate between colors/shades and 1 and 3 “petals”, while down the columns the shapes alternate between colors/shades and rotate clockwise.",
+     "page": 44
+    },
+    {
+     "n": 40,
+     "answer": "D",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 45
+    },
+    {
+     "n": 41,
+     "answer": "B",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 45
+    },
+    {
+     "n": 42,
+     "answer": "B",
+     "explanation": "The third and second columns across the rows combine to make the groups of shapes in the first column, while the bottom and middle rows in each column combine to make the groups of shapes at the top of the columns.",
+     "page": 45
+    },
+    {
+     "n": 43,
+     "answer": "B",
+     "explanation": "Moving from the left to right box, the color pattern is retained, but the shapes are flipped vertically.",
+     "page": 46
+    },
+    {
+     "n": 44,
+     "answer": "E",
+     "explanation": "Moving from the left to right box, the color of the background changes, however the color of the two shapes is retained. The complex shape is flipped horizontally while the smaller shape is left undisturbed at the same position.",
+     "page": 46
+    },
+    {
+     "n": 45,
+     "answer": "C",
+     "explanation": "Across the rows, the triangles alternate between 3 shades/colors. The position of the triangles alternate between two positions. Two smaller shapes are added in the middle box, and two more smaller shapes (of the same color) are added in the far right box (to add up to four small shapes in the far right box).",
+     "page": 46
+    },
+    {
+     "n": 46,
+     "answer": "A",
+     "explanation": "Across the rows, the shape is rotated 90 clockwise.",
+     "page": 47
+    },
+    {
+     "n": 47,
+     "answer": "A",
+     "explanation": "The soccer ball rotates clockwise across each row and down each column.",
+     "page": 47
+    },
+    {
+     "n": 48,
+     "answer": "E",
+     "explanation": "The triangles of the background hide part of the geometric shape. Across the row, the geometric white shape is either shown fully or is partially hidden.",
+     "page": 47
+    }
+   ]
+  }
+ ]
+}
