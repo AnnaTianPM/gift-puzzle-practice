@@ -1,0 +1,423 @@
+{
+ "id": "cogat-l9-math",
+ "ext": "png",
+ "tests": [
+  {
+   "name": "Number Puzzles",
+   "dir": "test1",
+   "prompt": "What number goes in the ? box so both sides of the = sign are the same?",
+   "questions": [
+    {
+     "n": 1,
+     "answer": "E",
+     "explanation": "",
+     "page": 1,
+     "options": [
+      "41",
+      "14",
+      "34",
+      "31",
+      "21"
+     ]
+    },
+    {
+     "n": 2,
+     "answer": "B",
+     "explanation": "",
+     "page": 1,
+     "options": [
+      "29",
+      "34",
+      "24",
+      "43",
+      "54"
+     ]
+    },
+    {
+     "n": 3,
+     "answer": "A",
+     "explanation": "",
+     "page": 1,
+     "options": [
+      "6",
+      "5",
+      "4",
+      "3",
+      "42"
+     ]
+    },
+    {
+     "n": 4,
+     "answer": "A",
+     "explanation": "",
+     "page": 1,
+     "options": [
+      "6",
+      "5",
+      "9",
+      "4",
+      "3"
+     ]
+    },
+    {
+     "n": 5,
+     "answer": "C",
+     "explanation": "",
+     "page": 1,
+     "options": [
+      "0",
+      "5",
+      "10",
+      "20",
+      "30"
+     ]
+    },
+    {
+     "n": 6,
+     "answer": "D",
+     "explanation": "",
+     "page": 2,
+     "options": [
+      "41",
+      "11",
+      "39",
+      "21",
+      "31"
+     ]
+    },
+    {
+     "n": 7,
+     "answer": "E",
+     "explanation": "",
+     "page": 2,
+     "options": [
+      "4",
+      "5",
+      "26",
+      "16",
+      "6"
+     ]
+    },
+    {
+     "n": 8,
+     "answer": "B",
+     "explanation": "",
+     "page": 2,
+     "options": [
+      "3",
+      "4",
+      "5",
+      "6",
+      "21"
+     ]
+    },
+    {
+     "n": 9,
+     "answer": "A",
+     "explanation": "",
+     "page": 2,
+     "options": [
+      "58",
+      "48",
+      "38",
+      "68",
+      "50"
+     ]
+    },
+    {
+     "n": 10,
+     "answer": "B",
+     "explanation": "",
+     "page": 2,
+     "options": [
+      "19",
+      "29",
+      "39",
+      "9",
+      "28"
+     ]
+    },
+    {
+     "n": 11,
+     "answer": "E",
+     "explanation": "",
+     "page": 3,
+     "options": [
+      "30",
+      "45",
+      "15",
+      "25",
+      "35"
+     ]
+    },
+    {
+     "n": 12,
+     "answer": "C",
+     "explanation": "",
+     "page": 3,
+     "options": [
+      "1",
+      "10",
+      "11",
+      "21",
+      "31"
+     ]
+    },
+    {
+     "n": 13,
+     "answer": "D",
+     "explanation": "",
+     "page": 3,
+     "options": [
+      "62",
+      "73",
+      "43",
+      "63",
+      "53"
+     ]
+    },
+    {
+     "n": 14,
+     "answer": "B",
+     "explanation": "",
+     "page": 3,
+     "options": [
+      "36",
+      "45",
+      "14",
+      "55",
+      "54"
+     ]
+    },
+    {
+     "n": 15,
+     "answer": "B",
+     "explanation": "",
+     "page": 3,
+     "options": [
+      "2",
+      "3",
+      "4",
+      "16",
+      "32"
+     ]
+    },
+    {
+     "n": 16,
+     "answer": "E",
+     "explanation": "",
+     "page": 4,
+     "options": [
+      "14",
+      "4",
+      "40",
+      "35",
+      "45"
+     ]
+    },
+    {
+     "n": 17,
+     "answer": "A",
+     "explanation": "",
+     "page": 4,
+     "options": [
+      "10",
+      "36",
+      "44",
+      "11",
+      "9"
+     ]
+    },
+    {
+     "n": 18,
+     "answer": "B",
+     "explanation": "",
+     "page": 4,
+     "options": [
+      "81",
+      "62",
+      "0",
+      "52",
+      "72"
+     ]
+    },
+    {
+     "n": 19,
+     "answer": "D",
+     "explanation": "",
+     "page": 4,
+     "options": [
+      "41",
+      "57",
+      "67",
+      "77",
+      "37"
+     ]
+    },
+    {
+     "n": 20,
+     "answer": "C",
+     "explanation": "",
+     "page": 4,
+     "options": [
+      "4",
+      "12",
+      "2",
+      "99",
+      "20"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Number Analogies",
+   "dir": "test2",
+   "prompt": "Find the rule the pairs follow. Which number goes where the ? is?",
+   "questions": [
+    {
+     "n": 1,
+     "answer": "D",
+     "explanation": "",
+     "page": 5,
+     "options": [
+      "50",
+      "20",
+      "10",
+      "60",
+      "80"
+     ]
+    },
+    {
+     "n": 2,
+     "answer": "B",
+     "explanation": "",
+     "page": 5,
+     "options": [
+      "57",
+      "43",
+      "23",
+      "33",
+      "7"
+     ]
+    },
+    {
+     "n": 3,
+     "answer": "E",
+     "explanation": "",
+     "page": 5,
+     "options": [
+      "3",
+      "45",
+      "5",
+      "7",
+      "8"
+     ]
+    },
+    {
+     "n": 4,
+     "answer": "D",
+     "explanation": "",
+     "page": 6,
+     "options": [
+      "9",
+      "13",
+      "22",
+      "24",
+      "2"
+     ]
+    },
+    {
+     "n": 5,
+     "answer": "A",
+     "explanation": "",
+     "page": 6,
+     "options": [
+      "21",
+      "10",
+      "3",
+      "4",
+      "1"
+     ]
+    },
+    {
+     "n": 6,
+     "answer": "C",
+     "explanation": "",
+     "page": 6,
+     "options": [
+      "35",
+      "15",
+      "8",
+      "7",
+      "45"
+     ]
+    },
+    {
+     "n": 7,
+     "answer": "A",
+     "explanation": "",
+     "page": 7,
+     "options": [
+      "50",
+      "48",
+      "19",
+      "9",
+      "32"
+     ]
+    },
+    {
+     "n": 8,
+     "answer": "B",
+     "explanation": "",
+     "page": 7,
+     "options": [
+      "60",
+      "15",
+      "2",
+      "32",
+      "28"
+     ]
+    },
+    {
+     "n": 9,
+     "answer": "E",
+     "explanation": "",
+     "page": 7,
+     "options": [
+      "26",
+      "29",
+      "28",
+      "38",
+      "33"
+     ]
+    },
+    {
+     "n": 10,
+     "answer": "D",
+     "explanation": "",
+     "page": 7,
+     "options": [
+      "4.5",
+      "2.5",
+      "2.0",
+      "8.5",
+      "6.7"
+     ]
+    },
+    {
+     "n": 11,
+     "answer": "C",
+     "explanation": "",
+     "page": 7,
+     "options": [
+      "7",
+      "42",
+      "5",
+      "1",
+      "28"
+     ]
+    }
+   ]
+  }
+ ]
+}

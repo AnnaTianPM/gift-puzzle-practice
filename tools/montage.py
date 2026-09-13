@@ -20,7 +20,11 @@ for t in book['tests']:
             for k, L in enumerate('abcde'):
                 ox = x0+8+k*57
                 r = pymupdf.Rect(ox, y0+158, ox+52, y0+210)
-                page.insert_image(r, filename=f'{base}_{L}.'+ext, keep_proportion=True)
+                if q.get('options'):
+                    page.draw_rect(r, color=(0.6,0.6,0.6))
+                    page.insert_text((ox+6, y0+190), str(q['options'][k]), fontsize=13)
+                else:
+                    page.insert_image(r, filename=f'{base}_{L}.'+ext, keep_proportion=True)
                 lab = L.upper()
                 if lab == q['answer']:
                     page.draw_rect(r, color=(0,0.6,0), width=2)

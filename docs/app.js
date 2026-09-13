@@ -177,8 +177,11 @@
       let cls = 'opt';
       if (showResult) { if (L === q.answer) cls += ' correct'; else if (L === chosen) cls += ' wrong'; }
       else if (L === chosen) cls += ' selected';
-      return h('button', { class: cls, ...(showResult ? { disabled: '' } : {}), onclick: () => choose(q, L) },
-        h('img', { src: imgPath(q, 'abcde'[i]), alt: 'Option ' + L }), h('span', { class: 'letter' }, L));
+      const face = q.options
+        ? h('span', { class: 'txt' }, q.options[i])                                   // number / word choice
+        : h('img', { src: imgPath(q, 'abcde'[i]), alt: 'Option ' + L });             // picture choice
+      return h('button', { class: cls + (q.options ? ' text' : ''), ...(showResult ? { disabled: '' } : {}), onclick: () => choose(q, L) },
+        face, h('span', { class: 'letter' }, L));
     }));
 
     let feedback = null;
@@ -189,10 +192,10 @@
         q.explanation ? h('div', { class: 'expl' }, q.explanation) : null);
     } else if (chosen) {
       feedback = h('div', { class: 'feedback hint' }, state.mode === 'practice'
-        ? 'You picked ' + chosen + '. Tap Check, or tap another picture to change.'
-        : 'You picked ' + chosen + '. Tap Next, or tap another picture to change.');
+        ? 'You picked ' + chosen + '. Tap Check, or tap another ' + (q.options ? 'number' : 'picture') + ' to change.'
+        : 'You picked ' + chosen + '. Tap Next, or tap another ' + (q.options ? 'number' : 'picture') + ' to change.');
     } else {
-      feedback = h('div', { class: 'feedback hint' }, 'Tap the picture that fits the ?');
+      feedback = h('div', { class: 'feedback hint' }, q.options ? 'Tap the number that fits the ?' : 'Tap the picture that fits the ?');
     }
 
     // Main button: the child confirms with it. Practice: Check reveals the answer, then Next.
@@ -219,13 +222,14 @@
       h('div', { class: 'page quiz' },
         h('div', { class: 'progress' }, h('div', { style: 'width:' + Math.round(100 * (state.idx + 1) / total) + '%' })),
         h('div', { class: 'qnum' }, 'Puzzle ' + q.n),
+        state.test.prompt ? h('div', { class: 'prompt' }, state.test.prompt) : null,
         h('div', { class: 'matrix' }, h('img', { src: imgPath(q, 'm'), alt: 'Puzzle ' + q.n, onload: layoutQuestion })),
         opts, nav)
     );
     layoutQuestion();
     // preload next question's images
     const nq = qs[state.idx + 1];
-    if (nq) ['m', 'a', 'b', 'c', 'd', 'e'].forEach(s => { const im = new Image(); im.src = imgPath(nq, s); });
+    if (nq) (nq.options ? ['m'] : ['m', 'a', 'b', 'c', 'd', 'e']).forEach(s => { const im = new Image(); im.src = imgPath(nq, s); });
   }
 
   // Fit the puzzle to the screen so the child never has to scroll.
@@ -234,7 +238,8 @@
     const img = document.querySelector('.matrix img'), opts = document.querySelector('.options');
     if (!nav || !page || !img || !opts) return;
     page.style.paddingBottom = (nav.offsetHeight + 12) + 'px';
-    const fixed = 64 /* top bar */ + 26 /* progress */ + 34 /* label */ + 14 /* gap */ + 16 /* padding */;
+    const prompt = document.querySelector('.prompt');
+    const fixed = 64 /* top bar */ + 26 /* progress */ + 34 /* label */ + 14 /* gap */ + 16 /* padding */ + (prompt ? prompt.offsetHeight + 10 : 0);
     const avail = window.innerHeight - fixed - opts.offsetHeight - nav.offsetHeight - 28;
     img.style.maxHeight = Math.max(140, avail) + 'px';
   }

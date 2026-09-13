@@ -1,0 +1,21 @@
+{
+ "tests": [
+  {
+   "name": "Number Puzzles",
+   "pages": [
+    1,
+    2
+   ],
+   "prompt": "What number goes in the ? box so both sides of the = sign are the same?"
+  },
+  {
+   "name": "Number Analogies",
+   "pages": [
+    3,
+    5
+   ],
+   "prompt": "Find the rule the pairs follow. Which number goes where the ? is?"
+  }
+ ],
+ "answer_page": 6
+}

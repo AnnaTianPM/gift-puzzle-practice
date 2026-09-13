@@ -70,6 +70,8 @@ label.check input { width: 22px; height: 22px; }
 .opt:hover { border-color: #9db1e3; }
 .opt:active { transform: scale(.96); }
 .opt img { height: 56px; width: auto; }
+.opt .txt { height: 56px; display: flex; align-items: center; font-size: 30px; font-weight: 800; letter-spacing: .5px; }
+.prompt { background: #fff7e8; border: 1px solid #f7d9a3; border-radius: 12px; padding: 8px 14px; margin-bottom: 10px; font-size: 17px; }
 .opt .letter { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--ink); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
 .opt.selected { border-color: var(--blue); background: #eef3fd; }
 .opt.selected .letter { background: var(--blue); border-color: var(--blue); color: #fff; }
