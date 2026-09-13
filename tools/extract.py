@@ -8,7 +8,7 @@ import pymupdf
 
 pdf_path, book_id = sys.argv[1], sys.argv[2]
 limit = int(sys.argv[sys.argv.index('--limit')+1]) if '--limit' in sys.argv else None
-out_root = os.path.join(os.path.dirname(__file__), '..', 'site', 'books', book_id)
+out_root = os.path.join(os.path.dirname(__file__), '..', 'docs', 'books', book_id)
 SCALE = 3  # 216 dpi
 LETTERS = ['Ⓐ','Ⓑ','Ⓒ','Ⓓ','Ⓔ']
 
@@ -112,7 +112,7 @@ def extract_page(page, page_no):
             # emitted as 're' items of one shared path), matched by nearest centre.
             near = [f for f in frame_items if f.y1 >= ly0-15 and f.y1 <= ly0+3 and abs((f.x0+f.x1)/2 - cx) <= 30]
             if near:
-                f = min(near, key=lambda f: abs((f.x0+f.x1)/2 - cx))
+                f = max(near, key=lambda f: f.width * f.height)   # outer frame, not an inner shape
                 opt_rects.append(f + (-4, -4, 4, 4))
             else:
                 opt_rects.append(pymupdf.Rect(cx-W/2, y0, cx+W/2, y1) + (-4, -4, 4, 4))
@@ -162,6 +162,6 @@ with open(os.path.join(out_root, 'book.json'), 'w', encoding='utf-8') as f:
     json.dump(book, f, ensure_ascii=False, indent=1)
 print('wrote', count, 'questions to', out_root)
 
-# also emit a script version so the site works from file:// without fetch
+# also emit a script version so the site loads without fetch()
 with open(os.path.join(out_root, 'book.js'), 'w', encoding='utf-8') as f:
     f.write('window.NNAT_BOOKS = window.NNAT_BOOKS || {};\nwindow.NNAT_BOOKS[' + json.dumps(book_id) + '] = ' + json.dumps(book, ensure_ascii=False) + ';\n')
