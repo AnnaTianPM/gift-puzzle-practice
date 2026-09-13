@@ -1,0 +1,593 @@
+{
+ "id": "g2-nnat-c",
+ "tests": [
+  {
+   "name": "Practice Test One",
+   "dir": "test1",
+   "questions": [
+    {
+     "n": 1,
+     "answer": "D",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 14
+    },
+    {
+     "n": 2,
+     "answer": "D",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 14
+    },
+    {
+     "n": 3,
+     "answer": "B",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 14
+    },
+    {
+     "n": 4,
+     "answer": "B",
+     "explanation": "Moving across the row, the shape flips across the vertical axis and elongates. The color of the shape and the background color remains the same.",
+     "page": 15
+    },
+    {
+     "n": 5,
+     "answer": "E",
+     "explanation": "Moving across the row, the shape turns 90 degrees counterclockwise. The color of the shape and the background color remains the same.",
+     "page": 15
+    },
+    {
+     "n": 6,
+     "answer": "E",
+     "explanation": "The shape alternates between triangle, circle and square across the rows and down the columns. The background color and each shape’s color (white) stays the same.",
+     "page": 15
+    },
+    {
+     "n": 7,
+     "answer": "D",
+     "explanation": "The shape (star) turns 180 degrees from box to box across the rows.Down the columns, the star orientation stays the same as the star’s color alternates. The color of the star remains the same across each row.",
+     "page": 16
+    },
+    {
+     "n": 8,
+     "answer": "D",
+     "explanation": "Each row contains a white box, a shaded/ color box, and a box that is half white. The bottom row has a white box and a shaded/color box. Therefore, the bottom right box must have the box that is half white.",
+     "page": 16
+    },
+    {
+     "n": 9,
+     "answer": "D",
+     "explanation": "Moving across the row from right to left, the reflection of the shape is added across the horizontal axis. (The black line dividing the reflected shapes disappears).",
+     "page": 16
+    },
+    {
+     "n": 10,
+     "answer": "D",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 17
+    },
+    {
+     "n": 11,
+     "answer": "C",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 17
+    },
+    {
+     "n": 12,
+     "answer": "A",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 17
+    },
+    {
+     "n": 13,
+     "answer": "A",
+     "explanation": "The figures reflect on the 45 degree clockwise axis.",
+     "page": 18
+    },
+    {
+     "n": 14,
+     "answer": "B",
+     "explanation": "The black figure changes to white, the white figure changes to medium gray (or green), while the backgrounds change from white to medium gray (or green).",
+     "page": 18
+    },
+    {
+     "n": 15,
+     "answer": "C",
+     "explanation": "The colors of the background and the foreground shapes exchange from left to right.",
+     "page": 18
+    },
+    {
+     "n": 16,
+     "answer": "B",
+     "explanation": "The shapes combine down each column to form the bottom element while the shapes alternate across the columns.",
+     "page": 19
+    },
+    {
+     "n": 17,
+     "answer": "C",
+     "explanation": "The shapes alternate across the rows. Down each column, the shapes combine in the first two boxes to complete the shape in the third box. The background colors alternate throughout the matrix.",
+     "page": 19
+    },
+    {
+     "n": 18,
+     "answer": "A",
+     "explanation": "The shapes combine from bottom to top and from left to right to form the final scene in the top right corner.",
+     "page": 19
+    },
+    {
+     "n": 19,
+     "answer": "E",
+     "explanation": "The figures outside the rectangle on the left are reflected to the inside of the rectangle on the right.",
+     "page": 20
+    },
+    {
+     "n": 20,
+     "answer": "A",
+     "explanation": "The black figures are reflected to the inside of the striped rectangle.",
+     "page": 20
+    },
+    {
+     "n": 21,
+     "answer": "E",
+     "explanation": "The patterns are identical in each row.",
+     "page": 20
+    },
+    {
+     "n": 22,
+     "answer": "B",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 21
+    },
+    {
+     "n": 23,
+     "answer": "A",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 21
+    },
+    {
+     "n": 24,
+     "answer": "E",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 21
+    },
+    {
+     "n": 25,
+     "answer": "D",
+     "explanation": "The colors of the background and the figures exchange from left to right.",
+     "page": 22
+    },
+    {
+     "n": 26,
+     "answer": "E",
+     "explanation": "Across each row, the figures rotate 90 DEGREES clockwise. Down each column, the figures rotate 90 degrees counterclockwise.",
+     "page": 22
+    },
+    {
+     "n": 27,
+     "answer": "A",
+     "explanation": "The interior figures increase substantially in size from left to right.",
+     "page": 22
+    },
+    {
+     "n": 28,
+     "answer": "D",
+     "explanation": "The color/shade of the outer ring alternates across the row but stays the same down each column. Across the row, the number and position of diamonds change. Down the column, the diamonds change position.",
+     "page": 23
+    },
+    {
+     "n": 29,
+     "answer": "A",
+     "explanation": "The background color/shade and polygon alternate across and down.",
+     "page": 23
+    },
+    {
+     "n": 30,
+     "answer": "B",
+     "explanation": "The number of shapes in the boxes increase by one from left to right. Down each column, the number of shapes alternates.",
+     "page": 23
+    },
+    {
+     "n": 31,
+     "answer": "A",
+     "explanation": "Moving across the row from the left to center box, an inner (smaller) white shape is added (same shape as original). Moving from the center to right box, another inner (smaller) shape (of the original color) is added inside the white shape.",
+     "page": 24
+    },
+    {
+     "n": 32,
+     "answer": "E",
+     "explanation": "The shapes fold on the appropriate vertical and horizontal axes so that the outward points reflect inward, forming the new shape on the right.",
+     "page": 24
+    },
+    {
+     "n": 33,
+     "answer": "D",
+     "explanation": "The stacking order reverses on the right.",
+     "page": 24
+    },
+    {
+     "n": 34,
+     "answer": "B",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 25
+    },
+    {
+     "n": 35,
+     "answer": "E",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 25
+    },
+    {
+     "n": 36,
+     "answer": "A",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 25
+    },
+    {
+     "n": 37,
+     "answer": "B",
+     "explanation": "The figures rotate counterclockwise from left to right.",
+     "page": 26
+    },
+    {
+     "n": 38,
+     "answer": "C",
+     "explanation": "The figures reflect on the horizontal axis from left to right.",
+     "page": 26
+    },
+    {
+     "n": 39,
+     "answer": "D",
+     "explanation": "The figures reflect on the vertical plane from left to right while the shapes and backgrounds alternate in color.",
+     "page": 26
+    },
+    {
+     "n": 40,
+     "answer": "D",
+     "explanation": "The shapes combine in each row from left to right to become the element in the third column. The second element turns from black to white in the combination shape.",
+     "page": 27
+    },
+    {
+     "n": 41,
+     "answer": "B",
+     "explanation": "The pentagon moves counterclockwise while the square stays in the same corner in each row. The square and pentagon overlap once in each row with the pentagon on top of the square.",
+     "page": 27
+    },
+    {
+     "n": 42,
+     "answer": "D",
+     "explanation": "The shapes in the top row are all pointing upwards, in the middle row downwards, and in the bottom row to the left.",
+     "page": 27
+    },
+    {
+     "n": 43,
+     "answer": "E",
+     "explanation": "The figures become larger and move from left to right across each row but do not expand beyond or touch the bounding box.",
+     "page": 28
+    },
+    {
+     "n": 44,
+     "answer": "A",
+     "explanation": "The lines rotate 180 degrees while the background color and color of the lines are inverted.",
+     "page": 28
+    },
+    {
+     "n": 45,
+     "answer": "B",
+     "explanation": "The figures are reflected along the horizontal axis while the background changes color.",
+     "page": 28
+    },
+    {
+     "n": 46,
+     "answer": "E",
+     "explanation": "The background shapes alternate between large, middle and small across and down.",
+     "page": 29
+    },
+    {
+     "n": 47,
+     "answer": "B",
+     "explanation": "Vertically and horizontally, the background shapes rotate 90 degrees clockwise while the foreground star rotates 45 degrees.",
+     "page": 29
+    },
+    {
+     "n": 48,
+     "answer": "C",
+     "explanation": "The shapes combine left to right across the rows and top to bottom of the columns.",
+     "page": 29
+    }
+   ]
+  },
+  {
+   "name": "Practice Test Two",
+   "dir": "test2",
+   "questions": [
+    {
+     "n": 1,
+     "answer": "E",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 32
+    },
+    {
+     "n": 2,
+     "answer": "D",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 32
+    },
+    {
+     "n": 3,
+     "answer": "A",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 32
+    },
+    {
+     "n": 4,
+     "answer": "C",
+     "explanation": "From left to right, the shape in the top row changes from a circle to a circle with a segment removed. The color of the items remains the same across the row.",
+     "page": 33
+    },
+    {
+     "n": 5,
+     "answer": "D",
+     "explanation": "The background color stays the same across the rows, but the color of the flag alternates.",
+     "page": 33
+    },
+    {
+     "n": 6,
+     "answer": "B",
+     "explanation": "Moving from the left to right box, the striped arrow is rotated 90 degrees clockwise, and the stripes change direction.",
+     "page": 33
+    },
+    {
+     "n": 7,
+     "answer": "E",
+     "explanation": "The background color and the shape stay the same across the rows, but the shape’s color/shade alternates.",
+     "page": 34
+    },
+    {
+     "n": 8,
+     "answer": "A",
+     "explanation": "The shape retains the same color and orientation down the column.",
+     "page": 34
+    },
+    {
+     "n": 9,
+     "answer": "C",
+     "explanation": "The inner white shapes alternate across the rows and down the columns, while the larger outer figure alternates shape and color across the rows and columns.",
+     "page": 34
+    },
+    {
+     "n": 10,
+     "answer": "A",
+     "explanation": "The dark color/shade flaps fold inward to create the right hand pattern.",
+     "page": 35
+    },
+    {
+     "n": 11,
+     "answer": "B",
+     "explanation": "The item is flipped across the vertical axis.",
+     "page": 35
+    },
+    {
+     "n": 12,
+     "answer": "D",
+     "explanation": "Across the row, the items stack/combine, forming the pattern in the third column.",
+     "page": 35
+    },
+    {
+     "n": 13,
+     "answer": "A",
+     "explanation": "The colors alternate from innermost to outermost object. Or, the puzzle can be solved by seeing that (moving from left to right) white becomes green (gray), black remains black, and green (gray) becomes white.",
+     "page": 36
+    },
+    {
+     "n": 14,
+     "answer": "B",
+     "explanation": "Moving from left to right, the inner figures change size and color. The background remains the same color.",
+     "page": 36
+    },
+    {
+     "n": 15,
+     "answer": "D",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 36
+    },
+    {
+     "n": 16,
+     "answer": "E",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 37
+    },
+    {
+     "n": 17,
+     "answer": "D",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 37
+    },
+    {
+     "n": 18,
+     "answer": "C",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 37
+    },
+    {
+     "n": 19,
+     "answer": "B",
+     "explanation": "Moving from the left to right box, another arrow of the same color is added and both the arrows are rotated 90 degrees clockwise.",
+     "page": 38
+    },
+    {
+     "n": 20,
+     "answer": "E",
+     "explanation": "Moving from the left to right box, the left half of the arrow shapes are displayed.",
+     "page": 38
+    },
+    {
+     "n": 21,
+     "answer": "C",
+     "explanation": "The shape in the bottom left box is the mirror image (flipped vertically) of the shape in the top left box. Also the shading is reversed.",
+     "page": 38
+    },
+    {
+     "n": 22,
+     "answer": "D",
+     "explanation": "Boxes in each row have the same color background, but the shape alternates between a star, a hexagon and an oval. The boxes in each column contain the same shape.",
+     "page": 39
+    },
+    {
+     "n": 23,
+     "answer": "B",
+     "explanation": "Moving from left to right box, the shapes in the boxes combine to form the shape in the third column. The color of each shape is retained.",
+     "page": 39
+    },
+    {
+     "n": 24,
+     "answer": "A",
+     "explanation": "Across each row and down each column, an ellipse is touching the left, right and top edges of the three boxes.",
+     "page": 39
+    },
+    {
+     "n": 25,
+     "answer": "D",
+     "explanation": "The shapes overlap to form the final pattern in the third column.",
+     "page": 40
+    },
+    {
+     "n": 26,
+     "answer": "B",
+     "explanation": "The shapes combine to form the new shape in the third column.",
+     "page": 40
+    },
+    {
+     "n": 27,
+     "answer": "E",
+     "explanation": "The shapes overlap to form the final pattern in the third column.",
+     "page": 40
+    },
+    {
+     "n": 28,
+     "answer": "A",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 41
+    },
+    {
+     "n": 29,
+     "answer": "E",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 41
+    },
+    {
+     "n": 30,
+     "answer": "D",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 41
+    },
+    {
+     "n": 31,
+     "answer": "A",
+     "explanation": "Moving from the left to right box, the shape is flipped horizontally and the color is retained.",
+     "page": 42
+    },
+    {
+     "n": 32,
+     "answer": "D",
+     "explanation": "Moving from the left to right box, the circles at the corners unite to form a shape in     the middle and the color is retained.",
+     "page": 42
+    },
+    {
+     "n": 33,
+     "answer": "E",
+     "explanation": "Moving from the left to right box, the stars interchange their position and colors.",
+     "page": 42
+    },
+    {
+     "n": 34,
+     "answer": "E",
+     "explanation": "Each row alternates between 3 shapes. Each column also alternates between the 3 same shapes. Adjacent boxes alternate background color/shade.",
+     "page": 43
+    },
+    {
+     "n": 35,
+     "answer": "C",
+     "explanation": "Each row alternates between a star, an ellipse and a combination of the two shapes. In each row, the colors/shades of the shape/s in each box alternate. In the bottom row, the oval is the shape missing, and light gray (light blue) is the missing color.",
+     "page": 43
+    },
+    {
+     "n": 36,
+     "answer": "A",
+     "explanation": "Moving from the left to right, the star is divided into two equal halves across the vertical and then the horizontal axis. The color of the background alternates across the rows. The color of the star and the background stays the same in each column.",
+     "page": 43
+    },
+    {
+     "n": 37,
+     "answer": "C",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 44
+    },
+    {
+     "n": 38,
+     "answer": "E",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 44
+    },
+    {
+     "n": 39,
+     "answer": "B",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 44
+    },
+    {
+     "n": 40,
+     "answer": "B",
+     "explanation": "Moving from the left to right, the arrow is rotated 90 counterclockwise and the color is retained.",
+     "page": 45
+    },
+    {
+     "n": 41,
+     "answer": "A",
+     "explanation": "Moving from the left to right box, two more stars are added and the color is retained.",
+     "page": 45
+    },
+    {
+     "n": 42,
+     "answer": "C",
+     "explanation": "Moving from the left to right box, the shape is rotated 90 degrees clockwise and the colors are swapped.",
+     "page": 45
+    },
+    {
+     "n": 43,
+     "answer": "D",
+     "explanation": "Moving from the left to middle box, the shape is horizontally flipped. Moving from the middle to right box, the shape is again horizontally flipped (so it is the same as the shape in the left frame) and a colored circle is added.",
+     "page": 46
+    },
+    {
+     "n": 44,
+     "answer": "E",
+     "explanation": "Each frame has shapes that do not repeat. Therefore the answer choices C and E can be considered. Also a row is composed of three frames with alternate color backgrounds. The bottom right frame must have a dark gray (dark blue) background.",
+     "page": 46
+    },
+    {
+     "n": 45,
+     "answer": "C",
+     "explanation": "Each row has a triangle, a square and a pentagon – one small, another medium sized and another large. In the bottom row, a large square and a small pentagon are present. Therefore the bottom right box must have a medium sized triangle.",
+     "page": 46
+    },
+    {
+     "n": 46,
+     "answer": "E",
+     "explanation": "Moving from the left to right, the complex shape is flipped horizontally while the smaller shape is left undisturbed at the same position. Although the color of the two shapes is retained, the color of the background changes.",
+     "page": 47
+    },
+    {
+     "n": 47,
+     "answer": "C",
+     "explanation": "Moving from the left to right, the triangle shape is flipped 180 degrees across the diagonal and alternates color. In the middle boxes, two smaller shapes of the same color/shade (as the first triangle in left boxes) are added. Moving from the middle to right boxes, three additional smaller shapes of the same color are added (to create five small shapes) while they move to the opposite half of the box.",
+     "page": 47
+    },
+    {
+     "n": 48,
+     "answer": "A",
+     "explanation": "Moving from the left to right, the shape is rotated 90 clockwise.",
+     "page": 47
+    }
+   ]
+  }
+ ]
+}
