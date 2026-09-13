@@ -1,0 +1,593 @@
+{
+ "id": "g3-nnat-d",
+ "tests": [
+  {
+   "name": "Practice Test One",
+   "dir": "test1",
+   "questions": [
+    {
+     "n": 1,
+     "answer": "B",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 14
+    },
+    {
+     "n": 2,
+     "answer": "E",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 14
+    },
+    {
+     "n": 3,
+     "answer": "A",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 14
+    },
+    {
+     "n": 4,
+     "answer": "D",
+     "explanation": "The second column stacks on top of the first, with white shapes transparent.",
+     "page": 15
+    },
+    {
+     "n": 5,
+     "answer": "B",
+     "explanation": "The shapes combine from left to right to form the complete figure in the third column.",
+     "page": 15
+    },
+    {
+     "n": 6,
+     "answer": "A",
+     "explanation": "The shapes from left to right stack to complete the figure in the third column.",
+     "page": 15
+    },
+    {
+     "n": 7,
+     "answer": "C",
+     "explanation": "The shapes combine from left to right to form the figure in the third column.",
+     "page": 16
+    },
+    {
+     "n": 8,
+     "answer": "E",
+     "explanation": "The patterns combine from left to right to form the final pattern in the third column.",
+     "page": 16
+    },
+    {
+     "n": 9,
+     "answer": "B",
+     "explanation": "The shapes combine to complete the figure on the right.",
+     "page": 16
+    },
+    {
+     "n": 10,
+     "answer": "C",
+     "explanation": "The shade of the rear geometric shape changes from top to bottom while the shades of the middle and front geometric shape remain the same.",
+     "page": 17
+    },
+    {
+     "n": 11,
+     "answer": "A",
+     "explanation": "The shaded portion of each geometric shape changes from ⅔ area to ½ area to ⅓ area from left to right.",
+     "page": 17
+    },
+    {
+     "n": 12,
+     "answer": "C",
+     "explanation": "The white area of each figure changes from ¼ to ½ to ¼ on the top half of each figure from left to right.",
+     "page": 17
+    },
+    {
+     "n": 13,
+     "answer": "B",
+     "explanation": "The figure completes the larger mural.",
+     "page": 18
+    },
+    {
+     "n": 14,
+     "answer": "D",
+     "explanation": "Each line continues from left to right till it reaches right side of matrix.",
+     "page": 18
+    },
+    {
+     "n": 15,
+     "answer": "D",
+     "explanation": "The correct box completes the mural of an octagon, pentagon and hexagon.",
+     "page": 18
+    },
+    {
+     "n": 16,
+     "answer": "B",
+     "explanation": "The background triangle rotates clockwise across each row and counterclockwise down each column while the foreground triangle remains in place but changes to a lighter shade when the background is at a 90 degree interval.",
+     "page": 19
+    },
+    {
+     "n": 17,
+     "answer": "C",
+     "explanation": "Down each column, the arrows remain the same size but rotate 45 degrees counterclockwise.",
+     "page": 19
+    },
+    {
+     "n": 18,
+     "answer": "C",
+     "explanation": "The number of squares is reduced by two as we move down each column and by one as we move left to right in each row.",
+     "page": 19
+    },
+    {
+     "n": 19,
+     "answer": "E",
+     "explanation": "The background shade alternates vertically and across, while the foreground image rotates 90 degrees clockwise across each row and 120 degrees clockwise down each column.",
+     "page": 20
+    },
+    {
+     "n": 20,
+     "answer": "D",
+     "explanation": "The figures create a sequence which repeats from left to right and top to bottom: Knight,white queen,rook (across the top row from left to right) black queen, king, knight (across the middle row from left to right) - with the knight figure (third column,second row) beginning the pattern again.",
+     "page": 20
+    },
+    {
+     "n": 21,
+     "answer": "B",
+     "explanation": "Each row and column has one of each figure and one of each background shade.",
+     "page": 20
+    },
+    {
+     "n": 22,
+     "answer": "A",
+     "explanation": "The lines stack on top from left to right to complete the design in the third column.",
+     "page": 21
+    },
+    {
+     "n": 23,
+     "answer": "D",
+     "explanation": "The triangle and square in both rows “flip” or “fold” inward into the frame.",
+     "page": 21
+    },
+    {
+     "n": 24,
+     "answer": "D",
+     "explanation": "The shapes in both rows “flip” or “fold” inward into the frame while the topmost figure outside the frame logically becomes the bottommost figure when flipped or folded.",
+     "page": 21
+    },
+    {
+     "n": 25,
+     "answer": "B",
+     "explanation": "The shapes in both rows are folded inward in a clockwise manner, so the left most shape folds in first, then the second clockwise shape folds in to overlap the first, and the third clockwise shape folds in and becomes topmost in the final pattern.   NNAT® Level D Answer Explanations",
+     "page": 22
+    },
+    {
+     "n": 26,
+     "answer": "B",
+     "explanation": "The dark gray (orange) arrows fold in first, then the light gray (green) arrows fold in.",
+     "page": 22
+    },
+    {
+     "n": 27,
+     "answer": "C",
+     "explanation": "The shapes fold or flip inward in a clockwise manner.",
+     "page": 22
+    },
+    {
+     "n": 28,
+     "answer": "C",
+     "explanation": "The correct box completes the mural of a star and a triangle while the background colors alternate. (It is not B as the lines in the left panel must continue into right panel).",
+     "page": 23
+    },
+    {
+     "n": 29,
+     "answer": "B",
+     "explanation": "The top shape is removed to reveal the shape underneath.",
+     "page": 23
+    },
+    {
+     "n": 30,
+     "answer": "A",
+     "explanation": "The lines are duplicated and turn into dashed lines in the second column.",
+     "page": 23
+    },
+    {
+     "n": 31,
+     "answer": "E",
+     "explanation": "Across each row, the outer circles change colors/shades as the numbers increase by 2. Down the columns, the numbers decrease by 3 from top to bottom.",
+     "page": 24
+    },
+    {
+     "n": 32,
+     "answer": "E",
+     "explanation": "The black shapes alternate between large, medium and small, while the foreground orange shapes (medium gray) move counterclockwise around the black shape.",
+     "page": 24
+    },
+    {
+     "n": 33,
+     "answer": "E",
+     "explanation": "The background shapes (circles, squares and triangles) combine in each row, while the star rotates 45 degrees with the combined background shapes.",
+     "page": 24
+    },
+    {
+     "n": 34,
+     "answer": "A",
+     "explanation": "The top left image is made by combining the shapes from right to left across each row, and from bottom to top in each column.",
+     "page": 25
+    },
+    {
+     "n": 35,
+     "answer": "B",
+     "explanation": "Each row and column contains frames with 1, 2 and 3 shapes, while frames with the same number of elements share the same colors (blue, green, black)/shades (light gray, medium gray, black) in the same order.",
+     "page": 25
+    },
+    {
+     "n": 36,
+     "answer": "B",
+     "explanation": "The frame backgrounds alternate between colors/shades horizontally and vertically. From top to bottom, the inner shapes alternate in color/shade.",
+     "page": 25
+    },
+    {
+     "n": 37,
+     "answer": "D",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 26
+    },
+    {
+     "n": 38,
+     "answer": "A",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 26
+    },
+    {
+     "n": 39,
+     "answer": "D",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 26
+    },
+    {
+     "n": 40,
+     "answer": "E",
+     "explanation": "The shapes fold inward and leave only a small amount of white space in the center at the top.",
+     "page": 27
+    },
+    {
+     "n": 41,
+     "answer": "C",
+     "explanation": "The figures in the second row flip inward to form an identical pattern from the first row except for color/shade.",
+     "page": 27
+    },
+    {
+     "n": 42,
+     "answer": "E",
+     "explanation": "The colors of the shapes invert in the second column.",
+     "page": 27
+    },
+    {
+     "n": 43,
+     "answer": "A",
+     "explanation": "A large, medium and small background shape appears in each row and column, while the diamond in the foreground moves from left to right across each row.",
+     "page": 28
+    },
+    {
+     "n": 44,
+     "answer": "D",
+     "explanation": "The squares rotate clockwise across the rows. The shading of the square quartiles change colors/ shades down the column.",
+     "page": 28
+    },
+    {
+     "n": 45,
+     "answer": "B",
+     "explanation": "The lone white or black square remains in the same position in each frame, but alternates between black and white across the rows and down the columns.",
+     "page": 28
+    },
+    {
+     "n": 46,
+     "answer": "D",
+     "explanation": "Down the columns, the triangle and the small circles rotate clockwise around the stationary large circle. Across the row, the small circles rotate counterclockwise, while the triangle remains in the same place.",
+     "page": 29
+    },
+    {
+     "n": 47,
+     "answer": "E",
+     "explanation": "Across the rows, the number of points on the outer star decrease by one. Down the columns, the points on the inner star increase by one.",
+     "page": 29
+    },
+    {
+     "n": 48,
+     "answer": "B",
+     "explanation": "Across the rows, the group of shapes rotate counterclockwise. Down the columns, the group of shapes rotate counterclockwise, while the shapes within the group become more round.",
+     "page": 29
+    }
+   ]
+  },
+  {
+   "name": "Practice Test Two",
+   "dir": "test2",
+   "questions": [
+    {
+     "n": 1,
+     "answer": "B",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 32
+    },
+    {
+     "n": 2,
+     "answer": "D",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 32
+    },
+    {
+     "n": 3,
+     "answer": "A",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 32
+    },
+    {
+     "n": 4,
+     "answer": "B",
+     "explanation": "The second column stacks on top of the first to form the final figure in the third column.",
+     "page": 33
+    },
+    {
+     "n": 5,
+     "answer": "A",
+     "explanation": "The first and second shapes in each row combine to form the final third shape.",
+     "page": 33
+    },
+    {
+     "n": 6,
+     "answer": "A",
+     "explanation": "The shapes combine from left to right and assume the non white background color. Down the   NNAT® Level D Answer Explanations third column, the background of the boxes are black.",
+     "page": 33
+    },
+    {
+     "n": 7,
+     "answer": "C",
+     "explanation": "The shaded grids combine from left to right to complete the grids in the third column.",
+     "page": 34
+    },
+    {
+     "n": 8,
+     "answer": "B",
+     "explanation": "The shaded figures combine from left to right to complete the figures on the right, with white transparent when combined.",
+     "page": 34
+    },
+    {
+     "n": 9,
+     "answer": "E",
+     "explanation": "In each row, the squares from column 1 combine with the squares from column 2 to become column 3.",
+     "page": 34
+    },
+    {
+     "n": 10,
+     "answer": "C",
+     "explanation": "The shape is reduced while the colors are inverted.",
+     "page": 35
+    },
+    {
+     "n": 11,
+     "answer": "E",
+     "explanation": "The lines complete the spiral mural.",
+     "page": 35
+    },
+    {
+     "n": 12,
+     "answer": "C",
+     "explanation": "In the second column, the figures are reflected vertically and the colors are inverted.",
+     "page": 35
+    },
+    {
+     "n": 13,
+     "answer": "A",
+     "explanation": "The figures meet at the horizon and then reflect on the horizon.",
+     "page": 36
+    },
+    {
+     "n": 14,
+     "answer": "B",
+     "explanation": "The background shapes invert colors, while the topmost shape remains the same.",
+     "page": 36
+    },
+    {
+     "n": 15,
+     "answer": "A",
+     "explanation": "The figures are rotated 180 degrees, and the colors are inverted.",
+     "page": 36
+    },
+    {
+     "n": 16,
+     "answer": "D",
+     "explanation": "Moving from the left to right box in the top row, the shape with three figures decreases by one and the shape with two figures (colored rings) increases by one. The bottom boxes must reflect the same relationship.",
+     "page": 37
+    },
+    {
+     "n": 17,
+     "answer": "A",
+     "explanation": "Moving from left to right box, the background color changes to white, the white stars change to light blue (light gray) squares, and the light blue (light gray) stars change to dark blue (black) stars. The bottom boxes must reflect the same relationship. Therefore A is correct.",
+     "page": 37
+    },
+    {
+     "n": 18,
+     "answer": "E",
+     "explanation": "Moving from the left to right box, the position of the arrowheads are left undisturbed, but the arrowheads swap their colors. The set of three triangles rotates 180 degrees but the triangles’ colors are retained.",
+     "page": 37
+    },
+    {
+     "n": 19,
+     "answer": "C",
+     "explanation": "Moving from the left to right box, the background color changes to dark blue (black), the shape at the top moves to the bottom and it is rotated 180 degrees. The shape at the bottom right changes its color to white and moves to the top, the shape at the bottom left retains its color and moves to the top.",
+     "page": 38
+    },
+    {
+     "n": 20,
+     "answer": "D",
+     "explanation": "Moving from the left to right box, the lines form a shape filled with dark blue (black) color.",
+     "page": 38
+    },
+    {
+     "n": 21,
+     "answer": "A",
+     "explanation": "Moving from the left to right box, the dark blue (black) changes to orange (medium gray), white changes to black, and orange (medium gray) changes to white. The size of the left column of shapes remains the same, while the shapes in the middle column becomes medium sized, and the shapes in the right column becomes small sized.",
+     "page": 38
+    },
+    {
+     "n": 22,
+     "answer": "C",
+     "explanation": "The figures in the first column stack on the figures in the second column to complete the figures in the third column.",
+     "page": 39
+    },
+    {
+     "n": 23,
+     "answer": "A",
+     "explanation": "The figure in the first column is divided into its components by color from left to right.",
+     "page": 39
+    },
+    {
+     "n": 24,
+     "answer": "B",
+     "explanation": "The shapes fold inward on the left to create the final figure on the right.",
+     "page": 39
+    },
+    {
+     "n": 25,
+     "answer": "E",
+     "explanation": "The shapes on the left fold inward to create the figure on the right.",
+     "page": 40
+    },
+    {
+     "n": 26,
+     "answer": "E",
+     "explanation": "The shapes on the left fold in smallest to largest to create the final collage on the right, with the smallest shape on the bottom and the largest shape on top.",
+     "page": 40
+    },
+    {
+     "n": 27,
+     "answer": "B",
+     "explanation": "The lines fold from the outside on the left to the inside on the right to complete the collage.",
+     "page": 40
+    },
+    {
+     "n": 28,
+     "answer": "D",
+     "explanation": "The large background shapes alternate between black and a hatch pattern, while the smaller shapes alternate colors in pairs both vertically and horizontally.",
+     "page": 41
+    },
+    {
+     "n": 29,
+     "answer": "E",
+     "explanation": "The center shape rotates across each row and down each column, while the outer shapes move to opposite corners down the columns.",
+     "page": 41
+    },
+    {
+     "n": 30,
+     "answer": "A",
+     "explanation": "The shapes combine from left to right and from top to bottom to form the final object.",
+     "page": 41
+    },
+    {
+     "n": 31,
+     "answer": "B",
+     "explanation": "The circles decrease in number from from left to right by one. Down each column, the numbers of dots alternates between two numbers: 626 in column one, 525 in column two, and 414 in column three.",
+     "page": 42
+    },
+    {
+     "n": 32,
+     "answer": "D",
+     "explanation": "All three objects move clockwise inside the   NNAT® Level D Answer Explanations edge of the enclosing square across the rows.",
+     "page": 42
+    },
+    {
+     "n": 33,
+     "answer": "A",
+     "explanation": "The shapes combine across the rows while the left and right sides alternate in shade/color.",
+     "page": 42
+    },
+    {
+     "n": 34,
+     "answer": "C",
+     "explanation": "The shapes rotate 80 degrees counterclockwise while the background image increases in size.",
+     "page": 43
+    },
+    {
+     "n": 35,
+     "answer": "D",
+     "explanation": "The lines in the left column, if surrounded by an outside line, form the shape in the right column.",
+     "page": 43
+    },
+    {
+     "n": 36,
+     "answer": "E",
+     "explanation": "The bottom right figure completes the larger mural.",
+     "page": 43
+    },
+    {
+     "n": 37,
+     "answer": "C",
+     "explanation": "Down the column, the pattern alternates between two patterns: the color of the inner star remains the same, while the surrounding circles swap their colors. The background frame alternates color between two colors.",
+     "page": 44
+    },
+    {
+     "n": 38,
+     "answer": "B",
+     "explanation": "Moving from the left to right box, dark blue (black) triangle changes to orange (gray) and the white triangles change to dark blue (black).",
+     "page": 44
+    },
+    {
+     "n": 39,
+     "answer": "E",
+     "explanation": "Moving from the top left to right box, the shape is flipped horizontally and the colors are swapped.",
+     "page": 44
+    },
+    {
+     "n": 40,
+     "answer": "E",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 45
+    },
+    {
+     "n": 41,
+     "answer": "B",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 45
+    },
+    {
+     "n": 42,
+     "answer": "D",
+     "explanation": "The puzzle piece completes the pattern.",
+     "page": 45
+    },
+    {
+     "n": 43,
+     "answer": "D",
+     "explanation": "The foreground shape is mirrored across the rows while the background alternates across and down between black, mint green (light gray) and orange (medium gray).",
+     "page": 46
+    },
+    {
+     "n": 44,
+     "answer": "A",
+     "explanation": "The stacking order of the three shapes alternates across and down, but the top and bottom shapes are always black.",
+     "page": 46
+    },
+    {
+     "n": 45,
+     "answer": "B",
+     "explanation": "Each row rotates 90 degrees.",
+     "page": 46
+    },
+    {
+     "n": 46,
+     "answer": "B",
+     "explanation": "The foreground shape is removed from the left column to reveal the background shape in the right column.",
+     "page": 47
+    },
+    {
+     "n": 47,
+     "answer": "C",
+     "explanation": "The shapes on the left fold inward, forming a figure to one side with the background color showing through.",
+     "page": 47
+    },
+    {
+     "n": 48,
+     "answer": "E",
+     "explanation": "The shapes on the left fold inward and the colors of the resulting collage on the right are inverted.",
+     "page": 47
+    }
+   ]
+  }
+ ]
+}

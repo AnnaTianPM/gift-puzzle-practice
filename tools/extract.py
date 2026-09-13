@@ -36,7 +36,8 @@ def find_answers(doc):
         if 'Answer Explanations' in t or re.search(r'^\d{1,2}\.\s+[A-E]\.', t, re.M):
             text += '\n' + t
     # split by test headings like 'NNAT C Test One'
-    parts = re.split(r'NNAT\S* [A-D]? ?Test (One|Two|Three|Four)', text)
+    # headings look like 'NNAT C Test One' or just 'Test Two.' (never 'Test Prep')
+    parts = re.split(r'\bTest (One|Two|Three|Four)\b\.?', text)
     result = {}
     for k in range(1, len(parts), 2):
         name, body = parts[k], parts[k+1]
@@ -46,12 +47,13 @@ def find_answers(doc):
         body = re.sub(r'\d+\s*NNAT® Level [A-D] Test Prep Workbook\s*Origins Publications, Inc', ' ', body)
         body = re.sub(r'Origins Publications, Inc\s*NNAT® Level [A-D] Test Prep Workbook\s*\d+', ' ', body)
         body = re.sub(r'NNAT® Level [A-D] Practice Test Answers', ' ', body)
-        items = re.findall(r'(?<!\d)(\d{1,2})\. ([A-E])\. (.*?)(?=(?<!\d)\d{1,2}\. [A-E]\. |$)', body)
+        items = re.findall(r'(?<!\d)(\d{1,2})\.\s?([A-E])\.\s(.*?)(?=(?<!\d)\d{1,2}\.\s?[A-E]\.\s|$)', body)
         d = result.setdefault(name, {})
         for num, letter, expl in items:
             n = int(num)
+            expl = re.sub(r'\s*NNAT\S*(\s+[A-D])?\s*$', '', expl.strip())
             if n not in d:
-                d[n] = (letter, expl.strip())
+                d[n] = (letter, expl)
     return result
 
 def clip_png(page, rect, path):
@@ -76,10 +78,11 @@ def extract_page(page, page_no):
     rows = [r for r in rows if len(r) == 5]
     nums = [w for w in words if re.fullmatch(r'\d{1,2}', w[4]) and w[0] < 100 and 70 < w[1] < 750]
     all_drawings = [d['rect'] for d in page.get_drawings()]
+    visible = [d['rect'] for d in page.get_drawings() if not (d.get('fill') == (1.0, 1.0, 1.0) and d.get('color') is None)]
     frame_items = [pymupdf.Rect(it[1]) for d in page.get_drawings() for it in d['items'] if it[0] == 're']
     frame_items = [f for f in frame_items if 24 <= f.width <= 70 and 24 <= f.height <= 60]
     # drop horizontal rules and the page frame
-    drawings = [r for r in all_drawings if not (r.height < 2 and r.width > 300) and r.width < 560]
+    drawings = [r for r in all_drawings if not (r.height < 2 and r.width > 300) and r.width < 560 and not (r.width < 3 and r.height < 3)]
     prev_bottom = 70
     for row in rows:
         ly0 = min(w[1] for w in row); ly1 = max(w[3] for w in row)
@@ -107,21 +110,34 @@ def extract_page(page, page_no):
             W, y0, y1 = 42, ly0-40, ly0-6
             print(f'  note: page {page_no} row y={ly0:.0f}: default box size')
         opt_rects = []
+        frame_tops = []
         for cx in centers:
             # Prefer the exact frame rectangle drawn for this option (frames are often
             # emitted as 're' items of one shared path), matched by nearest centre.
             near = [f for f in frame_items if f.y1 >= ly0-15 and f.y1 <= ly0+3 and abs((f.x0+f.x1)/2 - cx) <= 30]
             if near:
                 f = max(near, key=lambda f: f.width * f.height)   # outer frame, not an inner shape
+                frame_tops.append(f.y0)
+                # Occasionally the book draws an option's small shapes touching the top edge of its
+                # frame (a layout slip in the book); keep them so the option is not shown empty.
+                above = [r for r in visible if r.x0 >= f.x0-2 and r.x1 <= f.x1+2 and f.y0-3 <= r.y1 <= f.y0+2
+                         and r.y0 >= f.y0-30 and r.height <= 25]
+                for r in above:
+                    f = f | r
+                    print(f'  note: page {page_no} option {row[len(opt_rects)][4]} has shapes above its frame; included')
                 opt_rects.append(f + (-4, -4, 4, 4))
             else:
+                frame_tops.append(y0)
                 opt_rects.append(pymupdf.Rect(cx-W/2, y0, cx+W/2, y1) + (-4, -4, 4, 4))
-        opt_top = min(r.y0 for r in opt_rects)
+        opt_top = min(frame_tops) - 4
         # matrix: drawings between prev_bottom and opt_top
         cand = [r for r in drawings if r.y0 >= prev_bottom and r.y1 <= opt_top-2 and r.x0 > 85]
         if not cand:
             raise RuntimeError(f'no matrix drawing on page {page_no} row at y={ly0}')
         mrect = union(cand) + (-4, -4, 4, 4)
+        rules = [r.y0 for r in all_drawings if r.height < 2 and r.width > 300 and prev_bottom - 20 <= r.y0 <= mrect.y0 + 10]
+        if rules:
+            mrect.y0 = max(mrect.y0, max(rules) + 1.5)
         if os.environ.get('DEBUG_PAGE') == str(page_no):
             print(f'  debug p{page_no} row ly0={ly0:.0f} opt_top={opt_top:.1f} frames={len(frames)} matrix={[round(v) for v in mrect]}')
         # question number in this band
