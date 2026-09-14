@@ -1,44 +1,85 @@
-/* Puzzle Practice - static quiz app for NNAT-style picture puzzles. No build step. */
+/* Puzzle Practice - static quiz app for NNAT-style picture puzzles. No build step.
+ *
+ * A "session" is one run through a list of puzzles. Three kinds:
+ *   test      one practice test of a book, in order (progress is saved per test)
+ *   free      N random puzzles drawn from every test of a book (new draw each time)
+ *   mistakes  every puzzle answered wrong so far, from any book (right answers remove it)
+ * Everything is kept in localStorage, so a child can close the browser and carry on later.
+ */
 (function () {
   const LETTERS = ['A', 'B', 'C', 'D', 'E'];
   const app = document.getElementById('app');
   const books = window.NNAT_BOOK_LIST || [];
-  const state = {
-    view: 'home', book: null, test: null,
-    mode: 'practice', timerOn: true, seconds: 30 * 60,
-    idx: 0, answers: {}, revealed: {}, finished: false, timeLeft: null,
-    timerHandle: null,
-  };
+  const bookById = {};
+  books.forEach(b => { bookById[b.id] = b; });
+  const state = { book: null, session: null, timerHandle: null, freeCount: 10, mode: 'practice', timerOn: true };
+  const EXAM_SECONDS = 30 * 60;
+
+  // ---------- storage ----------
+  function lsGet(k) { try { const r = localStorage.getItem(k); return r ? JSON.parse(r) : null; } catch (e) { return null; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* storage unavailable */ } }
+  function lsDel(k) { try { localStorage.removeItem(k); } catch (e) { /* ignore */ } }
+  const testKey = (bookId, dir) => 'nnat:s:' + bookId + ':' + dir;
+  const freeKey = bookId => 'nnat:s:free:' + bookId;
+  const MISTAKES_SESSION = 'nnat:s:mistakes';
+  const MISTAKES = 'nnat:mistakes';
+
+  function getMistakes() { return lsGet(MISTAKES) || {}; }
+  function noteResult(item, right) {
+    // Called whenever an answer is judged. Wrong -> into the mistakes list; right -> out of it.
+    const m = getMistakes();
+    if (right) delete m[item.key];
+    else m[item.key] = { bookId: item.bookId, testDir: item.testDir, n: item.n, count: ((m[item.key] || {}).count || 0) + 1, at: Date.now() };
+    lsSet(MISTAKES, m);
+  }
 
   // ---------- data loading ----------
+  const loaded = {};
   function loadBook(id) {
+    if (loaded[id]) return Promise.resolve(loaded[id]);
     return new Promise((resolve, reject) => {
-      if (window.NNAT_BOOKS && window.NNAT_BOOKS[id]) return resolve(window.NNAT_BOOKS[id]);
+      const done = () => { loaded[id] = Object.assign({}, bookById[id] || {}, window.NNAT_BOOKS[id]); resolve(loaded[id]); };
+      if (window.NNAT_BOOKS && window.NNAT_BOOKS[id]) return done();
       const s = document.createElement('script');
       s.src = 'books/' + id + '/book.js?v=' + Date.now();
-      s.onload = () => resolve(window.NNAT_BOOKS[id]);
+      s.onload = done;
       s.onerror = () => reject(new Error('Could not load book ' + id));
       document.head.appendChild(s);
     });
   }
-  function imgPath(q, suffix) {
-    return 'books/' + state.book.id + '/' + state.test.dir + '/q' + String(q.n).padStart(2, '0') + '_' + suffix + '.' + (state.book.ext || 'png');
+  function makeItem(book, test, q) {
+    return {
+      key: book.id + '/' + test.dir + '/' + q.n, bookId: book.id, testDir: test.dir, testName: test.name,
+      ext: book.ext || 'png', prompt: test.prompt || '', n: q.n, answer: q.answer, explanation: q.explanation || '',
+      options: q.options || null, nopts: q.nopts || 5, stem: q.stem !== false,
+    };
+  }
+  function imgPath(item, suffix) {
+    return 'books/' + item.bookId + '/' + item.testDir + '/q' + String(item.n).padStart(2, '0') + '_' + suffix + '.' + item.ext;
   }
 
-  // ---------- persistence ----------
-  function storeKey() { return 'nnat:' + state.book.id + ':' + state.test.dir; }
-  function save() {
-    try {
-      localStorage.setItem(storeKey(), JSON.stringify({
-        mode: state.mode, timerOn: state.timerOn, idx: state.idx, answers: state.answers,
-        revealed: state.revealed, finished: state.finished, timeLeft: state.timeLeft, at: Date.now(),
-      }));
-    } catch (e) { /* storage unavailable */ }
+  // ---------- sessions ----------
+  function newSession(kind, key, title, items, mode, timerOn) {
+    return { kind, key, title, items, mode, timerOn: !!timerOn, idx: 0, answers: {}, revealed: {}, finished: false, timeLeft: null, at: Date.now() };
   }
-  function loadSaved() {
-    try { const raw = localStorage.getItem(storeKey()); return raw ? JSON.parse(raw) : null; } catch (e) { return null; }
+  function save() { if (state.session) lsSet(state.session.key, state.session); }
+  function items() { return state.session.items; }
+  function answered(s) { return s.items.filter(it => s.answers[it.key]).length; }
+  function firstOpen(s) {
+    // index of the first puzzle that still needs work
+    const i = s.items.findIndex(it => !s.answers[it.key] || (s.mode === 'practice' && !s.revealed[it.key]));
+    return i < 0 ? Math.min(s.idx || 0, s.items.length - 1) : i;
   }
-  function clearSaved() { try { localStorage.removeItem(storeKey()); } catch (e) { /* ignore */ } }
+  function scoreInfo(s) {
+    let ok = 0, done = 0;
+    s.items.forEach(it => { const a = s.answers[it.key]; if (a) { done++; if (a === it.answer) ok++; } });
+    return { ok, done, total: s.items.length };
+  }
+  function pickRandom(arr, n) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+    return a.slice(0, n);
+  }
 
   // ---------- helpers ----------
   function h(tag, attrs, ...children) {
@@ -49,96 +90,145 @@
       else if (k === 'html') el.innerHTML = attrs[k];
       else el.setAttribute(k, attrs[k]);
     }
-    for (const c of children.flat()) if (c != null) el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+    for (const c of children.flat(Infinity)) if (c != null) el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
     return el;
   }
   function render(...nodes) { app.replaceChildren(...nodes); window.scrollTo(0, 0); }
   function fmtTime(s) { const m = Math.floor(s / 60), r = s % 60; return m + ':' + String(r).padStart(2, '0'); }
-  function questions() { return state.test.questions; }
-  function scoreInfo() {
-    const qs = questions(); let ok = 0, done = 0;
-    qs.forEach(q => { const a = state.answers[q.n]; if (a) { done++; if (a === q.answer) ok++; } });
-    return { ok, done, total: qs.length };
+  function topBar(title, left, right) {
+    return h('div', { class: 'bar' }, left || h('div', { class: 'spacer' }), h('div', { class: 'title' }, title), right || h('div', { class: 'spacer' }));
   }
+  function backBtn(fn) { return h('button', { class: 'icon-btn', onclick: fn, title: 'Back' }, '←'); }
+  function bar(done, total, cls) {
+    return h('div', { class: 'mini-progress' }, h('div', { class: cls || '', style: 'width:' + Math.round(100 * done / Math.max(1, total)) + '%' }));
+  }
+  function tagChip(b) { return b.tag ? h('span', { class: 'tag ' + (b.tagClass || '') }, b.tag) : null; }
 
   // ---------- timer ----------
   function stopTimer() { if (state.timerHandle) { clearInterval(state.timerHandle); state.timerHandle = null; } }
   function startTimer() {
     stopTimer();
-    if (!(state.mode === 'exam' && state.timerOn) || state.finished) return;
-    if (state.timeLeft == null) state.timeLeft = state.seconds;
+    const s = state.session;
+    if (!(s.mode === 'exam' && s.timerOn) || s.finished) return;
+    if (s.timeLeft == null) s.timeLeft = EXAM_SECONDS;
     state.timerHandle = setInterval(() => {
-      state.timeLeft--;
+      s.timeLeft--;
       const el = document.getElementById('timer');
-      if (el) { el.textContent = fmtTime(state.timeLeft); el.classList.toggle('low', state.timeLeft <= 60); }
-      if (state.timeLeft % 5 === 0) save();
-      if (state.timeLeft <= 0) { finish(); }
+      if (el) { el.textContent = fmtTime(s.timeLeft); el.classList.toggle('low', s.timeLeft <= 60); }
+      if (s.timeLeft % 5 === 0) save();
+      if (s.timeLeft <= 0) finish();
     }, 1000);
   }
 
-  // ---------- views ----------
-  function topBar(title, left, right) {
-    return h('div', { class: 'bar' }, left || h('div', { class: 'spacer' }), h('div', { class: 'title' }, title), right || h('div', { class: 'spacer' }));
-  }
-  function backBtn(fn) { return h('button', { class: 'icon-btn', onclick: fn, title: 'Back' }, '←'); }
-
+  // ---------- home ----------
   function viewHome() {
-    stopTimer();
+    stopTimer(); state.session = null; state.book = null;
+    const mistakes = getMistakes(); const nMist = Object.keys(mistakes).length;
+    const groups = [];
+    books.forEach(b => {
+      let g = groups.find(x => x.name === (b.group || 'Other'));
+      if (!g) { g = { name: b.group || 'Other', items: [] }; groups.push(g); }
+      g.items.push(b);
+    });
     render(
       topBar('Puzzle Practice'),
       h('div', { class: 'page' },
-        h('h1', { class: 'center' }, 'Pick a book'),
-        h('p', { class: 'center muted' }, 'Choose a book, then a practice test.'),
-        books.map(b => h('button', { class: 'big-btn', onclick: () => openBook(b) },
-          h('span', { class: 'emoji' }, b.emoji || '📘'),
-          h('span', {}, h('div', { class: 'label' }, b.title), h('div', { class: 'sub' }, b.subtitle || ''))))
+        h('button', { class: 'big-btn mist' + (nMist ? '' : ' empty'), onclick: viewMistakes },
+          h('span', { class: 'emoji' }, '📕'),
+          h('span', {}, h('div', { class: 'label' }, 'My Mistakes'),
+            h('div', { class: 'sub' }, nMist ? nMist + (nMist > 1 ? ' puzzles' : ' puzzle') + ' to fix · tap to practice' : 'No mistakes yet. Wrong answers collect here.'))),
+        groups.map(g => [
+          h('h2', { class: 'group-title' }, g.name),
+          g.items.map(b => {
+            // progress summary from saved test sessions (no need to load the book)
+            const lines = [];
+            (b.tests || []).forEach((tn, i) => {
+              const s = lsGet(testKey(b.id, 'test' + (i + 1)));
+              if (!s) return;
+              const sc = scoreInfo(s);
+              if (s.finished) lines.push(tn + ': ' + sc.ok + '/' + sc.total + ' ✓');
+              else if (sc.done) lines.push(tn + ': at puzzle ' + (firstOpen(s) + 1) + ' of ' + sc.total);
+            });
+            return h('button', { class: 'big-btn', onclick: () => openBook(b) },
+              h('span', { class: 'emoji' }, b.emoji || '📘'),
+              h('span', { class: 'grow' },
+                h('div', { class: 'label' }, b.title, ' ', tagChip(b)),
+                h('div', { class: 'sub' }, b.subtitle || ''),
+                lines.length ? h('div', { class: 'sub cont' }, '▶ ' + lines.join(' · ')) : null));
+          }),
+        ])
       )
     );
   }
 
-  function openBook(b) {
+  function openBook(b, then) {
     render(topBar(b.title, backBtn(viewHome)), h('div', { class: 'page center muted' }, 'Loading…'));
-    loadBook(b.id).then(data => { state.book = Object.assign({}, b, data); viewBook(); })
+    loadBook(b.id).then(data => { state.book = data; (then || viewBook)(); })
       .catch(err => render(topBar(b.title, backBtn(viewHome)), h('div', { class: 'page center' }, err.message)));
   }
 
+  // ---------- book: tests + free practice ----------
   function viewBook() {
     const b = state.book;
+    const total = b.tests.reduce((n, t) => n + t.questions.length, 0);
+    const counts = [10, 20, 30].filter(n => n < total).concat([total]);
+    if (!counts.includes(state.freeCount)) state.freeCount = counts[0];
+    const freeSaved = lsGet(freeKey(b.id));
     render(
       topBar(b.title, backBtn(viewHome)),
       h('div', { class: 'page' },
         h('h1', { class: 'center' }, 'Pick a test'),
         b.tests.map((t, i) => {
-          state.test = t; const saved = loadSaved(); state.test = null;
-          let sub = t.questions.length + ' questions';
-          if (saved && saved.finished) { const ok = Object.keys(saved.answers).filter(n => saved.answers[n] === t.questions.find(q => q.n == n).answer).length; sub += ' · Last score ' + ok + '/' + t.questions.length; }
-          else if (saved && Object.keys(saved.answers).length) sub += ' · In progress (' + Object.keys(saved.answers).length + ' answered)';
-          return h('button', { class: 'big-btn', onclick: () => { state.test = t; viewSetup(); } },
-            h('span', { class: 'emoji' }, ['1️⃣', '2️⃣', '3️⃣', '4️⃣'][i] || '📝'),
-            h('span', {}, h('div', { class: 'label' }, t.name), h('div', { class: 'sub' }, sub)));
-        })
+          const s = lsGet(testKey(b.id, t.dir));
+          const sc = s ? scoreInfo(s) : { ok: 0, done: 0, total: t.questions.length };
+          let sub, extra = null;
+          if (s && s.finished) { sub = 'Finished · score ' + sc.ok + ' / ' + sc.total; extra = bar(sc.ok, sc.total, 'ok'); }
+          else if (s && sc.done) { sub = sc.done + ' of ' + sc.total + ' done · continue at puzzle ' + (firstOpen(s) + 1); extra = bar(sc.done, sc.total); }
+          else sub = t.questions.length + ' puzzles';
+          return h('button', { class: 'big-btn', onclick: () => viewSetup('test', t) },
+            h('span', { class: 'emoji' }, ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣'][i] || '📝'),
+            h('span', { class: 'grow' }, h('div', { class: 'label' }, t.name), h('div', { class: 'sub' }, sub), extra));
+        }),
+        h('div', { class: 'card free' },
+          h('h2', {}, '🎲 Free Practice'),
+          h('div', { class: 'muted' }, 'Random puzzles from all ' + b.tests.length + ' tests. New ones every time.'),
+          h('div', { class: 'small-label' }, 'How many?'),
+          h('div', { class: 'row' }, counts.map(n => h('button', { class: 'chip' + (state.freeCount === n ? ' on' : ''), onclick: () => { state.freeCount = n; viewBook(); } }, n === total ? 'All ' + total : String(n)))),
+          freeSaved && !freeSaved.finished && answered(freeSaved)
+            ? h('div', { class: 'resume', style: 'margin-top:12px' },
+              h('div', {}, h('b', {}, 'Unfinished free practice: '), answered(freeSaved) + ' of ' + freeSaved.items.length + ' done.'),
+              h('div', { class: 'row', style: 'margin-top:8px' },
+                h('button', { class: 'primary', onclick: () => resumeSession(freeSaved) }, 'Continue'),
+                h('button', { class: 'secondary', onclick: () => { lsDel(freeKey(b.id)); viewBook(); } }, 'Discard')))
+            : null,
+          h('div', { class: 'center', style: 'margin-top:14px' }, h('button', { class: 'primary wide', onclick: () => viewSetup('free', null) }, 'Start ▶')))
       )
     );
   }
 
-  function viewSetup() {
-    const saved = loadSaved();
-    const modeCard = (mode, title, desc) => h('div', { class: 'choice' + (state.mode === mode ? ' on' : ''), onclick: () => { state.mode = mode; viewSetup(); } },
-      h('b', {}, title), h('span', { class: 'muted' }, desc));
-    const resume = saved && Object.keys(saved.answers).length && !saved.finished
-      ? h('div', { class: 'resume' }, h('div', {}, h('b', {}, 'You have an unfinished test.'), ' ', Object.keys(saved.answers).length + ' of ' + questions().length + ' answered.'),
+  // ---------- setup: choose mode, resume ----------
+  function viewSetup(kind, test) {
+    const b = state.book;
+    const key = kind === 'test' ? testKey(b.id, test.dir) : freeKey(b.id);
+    const saved = kind === 'test' ? lsGet(key) : null;
+    const title = kind === 'test' ? test.name : 'Free Practice · ' + state.freeCount + ' puzzles';
+    const modeCard = (mode, t, desc) => h('div', { class: 'choice' + (state.mode === mode ? ' on' : ''), onclick: () => { state.mode = mode; viewSetup(kind, test); } },
+      h('b', {}, t), h('span', { class: 'muted' }, desc));
+    const resume = saved && answered(saved) && !saved.finished
+      ? h('div', { class: 'resume' },
+        h('div', {}, h('b', {}, 'Continue where you left off?'), ' ', answered(saved) + ' of ' + saved.items.length + ' done. Next up: puzzle ' + (firstOpen(saved) + 1) + '.'),
         h('div', { class: 'row', style: 'margin-top:10px' },
-          h('button', { class: 'primary', onclick: () => resumeSaved(saved) }, 'Continue'),
-          h('button', { class: 'secondary', onclick: () => { clearSaved(); viewSetup(); } }, 'Start over')))
+          h('button', { class: 'primary', onclick: () => resumeSession(saved) }, 'Continue ▶'),
+          h('button', { class: 'secondary', onclick: () => { lsDel(key); viewSetup(kind, test); } }, 'Start over')))
       : null;
     const review = saved && saved.finished
-      ? h('div', { class: 'resume' }, h('div', {}, h('b', {}, 'Finished last time.'), ' You can review the answers.'),
+      ? h('div', { class: 'resume' }, h('div', {}, h('b', {}, 'Finished last time: ' + scoreInfo(saved).ok + ' / ' + saved.items.length + '.'), ' You can review the answers or start again.'),
         h('div', { class: 'row', style: 'margin-top:10px' },
-          h('button', { class: 'secondary', onclick: () => { resumeSaved(saved); viewResults(); } }, 'Review answers'),
-          h('button', { class: 'secondary', onclick: () => { clearSaved(); viewSetup(); } }, 'Clear result')))
+          h('button', { class: 'secondary', onclick: () => { state.session = saved; viewResults(); } }, 'Review answers'),
+          h('button', { class: 'secondary', onclick: () => { lsDel(key); viewSetup(kind, test); } }, 'Clear result')))
       : null;
     render(
-      topBar(state.test.name, backBtn(viewBook)),
+      topBar(title, backBtn(viewBook)),
       h('div', { class: 'page' },
         resume, review,
         h('div', { class: 'card' },
@@ -146,32 +236,101 @@
           h('div', { class: 'choice-grid' },
             modeCard('practice', '🎯 Practice', 'See if you are right after each puzzle, with a hint.'),
             modeCard('exam', '⏱️ Test', 'Answer all puzzles first, then see your score.')),
-          state.mode === 'exam' ? h('label', { class: 'check' },
+          state.mode === 'exam' && kind === 'test' ? h('label', { class: 'check' },
             h('input', { type: 'checkbox', ...(state.timerOn ? { checked: '' } : {}), onchange: e => { state.timerOn = e.target.checked; } }),
             h('span', {}, '30 minute timer')) : null),
-        h('div', { class: 'center' }, h('button', { class: 'primary', onclick: startNew }, 'Start ▶'))
+        h('div', { class: 'center' }, h('button', { class: 'primary', onclick: () => startSession(kind, test) }, resume ? 'Start a new one ▶' : 'Start ▶'))
       )
     );
   }
 
-  function resumeSaved(saved) {
-    state.mode = saved.mode; state.timerOn = saved.timerOn; state.idx = saved.idx || 0;
-    state.answers = saved.answers || {}; state.revealed = saved.revealed || {};
-    state.finished = !!saved.finished; state.timeLeft = saved.timeLeft;
-    if (!state.finished) { startTimer(); viewQuestion(); }
+  function startSession(kind, test) {
+    const b = state.book;
+    let its, key, title;
+    if (kind === 'test') {
+      its = test.questions.map(q => makeItem(b, test, q)); key = testKey(b.id, test.dir); title = test.name;
+    } else {
+      const all = [];
+      b.tests.forEach(t => t.questions.forEach(q => all.push(makeItem(b, t, q))));
+      its = pickRandom(all, state.freeCount); key = freeKey(b.id); title = 'Free Practice';
+    }
+    state.session = newSession(kind, key, title, its, state.mode, kind === 'test' && state.timerOn);
+    save(); startTimer(); viewQuestion();
   }
-  function startNew() {
-    state.idx = 0; state.answers = {}; state.revealed = {}; state.finished = false; state.timeLeft = null;
-    clearSaved(); save(); startTimer(); viewQuestion();
+  function resumeSession(s) {
+    state.session = s;
+    if (s.finished) { viewResults(); return; }
+    s.idx = firstOpen(s); save(); startTimer(); viewQuestion();
+  }
+
+  // ---------- mistakes ----------
+  function viewMistakes() {
+    stopTimer(); state.session = null;
+    const m = getMistakes(); const keys = Object.keys(m);
+    const perBook = {};
+    keys.forEach(k => { const e = m[k]; (perBook[e.bookId] = perBook[e.bookId] || []).push(e); });
+    const saved = lsGet(MISTAKES_SESSION);
+    render(
+      topBar('My Mistakes', backBtn(viewHome)),
+      h('div', { class: 'page' },
+        h('h1', { class: 'center' }, keys.length ? keys.length + (keys.length > 1 ? ' puzzles' : ' puzzle') + ' to fix' : 'No mistakes yet'),
+        h('p', { class: 'center muted' }, keys.length ? 'Get one right and it leaves the list.' : 'Puzzles you get wrong will show up here so you can try them again.'),
+        keys.length ? h('div', { class: 'center', style: 'margin-bottom:16px' },
+          saved && !saved.finished && answered(saved)
+            ? h('div', { class: 'row', style: 'justify-content:center' },
+              h('button', { class: 'primary', onclick: () => resumeSession(saved) }, 'Continue (' + answered(saved) + '/' + saved.items.length + ') ▶'),
+              h('button', { class: 'secondary', onclick: () => startMistakes(null) }, 'Start fresh'))
+            : h('button', { class: 'primary wide', onclick: () => startMistakes(null) }, 'Practice all ' + keys.length + ' ▶')) : null,
+        Object.keys(perBook).map(bid => {
+          const b = bookById[bid] || { title: bid };
+          const list = perBook[bid];
+          return h('div', { class: 'card' },
+            h('div', { class: 'row between' },
+              h('div', {}, h('b', {}, b.title), ' ', tagChip(b), h('div', { class: 'muted' }, list.length + ' puzzle' + (list.length > 1 ? 's' : ''))),
+              h('button', { class: 'secondary', onclick: () => startMistakes(bid) }, 'Practice ▶')),
+            h('div', { class: 'row wrap', style: 'margin-top:8px' }, list.sort((a, c) => a.testDir.localeCompare(c.testDir) || a.n - c.n).map(e =>
+              h('span', { class: 'pill' }, e.testDir.replace('test', 'T') + ' · #' + e.n + (e.count > 1 ? ' ×' + e.count : '')))));
+        }),
+        keys.length ? h('div', { class: 'center', style: 'margin-top:8px' },
+          h('button', { class: 'secondary', onclick: () => { if (confirm('Clear the whole mistakes list?')) { lsDel(MISTAKES); lsDel(MISTAKES_SESSION); viewMistakes(); } } }, 'Clear list')) : null
+      )
+    );
+  }
+  function startMistakes(onlyBook) {
+    const m = getMistakes();
+    const entries = Object.values(m).filter(e => !onlyBook || e.bookId === onlyBook);
+    const ids = [...new Set(entries.map(e => e.bookId))];
+    render(topBar('My Mistakes', backBtn(viewMistakes)), h('div', { class: 'page center muted' }, 'Loading…'));
+    Promise.all(ids.map(loadBook)).then(bs => {
+      const its = [];
+      entries.sort((a, c) => a.bookId.localeCompare(c.bookId) || a.testDir.localeCompare(c.testDir) || a.n - c.n).forEach(e => {
+        const b = loaded[e.bookId]; const t = b && b.tests.find(x => x.dir === e.testDir);
+        const q = t && t.questions.find(x => x.n === e.n);
+        if (q) its.push(makeItem(b, t, q));
+      });
+      if (!its.length) { viewMistakes(); return; }
+      state.book = null;
+      state.session = newSession('mistakes', MISTAKES_SESSION, 'My Mistakes', its, 'practice', false);
+      save(); viewQuestion();
+    }).catch(err => render(topBar('My Mistakes', backBtn(viewMistakes)), h('div', { class: 'page center' }, err.message)));
+  }
+
+  // ---------- question ----------
+  function exitToParent() {
+    save(); stopTimer();
+    const s = state.session;
+    if (s.kind === 'mistakes') viewMistakes();
+    else if (state.book) viewBook();
+    else viewHome();
   }
 
   function viewQuestion() {
-    const qs = questions(); const q = qs[state.idx]; const total = qs.length;
-    const chosen = state.answers[q.n];
-    const showResult = state.finished || (state.mode === 'practice' && state.revealed[q.n]);
-    const timerEl = state.mode === 'exam' && state.timerOn && !state.finished
-      ? h('div', { id: 'timer', class: 'timer' + (state.timeLeft <= 60 ? ' low' : '') }, fmtTime(state.timeLeft == null ? state.seconds : state.timeLeft))
-      : (state.finished ? h('button', { class: 'secondary', onclick: viewResults }, 'Results') : null);
+    const s = state.session; const qs = s.items; const q = qs[s.idx]; const total = qs.length;
+    const chosen = s.answers[q.key];
+    const showResult = s.finished || (s.mode === 'practice' && s.revealed[q.key]);
+    const timerEl = s.mode === 'exam' && s.timerOn && !s.finished
+      ? h('div', { id: 'timer', class: 'timer' + (s.timeLeft <= 60 ? ' low' : '') }, fmtTime(s.timeLeft == null ? EXAM_SECONDS : s.timeLeft))
+      : (s.finished ? h('button', { class: 'secondary', onclick: viewResults }, 'Results') : null);
 
     const letters = LETTERS.slice(0, q.nopts || 5);
     const opts = h('div', { class: 'options n' + letters.length }, letters.map((L, i) => {
@@ -185,52 +344,51 @@
         face, h('span', { class: 'letter' }, L));
     }));
 
-    let feedback = null;
+    let feedback;
+    const thing = q.options ? 'number' : 'picture';
     if (showResult) {
       const ok = chosen === q.answer;
       feedback = h('div', { class: 'feedback ' + (ok ? 'ok' : 'bad') },
         ok ? '🎉 Correct!' : (chosen ? '❌ Not quite. The answer is ' + q.answer + '.' : 'Skipped. The answer is ' + q.answer + '.'),
         q.explanation ? h('div', { class: 'expl' }, q.explanation) : null);
     } else if (chosen) {
-      feedback = h('div', { class: 'feedback hint' }, state.mode === 'practice'
-        ? 'You picked ' + chosen + '. Tap Check, or tap another ' + (q.options ? 'number' : 'picture') + ' to change.'
-        : 'You picked ' + chosen + '. Tap Next, or tap another ' + (q.options ? 'number' : 'picture') + ' to change.');
+      feedback = h('div', { class: 'feedback hint' }, 'You picked ' + chosen + '. Tap ' + (s.mode === 'practice' ? 'Check' : 'Next') + ', or tap another ' + thing + ' to change.');
     } else {
-      feedback = h('div', { class: 'feedback hint' }, q.options ? 'Tap the number that fits the ?' : 'Tap the picture that fits the ?');
+      feedback = h('div', { class: 'feedback hint' }, 'Tap the ' + thing + ' that fits the ?');
     }
 
-    // Main button: the child confirms with it. Practice: Check reveals the answer, then Next.
-    const isLast = state.idx === total - 1;
+    const isLast = s.idx === total - 1;
     let main;
-    if (state.mode === 'practice' && !showResult) {
+    if (s.mode === 'practice' && !showResult) {
       main = h('button', { class: 'primary', ...(chosen ? {} : { disabled: '' }), onclick: () => check(q) }, 'Check ✓');
-    } else if (isLast && !state.finished) {
+    } else if (isLast && !s.finished) {
       main = h('button', { class: 'primary', ...(chosen ? {} : { disabled: '' }), onclick: finish }, 'Finish ✓');
     } else if (isLast) {
       main = h('button', { class: 'primary', onclick: viewResults }, 'Results');
     } else {
-      main = h('button', { class: 'primary', ...(chosen || state.finished ? {} : { disabled: '' }), onclick: () => go(state.idx + 1) }, 'Next ▶');
+      main = h('button', { class: 'primary', ...(chosen || s.finished ? {} : { disabled: '' }), onclick: () => go(s.idx + 1) }, 'Next ▶');
     }
-    const nav = h('div', { class: 'nav' },
-      feedback,
+    const nav = h('div', { class: 'nav' }, feedback,
       h('div', { class: 'nav-row' },
-        h('button', { class: 'secondary', ...(state.idx === 0 ? { disabled: '' } : {}), onclick: () => go(state.idx - 1) }, '◀ Back'),
-        h('span', { class: 'muted' }, (state.idx + 1) + ' / ' + total),
+        h('button', { class: 'secondary', ...(s.idx === 0 ? { disabled: '' } : {}), onclick: () => go(s.idx - 1) }, '◀ Back'),
+        h('span', { class: 'muted' }, (s.idx + 1) + ' / ' + total),
         main));
 
+    // label: in a test the book's own number; in free/mistakes also say where it came from
+    const where = s.kind === 'test' ? 'Puzzle ' + q.n
+      : 'Puzzle ' + (s.idx + 1) + ' · ' + ((bookById[q.bookId] || {}).title || '') + ' · ' + q.testName + ' #' + q.n;
     render(
-      topBar(state.test.name, backBtn(() => { save(); stopTimer(); viewSetup(); }), timerEl),
+      topBar(s.title, backBtn(exitToParent), timerEl),
       h('div', { class: 'page quiz' },
-        h('div', { class: 'progress' }, h('div', { style: 'width:' + Math.round(100 * (state.idx + 1) / total) + '%' })),
-        h('div', { class: 'qnum' }, 'Puzzle ' + q.n),
-        state.test.prompt ? h('div', { class: 'prompt' }, state.test.prompt) : null,
-        q.stem === false ? null : h('div', { class: 'matrix' }, h('img', { src: imgPath(q, 'm'), alt: 'Puzzle ' + q.n, onload: layoutQuestion })),
+        h('div', { class: 'progress' }, h('div', { style: 'width:' + Math.round(100 * (s.idx + 1) / total) + '%' })),
+        h('div', { class: 'qnum' }, where),
+        q.prompt ? h('div', { class: 'prompt' }, q.prompt) : null,
+        q.stem ? h('div', { class: 'matrix' }, h('img', { src: imgPath(q, 'm'), alt: 'Puzzle', onload: layoutQuestion })) : null,
         opts, nav)
     );
     layoutQuestion();
-    // preload next question's images
-    const nq = qs[state.idx + 1];
-    if (nq) (nq.options ? ['m'] : ['m', 'a', 'b', 'c', 'd', 'e']).forEach(s => { const im = new Image(); im.src = imgPath(nq, s); });
+    const nq = qs[s.idx + 1];
+    if (nq) (nq.options ? ['m'] : ['m', 'a', 'b', 'c', 'd', 'e']).forEach(x => { const im = new Image(); im.src = imgPath(nq, x); });
   }
 
   // Fit the puzzle to the screen so the child never has to scroll.
@@ -241,7 +399,7 @@
     page.style.paddingBottom = (nav.offsetHeight + 12) + 'px';
     if (!img) return;
     const prompt = document.querySelector('.prompt');
-    const fixed = 64 /* top bar */ + 26 /* progress */ + 34 /* label */ + 14 /* gap */ + 16 /* padding */ + (prompt ? prompt.offsetHeight + 10 : 0);
+    const fixed = 64 + 26 + 34 + 14 + 16 + (prompt ? prompt.offsetHeight + 10 : 0);
     const avail = window.innerHeight - fixed - opts.offsetHeight - nav.offsetHeight - 28;
     img.style.maxHeight = Math.max(140, avail) + 'px';
   }
@@ -249,58 +407,72 @@
 
   // Tapping a picture only selects it; the child can tap another one to change their mind.
   function choose(q, L) {
-    if (state.finished) return;
-    if (state.mode === 'practice' && state.revealed[q.n]) return;
-    state.answers[q.n] = L; save(); viewQuestion();
+    const s = state.session;
+    if (s.finished) return;
+    if (s.mode === 'practice' && s.revealed[q.key]) return;
+    s.answers[q.key] = L; save(); viewQuestion();
   }
   // Practice mode: Check locks the answer and shows right/wrong.
   function check(q) {
-    if (!state.answers[q.n]) return;
-    state.revealed[q.n] = true; save(); viewQuestion();
+    const s = state.session;
+    if (!s.answers[q.key]) return;
+    s.revealed[q.key] = true; noteResult(q, s.answers[q.key] === q.answer); save(); viewQuestion();
   }
   function go(i) {
-    // No skipping: moving forward requires an answer to the current puzzle.
-    if (i > state.idx && !state.finished && !state.answers[questions()[state.idx].n]) return;
-    state.idx = Math.max(0, Math.min(questions().length - 1, i)); save(); viewQuestion();
+    const s = state.session;
+    if (i > s.idx && !s.finished && !s.answers[s.items[s.idx].key]) return;   // no skipping
+    s.idx = Math.max(0, Math.min(s.items.length - 1, i)); save(); viewQuestion();
   }
-  function finish() { stopTimer(); state.finished = true; save(); viewResults(); }
+  function finish() {
+    const s = state.session;
+    stopTimer(); s.finished = true;
+    if (s.mode === 'exam') s.items.forEach(it => { if (s.answers[it.key]) noteResult(it, s.answers[it.key] === it.answer); });
+    save(); viewResults();
+  }
 
+  // ---------- results ----------
   function viewResults() {
-    const qs = questions(); const { ok, total } = scoreInfo();
+    const s = state.session; const qs = s.items; const { ok, total } = scoreInfo(s);
     const pct = Math.round(100 * ok / total);
     const msg = pct >= 90 ? '🌟 Amazing!' : pct >= 75 ? '🎉 Great job!' : pct >= 50 ? '👍 Good work!' : '💪 Keep practicing!';
+    const wrong = total - ok;
+    let again;
+    if (s.kind === 'test') again = h('button', { class: 'primary', onclick: () => { lsDel(s.key); const t = state.book.tests.find(x => x.dir === qs[0].testDir); viewSetup('test', t); } }, 'Try again');
+    else if (s.kind === 'free') again = h('button', { class: 'primary', onclick: () => { lsDel(s.key); viewSetup('free', null); } }, 'New puzzles 🎲');
+    else again = h('button', { class: 'primary', onclick: () => { lsDel(s.key); viewMistakes(); } }, 'Back to mistakes');
     render(
-      topBar(state.test.name, backBtn(viewSetup)),
+      topBar(s.title, backBtn(exitToParent)),
       h('div', { class: 'page' },
         h('div', { class: 'card center' },
           h('div', { class: 'muted' }, 'Your score'),
           h('div', { class: 'score' }, ok + ' / ' + total),
           h('h2', { style: 'margin-top:10px' }, msg),
-          h('div', { class: 'muted' }, pct + '% correct')),
+          h('div', { class: 'muted' }, s.kind === 'mistakes' ? (ok + ' fixed · ' + wrong + ' still on the list') : (wrong ? wrong + ' added to My Mistakes' : 'No mistakes!'))),
         h('div', { class: 'card' },
           h('h2', {}, 'Tap a puzzle to review it'),
           h('div', { class: 'dots' }, qs.map((q, i) => {
-            const a = state.answers[q.n]; const cls = !a ? 'skip' : a === q.answer ? 'ok' : 'bad';
-            return h('button', { class: 'dot ' + cls, onclick: () => go(i) }, String(q.n));
+            const a = s.answers[q.key]; const cls = !a ? 'skip' : a === q.answer ? 'ok' : 'bad';
+            return h('button', { class: 'dot ' + cls, onclick: () => go(i) }, String(s.kind === 'test' ? q.n : i + 1));
           })),
           h('div', { class: 'row', style: 'margin-top:14px' },
             h('span', { class: 'dot ok', style: 'height:28px;padding:0 10px' }, 'right'),
             h('span', { class: 'dot bad', style: 'height:28px;padding:0 10px' }, 'wrong'),
             h('span', { class: 'dot skip', style: 'height:28px;padding:0 10px' }, 'skipped'))),
-        h('div', { class: 'row center', style: 'justify-content:center' },
-          h('button', { class: 'primary', onclick: () => { clearSaved(); viewSetup(); } }, 'Try again'),
+        h('div', { class: 'row', style: 'justify-content:center' },
+          again,
+          wrong && s.kind !== 'mistakes' ? h('button', { class: 'secondary', onclick: viewMistakes }, '📕 My Mistakes') : null,
           h('button', { class: 'secondary', onclick: viewHome }, 'Home'))
       )
     );
   }
 
-  // keyboard: A-E choose, arrows navigate
+  // keyboard: A-E choose, Enter/Right = main button, Left = back
   document.addEventListener('keydown', e => {
-    if (state.view !== 'q' && !document.querySelector('.options')) return;
+    if (!state.session || !document.querySelector('.options')) return;
     const k = e.key.toUpperCase();
-    if (LETTERS.includes(k)) { const q = questions()[state.idx]; if (LETTERS.indexOf(k) < (q.nopts || 5)) choose(q, k); }
+    if (LETTERS.includes(k)) { const q = items()[state.session.idx]; if (LETTERS.indexOf(k) < (q.nopts || 5)) choose(q, k); }
     else if (e.key === 'Enter' || e.key === 'ArrowRight') { const b = document.querySelector('.nav-row .primary'); if (b && !b.disabled) b.click(); }
-    else if (e.key === 'ArrowLeft') go(state.idx - 1);
+    else if (e.key === 'ArrowLeft') go(state.session.idx - 1);
   });
 
   viewHome();

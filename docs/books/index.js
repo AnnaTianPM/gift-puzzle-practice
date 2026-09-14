@@ -1,13 +1,26 @@
 // Registry of books available on the site. Each entry loads books/<id>/book.js
+// `tests` lists the test names in order (test1, test2, ...) so the home page can show
+// progress without loading the whole book. `tag` names the publisher, which is what
+// tells two books for the same grade apart.
 window.NNAT_BOOK_LIST = [
-  { id: 'k-nnat-ab', title: 'NNAT Kindergarten', subtitle: 'Level A/B · 3 Practice Tests', emoji: '🟡' },
-  { id: 'g1-nnat-b', title: 'NNAT Grade 1', subtitle: 'Level B · 2 Practice Tests', emoji: '🔵' },
-  { id: 'g2-nnat-c', title: 'NNAT Grade 2', subtitle: 'Level C · 2 Practice Tests', emoji: '🟠' },
-  { id: 'g2-nnat-c-gg', title: 'NNAT Grade 2 (Book 2)', subtitle: 'Level C · 3 Practice Tests', emoji: '🟧' },
-  { id: 'g3-nnat-d', title: 'NNAT Grade 3', subtitle: 'Level D · 2 Practice Tests', emoji: '🟢' },
-  { id: 'g34-nnat-d-gg', title: 'NNAT Grade 3-4 (Book 2)', subtitle: 'Level D · 3 Practice Tests', emoji: '🟩' },
-  { id: 'cogat-l9-math', title: 'CogAT Math Level 9', subtitle: 'Number Puzzles · Number Analogies', emoji: '🔢' },
-  { id: 'cogat-l11-math', title: 'CogAT Math Level 11', subtitle: 'Number Puzzles · Number Analogies', emoji: '🧮' },
-  { id: 'gg-bonus', title: 'Gifted Test Prep Sampler', subtitle: 'Similarities · Shapes · Classification · Analogies · Patterns', emoji: '🎁' },
-  { id: 'iowa-g1', title: 'IOWA Grade 1', subtitle: 'Math · Language · read-aloud practice', emoji: '📖' },
+  { id: 'k-nnat-ab', group: 'NNAT', title: 'NNAT Kindergarten', tag: 'Gateway', tagClass: 'gw', emoji: '🟡',
+    subtitle: 'Level A/B · 3 tests × 50', tests: ['Test 1', 'Test 2', 'Test 3'] },
+  { id: 'g1-nnat-b', group: 'NNAT', title: 'NNAT Grade 1', tag: 'Origins', tagClass: 'or', emoji: '🔵',
+    subtitle: 'Level B · 2 tests × 48', tests: ['Test 1', 'Test 2'] },
+  { id: 'g2-nnat-c', group: 'NNAT', title: 'NNAT Grade 2', tag: 'Origins', tagClass: 'or', emoji: '🟠',
+    subtitle: 'Level C · 2 tests × 48', tests: ['Test 1', 'Test 2'] },
+  { id: 'g2-nnat-c-gg', group: 'NNAT', title: 'NNAT Grade 2', tag: 'Gateway', tagClass: 'gw', emoji: '🟧',
+    subtitle: 'Level C · 3 tests × 50', tests: ['Test 1', 'Test 2', 'Test 3'] },
+  { id: 'g3-nnat-d', group: 'NNAT', title: 'NNAT Grade 3', tag: 'Origins', tagClass: 'or', emoji: '🟢',
+    subtitle: 'Level D · 2 tests × 48', tests: ['Test 1', 'Test 2'] },
+  { id: 'g34-nnat-d-gg', group: 'NNAT', title: 'NNAT Grade 3–4', tag: 'Gateway', tagClass: 'gw', emoji: '🟩',
+    subtitle: 'Level D · 3 tests × 48', tests: ['Test 1', 'Test 2', 'Test 3'] },
+  { id: 'cogat-l9-math', group: 'CogAT', title: 'CogAT Math · Grade 3', tag: 'Gateway', tagClass: 'gw', emoji: '🔢',
+    subtitle: 'Level 9 · Number Puzzles 20 · Number Analogies 11', tests: ['Puzzles', 'Analogies'] },
+  { id: 'cogat-l11-math', group: 'CogAT', title: 'CogAT Math · Grade 5', tag: 'Gateway', tagClass: 'gw', emoji: '🧮',
+    subtitle: 'Level 11 · Number Puzzles 10 · Number Analogies 11', tests: ['Puzzles', 'Analogies'] },
+  { id: 'iowa-g1', group: 'IOWA', title: 'IOWA Grade 1', tag: 'Read-aloud', tagClass: 'ra', emoji: '📖',
+    subtitle: 'Math 3 sections · Language 4 sections', tests: ['Math 1', 'Math 2', 'Math 3', 'Language 1', 'Language 2', 'Language 3', 'Language 4'] },
+  { id: 'gg-bonus', group: 'Mixed', title: 'Gifted Sampler', tag: 'Gateway', tagClass: 'gw', emoji: '🎁',
+    subtitle: 'Similarities · Shapes · Classification · Analogies · Patterns', tests: ['Similarities', 'Shapes', 'Classification', 'Analogies', 'Patterns', 'Bonus Pictures', 'Bonus Shapes'] },
 ];
