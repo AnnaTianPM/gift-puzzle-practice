@@ -105,6 +105,7 @@
       key: book.id + '/' + test.dir + '/' + q.n, bookId: book.id, testDir: test.dir, testName: test.name,
       ext: book.ext || 'png', prompt: test.prompt || '', n: q.n, answer: q.answer, explanation: q.explanation || '',
       options: q.options || null, nopts: q.nopts || 5, stem: q.stem !== false,
+      note: (window.NNAT_NOTES || {})[book.id + '/' + test.dir + '/' + q.n] || null,
     };
   }
   function imgPath(item, suffix) {
@@ -317,6 +318,7 @@
   }
 
   // ---------- mistakes ----------
+  const keyOfRec = e => e.bookId + '/' + e.testDir + '/' + e.n;
   function mistakeCard(e, onTap) {
     const stub = mistakeStub(e);
     const had = wrongPicks(e);
@@ -331,7 +333,8 @@
           ? h('div', { class: 'mist-ok' }, 'Got it right ✓')
           : h('div', { class: 'mist-pick' }, e.pick ? 'You picked ' + e.pick : 'Try again'),
         had.length > (fixed ? 0 : 1)
-          ? h('div', { class: 'mist-count' }, (fixed ? 'had picked ' : 'tried ') + had.join(', ')) : null));
+          ? h('div', { class: 'mist-count' }, (fixed ? 'had picked ' : 'tried ') + had.join(', ')) : null,
+        (window.NNAT_NOTES || {})[keyOfRec(e)] ? h('div', { class: 'mist-note' }, '🤔 see note') : null));
   }
 
   function viewMistakes() {
@@ -470,13 +473,15 @@
     if (s.kind === 'review') {
       feedback = h('div', { class: 'feedback bad' },
         (q.prev ? 'Last time you picked ' + q.prev + '. ' : '') + 'The answer is ' + q.answer + '.',
-        q.explanation ? h('div', { class: 'expl' }, q.explanation) : null);
+        q.explanation ? h('div', { class: 'expl' }, q.explanation) : null,
+        q.note ? h('div', { class: 'note' }, '🤔 ' + q.note) : null);
     } else if (showResult) {
       const ok = chosen === q.answer;
       feedback = h('div', { class: 'feedback ' + (ok ? 'ok' : 'bad') },
         ok ? '🎉 Correct!' : (chosen ? '❌ Not quite. The answer is ' + q.answer + '.' : 'Skipped. The answer is ' + q.answer + '.'),
         q.prev ? h('div', { class: 'expl' }, 'Last time you picked ' + q.prev + '.') : null,
-        q.explanation ? h('div', { class: 'expl' }, q.explanation) : null);
+        q.explanation ? h('div', { class: 'expl' }, q.explanation) : null,
+        q.note ? h('div', { class: 'note' }, '🤔 ' + q.note) : null);
     } else if (chosen) {
       feedback = h('div', { class: 'feedback hint' }, 'You picked ' + chosen + '. Tap ' + (s.mode === 'practice' ? 'Check' : 'Next') + ', or tap another ' + thing + ' to change.');
     } else {
