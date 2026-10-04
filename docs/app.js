@@ -25,12 +25,49 @@
   const MISTAKES = 'nnat:mistakes';
 
   function getMistakes() { return lsGet(MISTAKES) || {}; }
-  function noteResult(item, right) {
+  function noteResult(item, right, pick) {
     // Called whenever an answer is judged. Wrong -> into the mistakes list; right -> out of it.
     const m = getMistakes();
     if (right) delete m[item.key];
-    else m[item.key] = { bookId: item.bookId, testDir: item.testDir, n: item.n, count: ((m[item.key] || {}).count || 0) + 1, at: Date.now() };
+    else m[item.key] = { bookId: item.bookId, testDir: item.testDir, n: item.n, pick: pick || null,
+                         count: ((m[item.key] || {}).count || 0) + 1, at: Date.now() };
     lsSet(MISTAKES, m);
+  }
+
+  // Older versions did not record which option was picked. Recover it from the saved
+  // sessions, which still hold every answer. Runs on load; only fills blanks, never
+  // removes a mistake. A one-time copy of the list is kept in case this goes wrong.
+  function migrateMistakes() {
+    const m = getMistakes();
+    if (!Object.keys(m).length) return;
+    if (!lsGet(MISTAKES + '.bak1')) lsSet(MISTAKES + '.bak1', { at: Date.now(), mistakes: m });
+    const best = {};           // key -> { pick, at } from the most recent session that got it wrong
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (!k || k.indexOf('nnat:s:') !== 0) continue;
+      const sess = lsGet(k);
+      if (!sess || !sess.items || !sess.answers) continue;
+      sess.items.forEach(it => {
+        const a = sess.answers[it.key];
+        if (!a || a === it.answer) return;
+        if (!best[it.key] || (sess.at || 0) > best[it.key].at) best[it.key] = { pick: a, at: sess.at || 0 };
+      });
+    }
+    let changed = false;
+    Object.keys(m).forEach(key => {
+      if (!m[key].pick && best[key]) { m[key].pick = best[key].pick; changed = true; }
+    });
+    if (changed) lsSet(MISTAKES, m);
+  }
+
+  // test name as the book lists it ("Language 1"), not the folder name ("test4")
+  function testNameOf(bookId, testDir) {
+    const b = bookById[bookId];
+    const i = parseInt(String(testDir).replace('test', ''), 10) - 1;
+    return (b && b.tests && b.tests[i]) || testDir;
+  }
+  function mistakeStub(e) {
+    return { bookId: e.bookId, testDir: e.testDir, n: e.n, ext: (bookById[e.bookId] || {}).ext || 'png' };
   }
 
   // ---------- data loading ----------
@@ -62,7 +99,7 @@
   function newSession(kind, key, title, items, mode, timerOn) {
     return { kind, key, title, items, mode, timerOn: !!timerOn, idx: 0, answers: {}, revealed: {}, finished: false, timeLeft: null, at: Date.now() };
   }
-  function save() { if (state.session) lsSet(state.session.key, state.session); }
+  function save() { if (state.session && !state.session.transient) lsSet(state.session.key, state.session); }
   function items() { return state.session.items; }
   function answered(s) { return s.items.filter(it => s.answers[it.key]).length; }
   function firstOpen(s) {
@@ -270,56 +307,92 @@
     const perBook = {};
     keys.forEach(k => { const e = m[k]; (perBook[e.bookId] = perBook[e.bookId] || []).push(e); });
     const saved = lsGet(MISTAKES_SESSION);
+    const byOrder = (a, c) => a.testDir.localeCompare(c.testDir) || a.n - c.n;
     render(
       topBar('My Mistakes', backBtn(viewHome)),
       h('div', { class: 'page' },
         h('h1', { class: 'center' }, keys.length ? keys.length + (keys.length > 1 ? ' puzzles' : ' puzzle') + ' to fix' : 'No mistakes yet'),
-        h('p', { class: 'center muted' }, keys.length ? 'Get one right and it leaves the list.' : 'Puzzles you get wrong will show up here so you can try them again.'),
-        keys.length ? h('div', { class: 'center', style: 'margin-bottom:16px' },
+        h('p', { class: 'center muted' }, keys.length ? 'Tap a puzzle to look at it. Get one right and it leaves the list.'
+          : 'Puzzles you get wrong will show up here so you can try them again.'),
+        keys.length ? h('div', { class: 'row', style: 'justify-content:center;margin-bottom:16px' },
+          h('button', { class: 'secondary', onclick: () => startReview(null, null) }, '👀 Look through'),
           saved && !saved.finished && answered(saved)
-            ? h('div', { class: 'row', style: 'justify-content:center' },
-              h('button', { class: 'primary', onclick: () => resumeSession(saved) }, 'Continue (' + answered(saved) + '/' + saved.items.length + ') ▶'),
-              h('button', { class: 'secondary', onclick: () => startMistakes(null) }, 'Start fresh'))
-            : h('button', { class: 'primary wide', onclick: () => startMistakes(null) }, 'Practice all ' + keys.length + ' ▶')) : null,
+            ? h('button', { class: 'primary', onclick: () => resumeSession(saved) }, 'Continue (' + answered(saved) + '/' + saved.items.length + ') ▶')
+            : h('button', { class: 'primary', onclick: () => startMistakes(null) }, 'Try them again ▶'),
+          saved && !saved.finished && answered(saved)
+            ? h('button', { class: 'secondary', onclick: () => startMistakes(null) }, 'Start fresh') : null) : null,
         Object.keys(perBook).map(bid => {
           const b = bookById[bid] || { title: bid };
-          const list = perBook[bid];
+          const list = perBook[bid].slice().sort(byOrder);
           return h('div', { class: 'card' },
             h('div', { class: 'row between' },
               h('div', {}, h('b', {}, b.title), ' ', tagChip(b), h('div', { class: 'muted' }, list.length + ' puzzle' + (list.length > 1 ? 's' : ''))),
-              h('button', { class: 'secondary', onclick: () => startMistakes(bid) }, 'Practice ▶')),
-            h('div', { class: 'row wrap', style: 'margin-top:8px' }, list.sort((a, c) => a.testDir.localeCompare(c.testDir) || a.n - c.n).map(e =>
-              h('span', { class: 'pill' }, e.testDir.replace('test', 'T') + ' · #' + e.n + (e.count > 1 ? ' ×' + e.count : '')))));
+              h('button', { class: 'secondary', onclick: () => startMistakes(bid) }, 'Try again ▶')),
+            h('div', { class: 'mist-grid' }, list.map(e => {
+              const stub = mistakeStub(e);
+              return h('button', { class: 'mist-card', onclick: () => startReview(bid, e.bookId + '/' + e.testDir + '/' + e.n) },
+                h('div', { class: 'thumb-wrap' },
+                  h('img', { class: 'thumb', src: imgPath(stub, 'm'), alt: '',
+                    onerror: ev => { const t = ev.target; if (!t.dataset.alt) { t.dataset.alt = '1'; t.src = imgPath(stub, 'a'); } } })),
+                h('div', { class: 'mist-meta' },
+                  h('div', { class: 'mist-where' }, testNameOf(e.bookId, e.testDir) + ' #' + e.n),
+                  h('div', { class: 'mist-pick' }, e.pick ? 'You picked ' + e.pick : 'Try again'),
+                  e.count > 1 ? h('div', { class: 'mist-count' }, 'missed ' + e.count + '×') : null));
+            })));
         }),
         keys.length ? h('div', { class: 'center', style: 'margin-top:8px' },
           h('button', { class: 'secondary', onclick: () => { if (confirm('Clear the whole mistakes list?')) { lsDel(MISTAKES); lsDel(MISTAKES_SESSION); viewMistakes(); } } }, 'Clear list')) : null
       )
     );
   }
-  function startMistakes(onlyBook) {
+
+  // Build items for the mistakes of one book (or all). Each item carries `prev`,
+  // the option picked last time, so both modes can mention it.
+  function mistakeItems(onlyBook) {
     const m = getMistakes();
-    const entries = Object.values(m).filter(e => !onlyBook || e.bookId === onlyBook);
+    const entries = Object.values(m).filter(e => !onlyBook || e.bookId === onlyBook)
+      .sort((a, c) => a.bookId.localeCompare(c.bookId) || a.testDir.localeCompare(c.testDir) || a.n - c.n);
     const ids = [...new Set(entries.map(e => e.bookId))];
-    render(topBar('My Mistakes', backBtn(viewMistakes)), h('div', { class: 'page center muted' }, 'Loading…'));
-    Promise.all(ids.map(loadBook)).then(bs => {
+    return Promise.all(ids.map(loadBook)).then(() => {
       const its = [];
-      entries.sort((a, c) => a.bookId.localeCompare(c.bookId) || a.testDir.localeCompare(c.testDir) || a.n - c.n).forEach(e => {
+      entries.forEach(e => {
         const b = loaded[e.bookId]; const t = b && b.tests.find(x => x.dir === e.testDir);
         const q = t && t.questions.find(x => x.n === e.n);
-        if (q) its.push(makeItem(b, t, q));
+        if (!q) return;
+        const it = makeItem(b, t, q); it.prev = e.pick || null; its.push(it);
       });
+      return its;
+    });
+  }
+  function startMistakes(onlyBook) {
+    render(topBar('My Mistakes', backBtn(viewMistakes)), h('div', { class: 'page center muted' }, 'Loading…'));
+    mistakeItems(onlyBook).then(its => {
       if (!its.length) { viewMistakes(); return; }
       state.book = null;
       state.session = newSession('mistakes', MISTAKES_SESSION, 'My Mistakes', its, 'practice', false);
       save(); viewQuestion();
     }).catch(err => render(topBar('My Mistakes', backBtn(viewMistakes)), h('div', { class: 'page center' }, err.message)));
   }
+  // Look through: no answering. Every puzzle shows the right answer, what was picked
+  // last time, and the explanation. Nothing is saved and the list is left alone.
+  function startReview(onlyBook, startKey) {
+    render(topBar('Look through', backBtn(viewMistakes)), h('div', { class: 'page center muted' }, 'Loading…'));
+    mistakeItems(onlyBook).then(its => {
+      if (!its.length) { viewMistakes(); return; }
+      const sess = newSession('review', 'nnat:s:review', 'Look through', its, 'practice', false);
+      sess.transient = true; sess.finished = true;
+      its.forEach(it => { if (it.prev) sess.answers[it.key] = it.prev; });
+      const i = its.findIndex(it => it.key === startKey);
+      sess.idx = i < 0 ? 0 : i;
+      state.book = null; state.session = sess; viewQuestion();
+    }).catch(err => render(topBar('Look through', backBtn(viewMistakes)), h('div', { class: 'page center' }, err.message)));
+  }
 
   // ---------- question ----------
   function exitToParent() {
     save(); stopTimer();
     const s = state.session;
-    if (s.kind === 'mistakes') viewMistakes();
+    if (s.kind === 'mistakes' || s.kind === 'review') viewMistakes();
     else if (state.book) viewBook();
     else viewHome();
   }
@@ -330,7 +403,7 @@
     const showResult = s.finished || (s.mode === 'practice' && s.revealed[q.key]);
     const timerEl = s.mode === 'exam' && s.timerOn && !s.finished
       ? h('div', { id: 'timer', class: 'timer' + (s.timeLeft <= 60 ? ' low' : '') }, fmtTime(s.timeLeft == null ? EXAM_SECONDS : s.timeLeft))
-      : (s.finished ? h('button', { class: 'secondary', onclick: viewResults }, 'Results') : null);
+      : (s.finished && s.kind !== 'review' ? h('button', { class: 'secondary', onclick: viewResults }, 'Results') : null);
 
     const letters = LETTERS.slice(0, q.nopts || 5);
     const opts = h('div', { class: 'options n' + letters.length }, letters.map((L, i) => {
@@ -346,10 +419,15 @@
 
     let feedback;
     const thing = q.options ? 'number' : 'picture';
-    if (showResult) {
+    if (s.kind === 'review') {
+      feedback = h('div', { class: 'feedback bad' },
+        (q.prev ? 'Last time you picked ' + q.prev + '. ' : '') + 'The answer is ' + q.answer + '.',
+        q.explanation ? h('div', { class: 'expl' }, q.explanation) : null);
+    } else if (showResult) {
       const ok = chosen === q.answer;
       feedback = h('div', { class: 'feedback ' + (ok ? 'ok' : 'bad') },
         ok ? '🎉 Correct!' : (chosen ? '❌ Not quite. The answer is ' + q.answer + '.' : 'Skipped. The answer is ' + q.answer + '.'),
+        q.prev ? h('div', { class: 'expl' }, 'Last time you picked ' + q.prev + '.') : null,
         q.explanation ? h('div', { class: 'expl' }, q.explanation) : null);
     } else if (chosen) {
       feedback = h('div', { class: 'feedback hint' }, 'You picked ' + chosen + '. Tap ' + (s.mode === 'practice' ? 'Check' : 'Next') + ', or tap another ' + thing + ' to change.');
@@ -359,7 +437,10 @@
 
     const isLast = s.idx === total - 1;
     let main;
-    if (s.mode === 'practice' && !showResult) {
+    if (s.kind === 'review') {
+      main = isLast ? h('button', { class: 'primary', onclick: viewMistakes }, 'Done ✓')
+        : h('button', { class: 'primary', onclick: () => go(s.idx + 1) }, 'Next ▶');
+    } else if (s.mode === 'practice' && !showResult) {
       main = h('button', { class: 'primary', ...(chosen ? {} : { disabled: '' }), onclick: () => check(q) }, 'Check ✓');
     } else if (isLast && !s.finished) {
       main = h('button', { class: 'primary', ...(chosen ? {} : { disabled: '' }), onclick: finish }, 'Finish ✓');
@@ -388,7 +469,8 @@
     );
     layoutQuestion();
     const nq = qs[s.idx + 1];
-    if (nq) (nq.options ? ['m'] : ['m', 'a', 'b', 'c', 'd', 'e']).forEach(x => { const im = new Image(); im.src = imgPath(nq, x); });
+    // preload the next puzzle, but only the option letters it actually has
+    if (nq) ['m'].concat(nq.options ? [] : 'abcde'.slice(0, nq.nopts || 5).split('')).forEach(x => { const im = new Image(); im.src = imgPath(nq, x); });
   }
 
   // Fit the puzzle to the screen so the child never has to scroll.
@@ -416,7 +498,7 @@
   function check(q) {
     const s = state.session;
     if (!s.answers[q.key]) return;
-    s.revealed[q.key] = true; noteResult(q, s.answers[q.key] === q.answer); save(); viewQuestion();
+    s.revealed[q.key] = true; noteResult(q, s.answers[q.key] === q.answer, s.answers[q.key]); save(); viewQuestion();
   }
   function go(i) {
     const s = state.session;
@@ -426,7 +508,7 @@
   function finish() {
     const s = state.session;
     stopTimer(); s.finished = true;
-    if (s.mode === 'exam') s.items.forEach(it => { if (s.answers[it.key]) noteResult(it, s.answers[it.key] === it.answer); });
+    if (s.mode === 'exam') s.items.forEach(it => { if (s.answers[it.key]) noteResult(it, s.answers[it.key] === it.answer, s.answers[it.key]); });
     save(); viewResults();
   }
 
@@ -475,5 +557,6 @@
     else if (e.key === 'ArrowLeft') go(state.session.idx - 1);
   });
 
+  migrateMistakes();
   viewHome();
 })();
