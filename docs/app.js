@@ -12,7 +12,7 @@
   const books = window.NNAT_BOOK_LIST || [];
   const bookById = {};
   books.forEach(b => { bookById[b.id] = b; });
-  const state = { book: null, session: null, timerHandle: null, freeCount: 10, mode: 'practice', timerOn: true };
+  const state = { book: null, session: null, timerHandle: null, freeCount: 10, mode: 'practice', timerOn: true, showFixed: false };
   const EXAM_SECONDS = 30 * 60;
 
   // ---------- storage ----------
@@ -25,12 +25,22 @@
   const MISTAKES = 'nnat:mistakes';
 
   function getMistakes() { return lsGet(MISTAKES) || {}; }
+  const isFixed = e => !!e.fixed;                    // last attempt was right
+  const wrongPicks = e => (e.tries || []).filter(t => !t.ok && t.p).map(t => t.p);
+
+  // Every answer to a puzzle that has ever been wrong is appended here. Nothing is ever
+  // deleted: getting it right only flips `fixed`, so the record stays readable later.
   function noteResult(item, right, pick) {
-    // Called whenever an answer is judged. Wrong -> into the mistakes list; right -> out of it.
     const m = getMistakes();
-    if (right) delete m[item.key];
-    else m[item.key] = { bookId: item.bookId, testDir: item.testDir, n: item.n, pick: pick || null,
-                         count: ((m[item.key] || {}).count || 0) + 1, at: Date.now() };
+    const e = m[item.key];
+    if (!e && right) return;                         // first time right: never was a mistake
+    const rec = e || { bookId: item.bookId, testDir: item.testDir, n: item.n, count: 0, tries: [] };
+    rec.tries = (rec.tries || []).concat([{ p: pick || null, ok: !!right, at: Date.now() }]);
+    if (rec.tries.length > 20) rec.tries = rec.tries.slice(-20);
+    rec.fixed = !!right;
+    rec.at = Date.now();
+    if (!right) { rec.pick = pick || null; rec.count = (rec.count || 0) + 1; }
+    m[item.key] = rec;
     lsSet(MISTAKES, m);
   }
 
@@ -55,7 +65,13 @@
     }
     let changed = false;
     Object.keys(m).forEach(key => {
-      if (!m[key].pick && best[key]) { m[key].pick = best[key].pick; changed = true; }
+      const e = m[key];
+      if (!e.pick && best[key]) { e.pick = best[key].pick; changed = true; }
+      if (!e.tries) {                                // records from before attempts were kept
+        e.tries = e.pick ? [{ p: e.pick, ok: false, at: e.at || Date.now() }] : [];
+        changed = true;
+      }
+      if (e.fixed === undefined) { e.fixed = false; changed = true; }
     });
     if (changed) lsSet(MISTAKES, m);
   }
@@ -160,7 +176,7 @@
   // ---------- home ----------
   function viewHome() {
     stopTimer(); state.session = null; state.book = null;
-    const mistakes = getMistakes(); const nMist = Object.keys(mistakes).length;
+    const mistakes = getMistakes(); const nMist = Object.values(mistakes).filter(e => !isFixed(e)).length;
     const groups = [];
     books.forEach(b => {
       let g = groups.find(x => x.name === (b.group || 'Other'));
@@ -301,21 +317,48 @@
   }
 
   // ---------- mistakes ----------
+  function mistakeCard(e, onTap) {
+    const stub = mistakeStub(e);
+    const had = wrongPicks(e);
+    const fixed = isFixed(e);
+    return h('button', { class: 'mist-card' + (fixed ? ' done' : ''), onclick: onTap },
+      h('div', { class: 'thumb-wrap' },
+        h('img', { class: 'thumb', src: imgPath(stub, 'm'), alt: '',
+          onerror: ev => { const t = ev.target; if (!t.dataset.alt) { t.dataset.alt = '1'; t.src = imgPath(stub, 'a'); } } })),
+      h('div', { class: 'mist-meta' },
+        h('div', { class: 'mist-where' }, testNameOf(e.bookId, e.testDir) + ' #' + e.n),
+        fixed
+          ? h('div', { class: 'mist-ok' }, 'Got it right ✓')
+          : h('div', { class: 'mist-pick' }, e.pick ? 'You picked ' + e.pick : 'Try again'),
+        had.length > (fixed ? 0 : 1)
+          ? h('div', { class: 'mist-count' }, (fixed ? 'had picked ' : 'tried ') + had.join(', ')) : null));
+  }
+
   function viewMistakes() {
     stopTimer(); state.session = null;
-    const m = getMistakes(); const keys = Object.keys(m);
-    const perBook = {};
-    keys.forEach(k => { const e = m[k]; (perBook[e.bookId] = perBook[e.bookId] || []).push(e); });
+    const m = getMistakes();
+    const todo = Object.values(m).filter(e => !isFixed(e));
+    const done = Object.values(m).filter(isFixed);
     const saved = lsGet(MISTAKES_SESSION);
     const byOrder = (a, c) => a.testDir.localeCompare(c.testDir) || a.n - c.n;
+    const group = list => {
+      const per = {};
+      list.forEach(e => { (per[e.bookId] = per[e.bookId] || []).push(e); });
+      return per;
+    };
+    const perBook = group(todo);
+    const perDone = group(done);
+    const keyOf = e => e.bookId + '/' + e.testDir + '/' + e.n;
     render(
       topBar('My Mistakes', backBtn(viewHome)),
       h('div', { class: 'page' },
-        h('h1', { class: 'center' }, keys.length ? keys.length + (keys.length > 1 ? ' puzzles' : ' puzzle') + ' to fix' : 'No mistakes yet'),
-        h('p', { class: 'center muted' }, keys.length ? 'Tap a puzzle to look at it. Get one right and it leaves the list.'
-          : 'Puzzles you get wrong will show up here so you can try them again.'),
-        keys.length ? h('div', { class: 'row', style: 'justify-content:center;margin-bottom:16px' },
-          h('button', { class: 'secondary', onclick: () => startReview(null, null) }, '👀 Look through'),
+        h('h1', { class: 'center' }, todo.length ? todo.length + (todo.length > 1 ? ' puzzles' : ' puzzle') + ' to fix'
+          : (done.length ? 'All fixed 🎉' : 'No mistakes yet')),
+        h('p', { class: 'center muted' }, todo.length ? 'Tap a puzzle to look at it. Nothing is ever deleted.'
+          : (done.length ? 'Everything you got wrong has been fixed. They are all kept below.'
+            : 'Puzzles you get wrong will show up here so you can try them again.')),
+        todo.length ? h('div', { class: 'row', style: 'justify-content:center;margin-bottom:16px' },
+          h('button', { class: 'secondary', onclick: () => startReview(null, null, 'todo') }, '👀 Look through'),
           saved && !saved.finished && answered(saved)
             ? h('button', { class: 'primary', onclick: () => resumeSession(saved) }, 'Continue (' + answered(saved) + '/' + saved.items.length + ') ▶')
             : h('button', { class: 'primary', onclick: () => startMistakes(null) }, 'Try them again ▶'),
@@ -328,29 +371,34 @@
             h('div', { class: 'row between' },
               h('div', {}, h('b', {}, b.title), ' ', tagChip(b), h('div', { class: 'muted' }, list.length + ' puzzle' + (list.length > 1 ? 's' : ''))),
               h('button', { class: 'secondary', onclick: () => startMistakes(bid) }, 'Try again ▶')),
-            h('div', { class: 'mist-grid' }, list.map(e => {
-              const stub = mistakeStub(e);
-              return h('button', { class: 'mist-card', onclick: () => startReview(bid, e.bookId + '/' + e.testDir + '/' + e.n) },
-                h('div', { class: 'thumb-wrap' },
-                  h('img', { class: 'thumb', src: imgPath(stub, 'm'), alt: '',
-                    onerror: ev => { const t = ev.target; if (!t.dataset.alt) { t.dataset.alt = '1'; t.src = imgPath(stub, 'a'); } } })),
-                h('div', { class: 'mist-meta' },
-                  h('div', { class: 'mist-where' }, testNameOf(e.bookId, e.testDir) + ' #' + e.n),
-                  h('div', { class: 'mist-pick' }, e.pick ? 'You picked ' + e.pick : 'Try again'),
-                  e.count > 1 ? h('div', { class: 'mist-count' }, 'missed ' + e.count + '×') : null));
-            })));
+            h('div', { class: 'mist-grid' }, list.map(e => mistakeCard(e, () => startReview(bid, keyOf(e), 'todo')))));
         }),
-        keys.length ? h('div', { class: 'center', style: 'margin-top:8px' },
-          h('button', { class: 'secondary', onclick: () => { if (confirm('Clear the whole mistakes list?')) { lsDel(MISTAKES); lsDel(MISTAKES_SESSION); viewMistakes(); } } }, 'Clear list')) : null
+        done.length ? h('div', { class: 'card done-box' },
+          h('div', { class: 'row between' },
+            h('div', {}, h('b', {}, '✓ Fixed'), h('div', { class: 'muted' }, done.length + ' puzzle' + (done.length > 1 ? 's' : '') + ' you got right later')),
+            h('div', { class: 'row' },
+              state.showFixed ? h('button', { class: 'secondary', onclick: () => startReview(null, null, 'fixed') }, '👀 Look through') : null,
+              h('button', { class: 'secondary', onclick: () => { state.showFixed = !state.showFixed; viewMistakes(); } }, state.showFixed ? 'Hide' : 'Show'))),
+          state.showFixed ? Object.keys(perDone).map(bid => {
+            const b = bookById[bid] || { title: bid };
+            const list = perDone[bid].slice().sort(byOrder);
+            return h('div', { style: 'margin-top:12px' },
+              h('div', { class: 'muted' }, b.title),
+              h('div', { class: 'mist-grid' }, list.map(e => mistakeCard(e, () => startReview(null, keyOf(e), 'fixed')))));
+          }) : null) : null,
+        (todo.length || done.length) ? h('div', { class: 'center', style: 'margin-top:8px' },
+          h('button', { class: 'secondary', onclick: () => { if (confirm('Delete the whole history, fixed ones too?')) { lsDel(MISTAKES); lsDel(MISTAKES_SESSION); viewMistakes(); } } }, 'Clear everything')) : null
       )
     );
   }
 
-  // Build items for the mistakes of one book (or all). Each item carries `prev`,
-  // the option picked last time, so both modes can mention it.
-  function mistakeItems(onlyBook) {
+  // Build items for mistakes. `which` picks the still-to-fix set, the fixed set, or both.
+  // Each item carries `prev` (the option picked last time it was wrong).
+  function mistakeItems(onlyBook, which) {
     const m = getMistakes();
-    const entries = Object.values(m).filter(e => !onlyBook || e.bookId === onlyBook)
+    const entries = Object.values(m)
+      .filter(e => (!onlyBook || e.bookId === onlyBook)
+        && (which === 'fixed' ? isFixed(e) : which === 'all' ? true : !isFixed(e)))
       .sort((a, c) => a.bookId.localeCompare(c.bookId) || a.testDir.localeCompare(c.testDir) || a.n - c.n);
     const ids = [...new Set(entries.map(e => e.bookId))];
     return Promise.all(ids.map(loadBook)).then(() => {
@@ -366,7 +414,7 @@
   }
   function startMistakes(onlyBook) {
     render(topBar('My Mistakes', backBtn(viewMistakes)), h('div', { class: 'page center muted' }, 'Loading…'));
-    mistakeItems(onlyBook).then(its => {
+    mistakeItems(onlyBook, 'todo').then(its => {
       if (!its.length) { viewMistakes(); return; }
       state.book = null;
       state.session = newSession('mistakes', MISTAKES_SESSION, 'My Mistakes', its, 'practice', false);
@@ -375,9 +423,9 @@
   }
   // Look through: no answering. Every puzzle shows the right answer, what was picked
   // last time, and the explanation. Nothing is saved and the list is left alone.
-  function startReview(onlyBook, startKey) {
+  function startReview(onlyBook, startKey, which) {
     render(topBar('Look through', backBtn(viewMistakes)), h('div', { class: 'page center muted' }, 'Loading…'));
-    mistakeItems(onlyBook).then(its => {
+    mistakeItems(onlyBook, which || 'todo').then(its => {
       if (!its.length) { viewMistakes(); return; }
       const sess = newSession('review', 'nnat:s:review', 'Look through', its, 'practice', false);
       sess.transient = true; sess.finished = true;
@@ -529,7 +577,7 @@
           h('div', { class: 'muted' }, 'Your score'),
           h('div', { class: 'score' }, ok + ' / ' + total),
           h('h2', { style: 'margin-top:10px' }, msg),
-          h('div', { class: 'muted' }, s.kind === 'mistakes' ? (ok + ' fixed · ' + wrong + ' still on the list') : (wrong ? wrong + ' added to My Mistakes' : 'No mistakes!'))),
+          h('div', { class: 'muted' }, s.kind === 'mistakes' ? (ok + ' fixed · ' + wrong + ' still to fix') : (wrong ? wrong + ' added to My Mistakes' : 'No mistakes!'))),
         h('div', { class: 'card' },
           h('h2', {}, 'Tap a puzzle to review it'),
           h('div', { class: 'dots' }, qs.map((q, i) => {
